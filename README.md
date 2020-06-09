@@ -88,7 +88,7 @@ void main() {
 
 ```
 
-## Bootstrap Icons.
+## Bootstrap Icons
 
 You can use class `BootstrapIcons` to load SVG icons of [Bootstrap Icons][bootstrap_icons].
 
