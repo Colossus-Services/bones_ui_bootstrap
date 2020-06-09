@@ -32,7 +32,7 @@ main() {
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: https://github.com/Colossus-Services/bones_ui_bootstrap
+[tracker]: https://github.com/Colossus-Services/bones_ui_bootstrap/issues
 
 ## Colossus.Services
 
