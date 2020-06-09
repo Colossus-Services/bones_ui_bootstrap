@@ -232,5 +232,4 @@ class Moment {
             'Invalid Moment weekDay index. Should be of range 0-6, where Sunday is 0 and Saturday is 6 (Sunday-to-Saturday week).');
     }
   }
-
 }

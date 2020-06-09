@@ -13,9 +13,8 @@ class MyUI extends UIRoot {
 
   @override
   UIComponent renderContent() {
-    return MyPage(content) ;
+    return MyPage(content);
   }
-
 }
 
 class MyPage extends UIComponent {
@@ -34,24 +33,19 @@ class MyPage extends UIComponent {
         <h1 class="mt-5">Welcome</h1>
         This is <b>Bones_UI</b> with <b>Bootstrap</b>!
       '''),
-      $footer(
-          classes: 'footer fixed-bottom',
-          content: [
-            $hr,
-            $div(
-              classes: 'container text-muted pb-2',
-              content: 'Copyright © ${ DateTime.now().year } Some Example')
-          ]
-      )
+      $footer(classes: 'footer fixed-bottom', content: [
+        $hr,
+        $div(
+            classes: 'container text-muted pb-2',
+            content: 'Copyright © ${DateTime.now().year} Some Example')
+      ])
     ];
   }
 }
 
 void main() {
-
   var output = document.querySelector('#output');
 
-  var myUI = MyUI( output ) ;
-  myUI.initialize() ;
-
+  var myUI = MyUI(output);
+  myUI.initialize();
 }
