@@ -12,6 +12,17 @@
 
 Adds [Bootstrap][bootstrap] to Dart package [Bones UI][bones_ui], allowing use of Bootstrap components and CSS.
 
+## Embedded JavaScript Libraries 
+
+This package automatically loads (and bundles) the necessaries JavaScript libraries for [Bootstrap][bootstrap].
+
+- Bootstrap: 4.4.1
+- JQuery: 3.5.1
+- Moment: 2.25.2
+
+NOTE: You don't need to add any HTML or JavaScript code to your project to have full integration of
+[Bootstrap][bootstrap] with [Bones_UI][bones_ui].
+
 ## Usage
 
 A simple usage example:

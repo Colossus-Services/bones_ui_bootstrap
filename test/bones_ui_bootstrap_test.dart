@@ -1,8 +1,8 @@
 import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
+  group('Basic test', () {
     setUp(() {});
-    test('First Test', () {});
+    test('test 1', () {});
   });
 }

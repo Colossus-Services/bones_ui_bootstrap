@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:bones_ui/bones_ui.dart';
 
+/// Accordion item.
 class AccordionItem {
   dynamic title;
 
@@ -12,14 +13,18 @@ class AccordionItem {
   AccordionItem(this.title, this.content, [this.expanded = false]);
 }
 
+/// Bootstrap Accordion component.
 class BSAccordion extends UIComponent {
   static int _idCounter;
 
+  /// ID of component. Is required by Bootstrap for correct handling of elements.
   @override
   final String id;
 
+  /// Items in accordion.
   final List<AccordionItem> items;
 
+  /// Index of expanded item.
   final int expandIndex;
 
   BSAccordion(Element parent, String id, this.items,

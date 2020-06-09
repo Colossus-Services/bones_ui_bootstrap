@@ -23,9 +23,9 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   static void load() {
     _load.load(() async {
-      var ok1 = await JSJQuery.load();
-      var ok2 = await JSMoment.load();
-      var ok3 = await JSBootstrap.load();
+      var ok1 = await JQuery.load();
+      var ok2 = await Moment.load();
+      var ok3 = await Bootstrap.load();
 
       var ok5 = await addCssSource(
           'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.css');
@@ -157,7 +157,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   void _configureLocale() {
     _locale = IntlLocale.getDefaultIntlLocale();
-    JSMoment.locale(_locale.code);
+    Moment.locale(_locale.code);
 
     _localeWeekFirstDay = getFirstDayOfWeek(_locale);
     _localeUsesAMPM = getTimeFormatUsesAMPM(_locale);
@@ -188,7 +188,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   }
 
   void _configureDatePicker() {
-    var momentWeekDay = JSMoment.toMomentWeekDay(weekFirstDay);
+    var momentWeekDay = Moment.toMomentWeekDay(weekFirstDay);
 
     var configLocale = <String, dynamic>{
       'applyLabel': IntlBasicDictionary.msgUpperCaseInitials('apply'),
@@ -197,8 +197,8 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       'firstDay': momentWeekDay
     };
 
-    var jsStartTime = JSMoment.moment(_startTime);
-    var jsEndTime = JSMoment.moment(_endTime);
+    var jsStartTime = Moment.moment(_startTime);
+    var jsEndTime = Moment.moment(_endTime);
 
     var config = <String, dynamic>{
       'startDate': jsStartTime,
@@ -212,15 +212,15 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     print(config);
 
-    JSJQuery.$(_textElement)
+    JQuery.$(_textElement)
         .call('daterangepicker', [JsObject.jsify(config), _setDateRange]);
 
     _updateTextElement();
   }
 
   void _setDateRange(JsObject jsStartTime, JsObject jsEndTime) {
-    setDateRange(JSMoment.jsObject_toDateTime(jsStartTime),
-        JSMoment.jsObject_toDateTime(jsEndTime));
+    setDateRange(Moment.jsObject_toDateTime(jsStartTime),
+        Moment.jsObject_toDateTime(jsEndTime));
   }
 
   void setDateRangeByType(DateRangeType dateRangeType) {

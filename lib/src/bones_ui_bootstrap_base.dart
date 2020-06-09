@@ -5,13 +5,12 @@ import 'package:amdjs/amdjs.dart';
 import 'package:bones_ui/bones_ui.dart';
 import 'package:swiss_knife/swiss_knife.dart';
 
-////////////////////////////////////////////////////////////////////////////////
-
 final String BONES_UI_BOOTSTRAP_PACKAGE_PATH = 'packages/bones_ui_bootstrap';
 
 final bool ENABLE_MINIFIED = false;
 
-class JSBootstrap {
+/// Bootstrap wrapper and loader.
+class Bootstrap {
   static final String VERSION = '4.4.1';
 
   static final String PATH = 'bootstrap-$VERSION';
@@ -22,8 +21,11 @@ class JSBootstrap {
 
   static final LoadController _load = LoadController('JSBootstrap');
 
+  /// Loads Bootstrap and JQuery JS libraries.
   static Future<bool> load() {
     return _load.load(() async {
+      var okJQuery = await JQuery.load();
+
       var okCss = await addCssSource(
           '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/bootstrap.css',
           insertIndex: 0);
@@ -37,16 +39,11 @@ class JSBootstrap {
       var okJS = await AMDJS.require('bootstrap', jsFullPath,
           addScriptTagInsideBody: true);
 
-      print('LOADED[css: $okCss ; js: $okJS]> Bootstrap $VERSION');
+      print(
+          'LOADED[jquery: $okJQuery ; BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
 
-      return okCss && okJS;
+      return okJQuery && okCss && okJS;
     });
-  }
-
-  static Future<bool> loadWithJQuery() async {
-    var ok1 = await JSJQuery.load();
-    var ok2 = await load();
-    return ok1 && ok2;
   }
 
   static bool _enableTooltip = false;
@@ -57,9 +54,9 @@ class JSBootstrap {
     if (_enableTooltip && !force) return true;
     _enableTooltip = true;
 
-    await JSJQuery.load();
+    await JQuery.load();
 
-    var ret = JSJQuery.$('[data-toggle="tooltip"]').call('tooltip');
+    var ret = JQuery.$('[data-toggle="tooltip"]').call('tooltip');
 
     return ret != null;
   }
@@ -68,13 +65,13 @@ class JSBootstrap {
     enableTooltip();
 
     component.onRender.listen((_) {
-      Future.delayed(
-          Duration(seconds: 1), () => JSBootstrap.enableTooltip(true));
+      Future.delayed(Duration(seconds: 1), () => Bootstrap.enableTooltip(true));
     });
   }
 }
 
-class JSJQuery {
+/// JQuery wrapper and loader.
+class JQuery {
   static final String VERSION = '3.5.1';
 
   static final String PATH = 'jquery-$VERSION';
@@ -99,21 +96,22 @@ class JSJQuery {
     });
   }
 
-  static JSJQuery $(dynamic query) {
+  static JQuery $(dynamic query) {
     var o = context.callMethod(r'$', [query]);
-    return JSJQuery(o);
+    return JQuery(o);
   }
 
   final JsObject _o;
 
-  JSJQuery(this._o);
+  JQuery(this._o);
 
   dynamic call(String method, [List args]) {
     return _o.callMethod(method, args);
   }
 }
 
-class JSMoment {
+/// Moment wrapper and loader.
+class Moment {
   static final String VERSION = '2.25.2';
 
   static final String PATH = 'moment-$VERSION';
