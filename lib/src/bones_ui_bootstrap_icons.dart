@@ -5,6 +5,7 @@ import 'package:bones_ui/bones_ui.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 import 'package:swiss_knife/swiss_knife.dart';
 
+/// Bootstrap icons support.
 class BootstrapIcons {
   static final String ICONS_LS = '''
 alarm-fill.svg                   box-arrow-up.svg                 collection-play.svg              folder-check.svg                 lock-fill.svg                    skip-start.svg
@@ -111,6 +112,7 @@ box-arrow-up-right.svg           collection-play-fill.svg         flag.svg      
 
   static List<String> get allIcons => List.from(_icons);
 
+  /// Returns the path of a icon with [name].
   static String getIconPath(String name) {
     if (name == null) return null;
     name = name.toLowerCase().trim();
@@ -126,6 +128,7 @@ box-arrow-up-right.svg           collection-play-fill.svg         flag.svg      
     return path;
   }
 
+  /// Returns the HTML of a SVG icon with [name].
   static String svgIconHTML(String name,
       {String title, int width, int height, String classes, String style}) {
     var path = getIconPath(name);
@@ -158,6 +161,7 @@ box-arrow-up-right.svg           collection-play-fill.svg         flag.svg      
     return html;
   }
 
+  /// Returns an [Element] of a SVG icon with [name].
   static Element svgIconElement(String name,
       {String title, int width, int height, String classes, String style}) {
     var iconHTML = svgIconHTML(name,
@@ -172,6 +176,7 @@ box-arrow-up-right.svg           collection-play-fill.svg         flag.svg      
   static final ResourceContentCache _resourceContentCache =
       ResourceContentCache();
 
+  /// Returns a [ResourceContent] for the icon with [name].
   static ResourceContent svgResourceContent(String name) {
     var path = getIconPath(name);
     if (path == null) return null;
@@ -179,17 +184,24 @@ box-arrow-up-right.svg           collection-play-fill.svg         flag.svg      
   }
 }
 
+/// Component to show a SVG.
 class UISVG extends UIComponent {
   static final ResourceContentCache _resourceContentCache =
       ResourceContentCache();
 
+  /// Source for the SVG.
   final String src;
 
+  /// Width of the SVG.
   final String width;
 
+  /// Height of the SVG.
   final String height;
 
+  /// Title of the SVG.
   final String title;
+
+  /// Color to render the SVG.
   final String color;
 
   UISVG(Element parent, this.src,
@@ -198,10 +210,13 @@ class UISVG extends UIComponent {
 
   Element _renderedElement;
 
+  /// Returns the [Element] rendered.
   Element get renderedElement => _renderedElement;
 
+  /// Returns [true] if it was rendered as an [ImageElement].
   bool get isRenderedAsImage => _renderedElement is ImageElement;
 
+  /// Returns [true] if it was rendered as an [SvgElement].
   bool get isRenderedAsSVG => _renderedElement is dart_svg.SvgElement;
 
   @override

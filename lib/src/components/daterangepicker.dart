@@ -9,6 +9,7 @@ import 'package:intl_messages/intl_messages.dart';
 
 import '../bones_ui_bootstrap_base.dart';
 
+/// Format of time picker for [BSDateRangePicker].
 enum TimePicker {
   NONE,
   HOURS_MINUTES,
@@ -18,9 +19,11 @@ enum TimePicker {
   HOURS_MINUTES_BY_30,
 }
 
+/// Bootstrap Date Range Picker component.
 class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   static final LoadController _load = LoadController('BSDateRangePicker');
 
+  /// Loads [BSDateRangePicker] component and related JS libraries and CSS.
   static void load() {
     _load.load(() async {
       var ok1 = await JQuery.load();
@@ -53,8 +56,10 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   //////////////////////////////////////////////////////////////////////////////
 
+  /// The time picker format. Default: [TimePicker.NONE]
   final TimePicker timePicker;
 
+  /// If [true shows a summaru of selected date range in input text. Default: [true]
   final bool showDateTextTitle;
 
   final List<DateRangeType> _rangesTypes;
@@ -80,12 +85,16 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
         _endTime = _resolveDateTime(endTime, initialRangeType, false),
         super(parent, classes: classes, classes2: 'ui-bs-date-range-picker');
 
+  /// Returns [true] if time picker is present.
   bool get hasTimePicker => timePicker != TimePicker.NONE;
 
+  /// Returns the start time of selected date range.
   DateTime get startTime => _startTime;
 
+  /// Returns the end time of selected date range.
   DateTime get endTime => _endTime;
 
+  /// Returns a [Pair<DateTime>] of selected date range.
   Pair<DateTime> get dateTimeRange => Pair(_startTime, _endTime);
 
   @override
@@ -145,10 +154,13 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     }
   }
 
+  /// Returns the 1st day of the week for the defined [_locale].
   DateTimeWeekDay get weekFirstDay => forceWeekFirstDay ?? _localeWeekFirstDay;
 
+  /// The 1st day of week to use (forced).
   DateTimeWeekDay forceWeekFirstDay;
 
+  /// Defined locale for the component and [Moment].
   IntlLocale _locale;
 
   DateTimeWeekDay _localeWeekFirstDay;
@@ -223,6 +235,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
         Moment.jsObject_toDateTime(jsEndTime));
   }
 
+  /// Sets the selected date range by [dateRangeType].
   void setDateRangeByType(DateRangeType dateRangeType) {
     if (dateRangeType == null) return null;
 
@@ -234,6 +247,10 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     setDateRange(range.a, range.b);
   }
 
+  /// Sets the selected date range.
+  ///
+  /// [startTime] The start date of selected range.
+  /// [endTime] The end date of selected range.
   void setDateRange(DateTime startTime, DateTime endTime) {
     startTime ??= DateTime.now();
     endTime ??= _startTime;

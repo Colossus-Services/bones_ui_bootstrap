@@ -21,7 +21,7 @@ class Bootstrap {
 
   static final LoadController _load = LoadController('JSBootstrap');
 
-  /// Loads Bootstrap and JQuery JS libraries.
+  /// Loads Bootstrap and JQuery JS library and CSS.
   static Future<bool> load() {
     return _load.load(() async {
       var okJQuery = await JQuery.load();
@@ -48,6 +48,7 @@ class Bootstrap {
 
   static bool _enableTooltip = false;
 
+  /// Enables tooltip functionality.
   static Future<bool> enableTooltip([bool force]) async {
     force ??= false;
 
@@ -61,6 +62,7 @@ class Bootstrap {
     return ret != null;
   }
 
+  /// Enables tooltip functionality when [component] renders.
   static void enableTooltipOnRender(UIComponent component) {
     enableTooltip();
 
@@ -80,6 +82,7 @@ class JQuery {
 
   static final LoadController _load = LoadController('JSJQuery');
 
+  /// Loads JQuery JS library.
   static Future<bool> load() {
     return _load.load(() async {
       var jsFile = ENABLE_MINIFIED ? 'jquery.min.js' : 'jquery.js';
@@ -96,6 +99,7 @@ class JQuery {
     });
   }
 
+  /// Does JQuery [query]
   static JQuery $(dynamic query) {
     var o = context.callMethod(r'$', [query]);
     return JQuery(o);
@@ -105,6 +109,10 @@ class JQuery {
 
   JQuery(this._o);
 
+  /// Makes a JQuery call.
+  ///
+  /// [method] The method to call.
+  /// [args] Arguments to the method.
   dynamic call(String method, [List args]) {
     return _o.callMethod(method, args);
   }
@@ -122,6 +130,7 @@ class Moment {
 
   static JsFunction _moment;
 
+  /// Loads Moment JS library.
   static Future<bool> load() {
     return _load.load(() async {
       var jsFile = ENABLE_MINIFIED
@@ -140,6 +149,7 @@ class Moment {
     });
   }
 
+  /// Sets the locale of [Moment].
   static bool locale(String locale) {
     load();
     if (locale == null) return false;
@@ -153,10 +163,12 @@ class Moment {
     return true;
   }
 
+  /// Parses a [DateTime] to a moment object.
   static JsObject moment(DateTime dateTime) {
     return JsObject(_moment, [dateTime]);
   }
 
+  /// Formats [dateTime] to [format].
   static String format(DateTime dateTime, format) {
     return moment(dateTime).callMethod('format', format);
   }
@@ -220,4 +232,5 @@ class Moment {
             'Invalid Moment weekDay index. Should be of range 0-6, where Sunday is 0 and Saturday is 6 (Sunday-to-Saturday week).');
     }
   }
+
 }

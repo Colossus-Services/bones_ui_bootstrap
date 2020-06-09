@@ -88,6 +88,19 @@ void main() {
 
 ```
 
+## Bootstrap Icons.
+
+You can use class `BootstrapIcons` to load SVG icons of [Bootstrap Icons][bootstrap_icons].
+
+```dart
+
+  var iconName = 'person-fill' ;
+  var iconPath = BootstrapIcons.getIconPath(iconName) ;
+  var svg = UISVG(parent, iconPath, width: '1.5em', color: '#0000FF', title: 'User') ;
+
+```
+
+
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
@@ -112,5 +125,6 @@ Graciliano M. Passos: [gmpassos@GitHub][gmpassos_github].
 [colossus]: https://colossus.services/
 [bones_ui]: https://pub.dev/packages/bones_ui
 [bootstrap]: https://getbootstrap.com/
+[bootstrap_icons]: https://icons.getbootstrap.com/
 [apache_license]: https://www.apache.org/licenses/LICENSE-2.0.txt
 
