@@ -1,3 +1,9 @@
+## 1.0.3
+
+- BSDateRangePicker: Fix a Dart issue with JS calling a Dart Object method:
+    Circumvent using lambda with optional parameters as callback.
+- dartfmt.
+
 ## 1.0.2
 
 - bones_ui: ^1.0.12

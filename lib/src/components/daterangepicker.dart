@@ -54,8 +54,6 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     }
   }
 
-  //////////////////////////////////////////////////////////////////////////////
-
   /// The time picker format. Default: [TimePicker.NONE]
   final TimePicker timePicker;
 
@@ -224,8 +222,8 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     print(config);
 
-    JQuery.$(_textElement)
-        .call('daterangepicker', [JsObject.jsify(config), _setDateRange]);
+    JQuery.$(_textElement).call('daterangepicker',
+        [JsObject.jsify(config), ([a, b, c]) => _setDateRange(a, b)]);
 
     _updateTextElement();
   }
