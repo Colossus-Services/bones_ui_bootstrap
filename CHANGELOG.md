@@ -1,3 +1,11 @@
+##  1.0.4
+
+- Upgrade to `Bootstrap` `4.5.0`.
+- bones_ui: ^1.0.13
+- swiss_knife: ^2.5.5
+- amdjs: ^1.0.5
+- dom_tools: ^1.3.4
+
 ## 1.0.3
 
 - BSDateRangePicker: Fix a Dart issue with JS calling a Dart Object method:

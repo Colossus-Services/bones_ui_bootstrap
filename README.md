@@ -1,4 +1,4 @@
-# Bones UI Bootstrap
+# Bones_UI Bootstrap
 
 [![pub package](https://img.shields.io/pub/v/bones_ui_bootstrap.svg?logo=dart&logoColor=00b9fc)](https://pub.dartlang.org/packages/bones_ui_bootstrap)
 [![CI](https://img.shields.io/github/workflow/status/Colossus-Services/bones_ui_bootstrap/Dart%20CI/master?logo=github-actions&logoColor=white)](https://github.com/Colossus-Services/bones_ui_bootstrap/actions)
@@ -10,13 +10,13 @@
 [![License](https://img.shields.io/github/license/Colossus-Services/bones_ui_bootstrap?logo=open-source-initiative&logoColor=green)](https://github.com/Colossus-Services/bones_ui_bootstrap/blob/master/LICENSE)
 
 
-Adds [Bootstrap][bootstrap] to Dart package [Bones UI][bones_ui], allowing use of Bootstrap components and CSS.
+Adds [Bootstrap][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use of Bootstrap components and CSS.
 
 ## Embedded JavaScript Libraries 
 
 This package automatically loads (and bundles) the necessaries JavaScript libraries for [Bootstrap][bootstrap].
 
-- Bootstrap: 4.4.1
+- Bootstrap: 4.5.0
 - JQuery: 3.5.1
 - Moment: 2.25.2
 
@@ -127,4 +127,3 @@ Graciliano M. Passos: [gmpassos@GitHub][gmpassos_github].
 [bootstrap]: https://getbootstrap.com/
 [bootstrap_icons]: https://icons.getbootstrap.com/
 [apache_license]: https://www.apache.org/licenses/LICENSE-2.0.txt
-
