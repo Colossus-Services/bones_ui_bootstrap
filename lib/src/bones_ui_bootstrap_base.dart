@@ -9,7 +9,6 @@ final String BONES_UI_BOOTSTRAP_PACKAGE_PATH = 'packages/bones_ui_bootstrap';
 
 final bool ENABLE_MINIFIED = false;
 
-
 /// Bootstrap wrapper and loader.
 class Bootstrap {
   static final String VERSION = '4.5.0';
@@ -23,13 +22,14 @@ class Bootstrap {
   static final LoadController _load = LoadController('JSBootstrap');
 
   /// [EventStream] for loading event.
-  static EventStream<LoadController> get onLoad => _load.onLoad ;
+  static EventStream<LoadController> get onLoad => _load.onLoad;
 
   /// Returns [true] if JS library is loaded.
-  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful ;
+  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful;
 
   /// Returns [true] if JS library is successfully loaded.
-  static bool get isSuccessfullyLoaded => _load.isLoaded && _load.loadSuccessful ;
+  static bool get isSuccessfullyLoaded =>
+      _load.isLoaded && _load.loadSuccessful;
 
   /// Loads Bootstrap and JQuery JS library and CSS.
   static Future<bool> load() {
@@ -46,8 +46,8 @@ class Bootstrap {
 
       AMDJS.verbose = true;
 
-      var okJS = await AMDJS.require('bootstrap', jsFullPath: jsFullPath,
-          addScriptTagInsideBody: true);
+      var okJS = await AMDJS.require('bootstrap',
+          jsFullPath: jsFullPath, addScriptTagInsideBody: true);
 
       print(
           'LOADED[jquery: $okJQuery ; BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
@@ -93,13 +93,14 @@ class JQuery {
   static final LoadController _load = LoadController('JSJQuery');
 
   /// [EventStream] for loading event.
-  static EventStream<LoadController> get onLoad => _load.onLoad ;
+  static EventStream<LoadController> get onLoad => _load.onLoad;
 
   /// Returns [true] if JS library is loaded.
-  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful ;
+  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful;
 
   /// Returns [true] if JS library is successfully loaded.
-  static bool get isSuccessfullyLoaded => _load.isLoaded && _load.loadSuccessful ;
+  static bool get isSuccessfullyLoaded =>
+      _load.isLoaded && _load.loadSuccessful;
 
   /// Loads JQuery JS library.
   static Future<bool> load() {
@@ -109,8 +110,8 @@ class JQuery {
 
       AMDJS.verbose = true;
 
-      var okJS = await AMDJS.require('jquery', jsFullPath: jsFullPath,
-          globalJSVariableName: 'jquery');
+      var okJS = await AMDJS.require('jquery',
+          jsFullPath: jsFullPath, globalJSVariableName: 'jquery');
 
       print('LOADED[js: $okJS]> JQuery $VERSION');
 
@@ -148,13 +149,14 @@ class Moment {
   static final LoadController _load = LoadController('JSMoment');
 
   /// [EventStream] for loading event.
-  static EventStream<LoadController> get onLoad => _load.onLoad ;
+  static EventStream<LoadController> get onLoad => _load.onLoad;
 
   /// Returns [true] if JS library is loaded.
-  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful ;
+  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful;
 
   /// Returns [true] if JS library is successfully loaded.
-  static bool get isSuccessfullyLoaded => _load.isLoaded && _load.loadSuccessful ;
+  static bool get isSuccessfullyLoaded =>
+      _load.isLoaded && _load.loadSuccessful;
 
   static JsFunction _moment;
 
@@ -166,8 +168,8 @@ class Moment {
           : 'moment-with-locales.js';
       var jsFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_JS/$jsFile';
 
-      var okJS = await AMDJS.require('moment', jsFullPath: jsFullPath,
-          globalJSVariableName: 'moment');
+      var okJS = await AMDJS.require('moment',
+          jsFullPath: jsFullPath, globalJSVariableName: 'moment');
 
       _moment = context['moment'] as JsFunction;
 
