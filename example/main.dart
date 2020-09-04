@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:bones_ui/bones_ui.dart';
+import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 
 class MyUI extends UIRoot {

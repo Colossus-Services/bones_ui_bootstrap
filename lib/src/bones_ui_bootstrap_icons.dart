@@ -1,7 +1,7 @@
 import 'dart:html';
 
-import 'package:bones_ui/bones_ui.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
+import 'package:dom_tools/dom_tools.dart';
 import 'package:swiss_knife/swiss_knife.dart';
 
 /// Bootstrap icons support.

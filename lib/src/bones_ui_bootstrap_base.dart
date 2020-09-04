@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:js';
 
 import 'package:amdjs/amdjs.dart';
-import 'package:bones_ui/bones_ui.dart';
+import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:swiss_knife/swiss_knife.dart';
 
 final String BONES_UI_BOOTSTRAP_PACKAGE_PATH = 'packages/bones_ui_bootstrap';

@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:html';
 import 'dart:js';
 
-import 'package:bones_ui/bones_ui.dart';
+import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 import 'package:dom_tools/dom_tools.dart';
 import 'package:intl_messages/intl_messages.dart';

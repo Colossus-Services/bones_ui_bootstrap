@@ -1,3 +1,8 @@
+## 1.0.6
+
+- bones_ui: ^1.0.20
+- swiss_knife: ^2.5.13
+
 ## 1.0.5
 
 - Update Bootstrap icons.
