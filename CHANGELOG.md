@@ -1,3 +1,15 @@
+## 1.0.5
+
+- Update Bootstrap icons.
+- Moved `UISVG` to package `bones_ui`.
+- bones_ui: ^1.0.17
+- swiss_knife: ^2.5.12
+- amdjs: ^1.0.6
+- dom_tools: ^1.3.10
+- intl_messages: ^1.1.10
+- pedantic: ^1.9.2
+- test: ^1.15.3
+
 ##  1.0.4
 
 - Upgrade to `Bootstrap` `4.5.0`.
