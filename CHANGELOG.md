@@ -1,3 +1,9 @@
+## 1.1.0
+
+- bones_ui: ^1.1.0
+- swiss_knife: ^2.5.16
+- dom_tools: ^1.3.14
+
 ## 1.0.6
 
 - bones_ui: ^1.0.20
