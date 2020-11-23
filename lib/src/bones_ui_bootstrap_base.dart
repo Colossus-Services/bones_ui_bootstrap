@@ -11,7 +11,7 @@ final bool ENABLE_MINIFIED = false;
 
 /// Bootstrap wrapper and loader.
 class Bootstrap {
-  static final String VERSION = '4.5.0';
+  static final String VERSION = '4.5.3';
 
   static final String PATH = 'bootstrap-$VERSION';
 

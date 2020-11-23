@@ -1,3 +1,12 @@
+## 1.1.1
+
+- Bootstrap 4.5.3
+- Bootstrap Icons 1.1.0
+- swiss_knife: ^2.5.18
+- amdjs: ^1.0.7
+- dom_tools: ^1.3.15
+- intl_messages: ^1.1.12
+
 ## 1.1.0
 
 - bones_ui: ^1.1.0
