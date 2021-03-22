@@ -201,8 +201,7 @@ question-octagon-fill.svg
   static List<String> get allIcons => List.from(_icons);
 
   /// Returns the path of a icon with [name].
-  static String getIconPath(String name) {
-    if (name == null) return null;
+  static String? getIconPath(String name) {
     name = name.toLowerCase().trim();
     if (name.isEmpty) return null;
 
@@ -217,8 +216,12 @@ question-octagon-fill.svg
   }
 
   /// Returns the HTML of a SVG icon with [name].
-  static String svgIconHTML(String name,
-      {String title, int width, int height, String classes, String style}) {
+  static String? svgIconHTML(String name,
+      {String? title,
+      int? width,
+      int? height,
+      String? classes,
+      String? style}) {
     var path = getIconPath(name);
     if (path == null) return null;
 
@@ -251,7 +254,11 @@ question-octagon-fill.svg
 
   /// Returns an [Element] of a SVG icon with [name].
   static Element svgIconElement(String name,
-      {String title, int width, int height, String classes, String style}) {
+      {String? title,
+      int? width,
+      int? height,
+      String? classes,
+      String? style}) {
     var iconHTML = svgIconHTML(name,
         title: title,
         width: width,
@@ -265,7 +272,7 @@ question-octagon-fill.svg
       ResourceContentCache();
 
   /// Returns a [ResourceContent] for the icon with [name].
-  static ResourceContent svgResourceContent(String name) {
+  static ResourceContent? svgResourceContent(String name) {
     var path = getIconPath(name);
     if (path == null) return null;
     return _resourceContentCache.get(path);

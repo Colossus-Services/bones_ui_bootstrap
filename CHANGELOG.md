@@ -1,3 +1,11 @@
+## 2.0.1
+
+- bones_ui: ^2.0.1
+- swiss_knife: ^3.0.6
+- amdjs: ^2.0.1
+- dom_tools: ^2.0.1
+- intl_messages: ^2.0.1
+
 ## 1.2.0
 
 - bones_ui: ^1.2.0

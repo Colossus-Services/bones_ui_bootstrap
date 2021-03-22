@@ -25,11 +25,11 @@ class Bootstrap {
   static EventStream<LoadController> get onLoad => _load.onLoad;
 
   /// Returns [true] if JS library is loaded.
-  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful;
+  static bool get isLoaded => _load.isLoaded;
 
   /// Returns [true] if JS library is successfully loaded.
   static bool get isSuccessfullyLoaded =>
-      _load.isLoaded && _load.loadSuccessful;
+      _load.isLoaded && _load.loadSuccessful!;
 
   /// Loads Bootstrap and JQuery JS library and CSS.
   static Future<bool> load() {
@@ -59,9 +59,7 @@ class Bootstrap {
   static bool _enableTooltip = false;
 
   /// Enables tooltip functionality.
-  static Future<bool> enableTooltip([bool force]) async {
-    force ??= false;
-
+  static Future<bool> enableTooltip([bool force = false]) async {
     if (_enableTooltip && !force) return true;
     _enableTooltip = true;
 
@@ -96,11 +94,11 @@ class JQuery {
   static EventStream<LoadController> get onLoad => _load.onLoad;
 
   /// Returns [true] if JS library is loaded.
-  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful;
+  static bool get isLoaded => _load.isLoaded;
 
   /// Returns [true] if JS library is successfully loaded.
   static bool get isSuccessfullyLoaded =>
-      _load.isLoaded && _load.loadSuccessful;
+      _load.isLoaded && _load.loadSuccessful!;
 
   /// Loads JQuery JS library.
   static Future<bool> load() {
@@ -125,7 +123,7 @@ class JQuery {
     return JQuery(o);
   }
 
-  final JsObject _o;
+  final JsObject? _o;
 
   JQuery(this._o);
 
@@ -133,8 +131,8 @@ class JQuery {
   ///
   /// [method] The method to call.
   /// [args] Arguments to the method.
-  dynamic call(String method, [List args]) {
-    return _o.callMethod(method, args);
+  dynamic call(String method, [List? args]) {
+    return _o!.callMethod(method, args);
   }
 }
 
@@ -152,13 +150,13 @@ class Moment {
   static EventStream<LoadController> get onLoad => _load.onLoad;
 
   /// Returns [true] if JS library is loaded.
-  static bool get isLoaded => _load.isLoaded && _load.loadSuccessful;
+  static bool get isLoaded => _load.isLoaded;
 
   /// Returns [true] if JS library is successfully loaded.
   static bool get isSuccessfullyLoaded =>
-      _load.isLoaded && _load.loadSuccessful;
+      _load.isLoaded && _load.loadSuccessful!;
 
-  static JsFunction _moment;
+  static JsFunction? _moment;
 
   /// Loads Moment JS library.
   static Future<bool> load() {
@@ -171,7 +169,7 @@ class Moment {
       var okJS = await AMDJS.require('moment',
           jsFullPath: jsFullPath, globalJSVariableName: 'moment');
 
-      _moment = context['moment'] as JsFunction;
+      _moment = context['moment'] as JsFunction?;
 
       var okMoment = _moment != null;
 
@@ -182,41 +180,40 @@ class Moment {
   /// Sets the locale of [Moment].
   static bool locale(String locale) {
     load();
-    if (locale == null) return false;
 
     locale = locale.trim().toLowerCase();
     if (locale.isEmpty) return false;
 
     locale = locale.replaceFirst('_', '-');
 
-    _moment.callMethod('locale', [locale]);
+    _moment!.callMethod('locale', [locale]);
     return true;
   }
 
   /// Parses a [DateTime] to a moment object.
   static JsObject moment(DateTime dateTime) {
-    return JsObject(_moment, [dateTime]);
+    return JsObject(_moment!, [dateTime]);
   }
 
   /// Formats [dateTime] to [format].
-  static String format(DateTime dateTime, format) {
+  static String? format(DateTime dateTime, format) {
     return moment(dateTime).callMethod('format', format);
   }
 
-  static String jsObject_format(JsObject moment, format) {
+  static String? jsObject_format(JsObject moment, format) {
     return moment.callMethod('format', [format]);
   }
 
-  static int jsObject_toMillisecondsSinceEpoch(JsObject moment) {
+  static int? jsObject_toMillisecondsSinceEpoch(JsObject moment) {
     return moment.callMethod('valueOf');
   }
 
   static DateTime jsObject_toDateTime(JsObject moment) {
-    var time = jsObject_toMillisecondsSinceEpoch(moment);
+    var time = jsObject_toMillisecondsSinceEpoch(moment)!;
     return DateTime.fromMillisecondsSinceEpoch(time);
   }
 
-  static int toMomentWeekDay(DateTimeWeekDay weekDay) {
+  static int? toMomentWeekDay(DateTimeWeekDay? weekDay) {
     if (weekDay == null) return null;
 
     switch (weekDay) {
@@ -240,8 +237,6 @@ class Moment {
   }
 
   static DateTimeWeekDay toDateTimeWeekDay(int momentWeekDay) {
-    if (momentWeekDay == null) return null;
-
     switch (momentWeekDay) {
       case 0:
         return DateTimeWeekDay.Sunday;

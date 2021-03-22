@@ -15,7 +15,7 @@ class AccordionItem {
 
 /// Bootstrap Accordion component.
 class BSAccordion extends UIComponent {
-  static int _idCounter;
+  static int _idCounter = 0;
 
   /// ID of component. Is required by Bootstrap for correct handling of elements.
   @override
@@ -25,10 +25,10 @@ class BSAccordion extends UIComponent {
   final List<AccordionItem> items;
 
   /// Index of expanded item.
-  final int expandIndex;
+  final int? expandIndex;
 
-  BSAccordion(Element parent, String id, this.items,
-      {this.expandIndex, classes})
+  BSAccordion(Element parent, this.items,
+      {String? id, this.expandIndex, dynamic classes})
       : id = id ?? '__BSAccordion__${++_idCounter}',
         super(parent, classes: 'ui-bs-accordion', classes2: classes) {
     if (id == null || id.isEmpty) {
@@ -38,7 +38,7 @@ class BSAccordion extends UIComponent {
 
   @override
   void configure() {
-    content.id = id;
+    content!.id = id;
   }
 
   @override
@@ -55,27 +55,27 @@ class BSAccordion extends UIComponent {
   }
 
   dynamic renderItem(AccordionItem item, int itemIndex) {
-    var expanded = item.expanded ?? false;
+    var expanded = item.expanded;
 
     if (!expanded && expandIndex != null) {
       expanded = itemIndex == expandIndex ||
-          (expandIndex < 0 && itemIndex == items.length + expandIndex);
+          (expandIndex! < 0 && itemIndex == items.length + expandIndex!);
     }
 
     var itemDiv = $divHTML('''
         <div class="card">
           <div class="card-header" id="$id-heading-$itemIndex">
             <h2 class="mb-0">
-              <button class="d-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}" data-toggle="collapse" data-target="#$id-collapse-$itemIndex" aria-expanded="${expanded}" aria-controls="$id-collapse-$itemIndex"></button>
+              <button class="d-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}" data-toggle="collapse" data-target="#$id-collapse-$itemIndex" aria-expanded="$expanded" aria-controls="$id-collapse-$itemIndex"></button>
             </h2>
           </div>
           <div id="$id-collapse-$itemIndex" class="collapse ${expanded ? 'show' : ''}" aria-labelledby="$id-heading-$itemIndex" data-parent="#$id">
             <div class="card-body"></div>
           </div>
         </div>
-    ''')
-      ..select('.btn').add(item.title)
-      ..select('.card-body').add(item.content);
+    ''')!
+      ..select('.btn')!.add(item.title)
+      ..select('.card-body')!.add(item.content);
 
     return itemDiv;
   }
