@@ -7,11 +7,11 @@ import 'package:swiss_knife/swiss_knife.dart';
 
 final String BONES_UI_BOOTSTRAP_PACKAGE_PATH = 'packages/bones_ui_bootstrap';
 
-final bool ENABLE_MINIFIED = false;
+final bool ENABLE_MINIFIED = true;
 
 /// Bootstrap wrapper and loader.
 class Bootstrap {
-  static final String VERSION = '4.5.3';
+  static final String VERSION = '4.6.0';
 
   static final String PATH = 'bootstrap-$VERSION';
 
@@ -34,17 +34,18 @@ class Bootstrap {
   /// Loads Bootstrap and JQuery JS library and CSS.
   static Future<bool> load() {
     return _load.load(() async {
+      AMDJS.verbose = true;
+
       var okJQuery = await JQuery.load();
 
-      var okCss = await addCssSource(
-          '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/bootstrap.css',
-          insertIndex: 0);
+      var cssFile = ENABLE_MINIFIED ? 'bootstrap.min.css' : 'bootstrap.css';
+      var cssFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/$cssFile';
+
+      var okCss = await addCssSource(cssFullPath, insertIndex: 0);
 
       var jsFile =
           ENABLE_MINIFIED ? 'bootstrap.bundle.min.js' : 'bootstrap.bundle.js';
       var jsFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_JS/$jsFile';
-
-      AMDJS.verbose = true;
 
       var okJS = await AMDJS.require('bootstrap',
           jsFullPath: jsFullPath, addScriptTagInsideBody: true);

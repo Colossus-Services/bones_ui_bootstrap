@@ -1,3 +1,11 @@
+## 2.0.2
+
+- Upgrade Bootstrap to `v4.6.0`.
+- Upgrade Bootstrap Icons to `v1.5.0`.
+- bones_ui: ^2.0.2
+- swiss_knife: ^3.0.7
+- sdk: '>=2.13.0 <3.0.0'
+
 ## 2.0.1
 
 - bones_ui: ^2.0.1

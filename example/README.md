@@ -16,6 +16,12 @@ Go to `bones_ui_bootstrap` directory:
 $> cd ./bones_ui_bootstrap
 ```
 
+Ensure that `webdev` is activated:
+
+```shell script
+$> dart pub global activate webdev
+```
+
 Run Dart `pub get` to get the dependencies:  
 
 ```shell script
