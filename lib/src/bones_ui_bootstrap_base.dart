@@ -60,15 +60,27 @@ class Bootstrap {
   static bool _enableTooltip = false;
 
   /// Enables tooltip functionality.
-  static Future<bool> enableTooltip([bool force = false]) async {
+  static Future<bool> enableTooltip(
+      {bool force = false, Duration? delay}) async {
     if (_enableTooltip && !force) return true;
     _enableTooltip = true;
 
-    await JQuery.load();
+    if (!JQuery.isLoaded) {
+      await JQuery.load();
+    }
 
-    var ret = JQuery.$('[data-toggle="tooltip"]').call('tooltip');
+    try {
+      delay ??= Duration(milliseconds: 100);
+      if (delay.inMilliseconds > 0) {
+        await Future.delayed(delay);
+      }
 
-    return ret != null;
+      var ret = JQuery.$('[data-toggle="tooltip"]').call('tooltip');
+      return ret != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
   /// Enables tooltip functionality when [component] renders.
@@ -76,7 +88,8 @@ class Bootstrap {
     enableTooltip();
 
     component.onRender.listen((_) {
-      Future.delayed(Duration(seconds: 1), () => Bootstrap.enableTooltip(true));
+      Future.delayed(
+          Duration(seconds: 1), () => Bootstrap.enableTooltip(force: true));
     });
   }
 }
@@ -134,6 +147,38 @@ class JQuery {
   /// [args] Arguments to the method.
   dynamic call(String method, [List? args]) {
     return _o!.callMethod(method, args);
+  }
+
+  /// Opens a new Window.
+  ///
+  /// - [name] of the Window.
+  /// - [html] the Window HTML.
+  /// - [print] if `true` will print the window.
+  static JsObject openWindow({String? name, String? html, bool print = false}) {
+    var openParams = <dynamic>[];
+
+    if (name != null) {
+      if (openParams.isEmpty) {
+        openParams.add(null);
+      }
+      openParams.add(name);
+    }
+
+    var w = context.callMethod('open', openParams) as JsObject;
+
+    if (html != null && html.isNotEmpty) {
+      var doc = w['document'] as JsObject;
+      var body = doc['body'] as JsObject;
+      var o = context.callMethod(r'$', [body]) as JsObject;
+      o.callMethod('html', [html]);
+    }
+
+    if (print) {
+      w.callMethod('focus');
+      w.callMethod('print');
+    }
+
+    return w;
   }
 }
 

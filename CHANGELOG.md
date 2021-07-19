@@ -1,3 +1,11 @@
+## 2.0.3
+
+- `Bootstrap.enableTooltip` now using named parameters.
+- `JQuery`:
+  - Added `openWindow`.
+- bones_ui: ^2.0.3
+- swiss_knife: ^3.0.8
+
 ## 2.0.2
 
 - Upgrade Bootstrap to `v4.6.0`.
