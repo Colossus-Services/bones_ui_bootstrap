@@ -2,21 +2,22 @@ import 'dart:collection';
 import 'dart:html';
 import 'dart:js';
 
-import 'package:bones_ui/bones_ui_kit.dart';
-import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
+import 'package:bones_ui/bones_ui.dart';
 import 'package:dom_tools/dom_tools.dart';
 import 'package:intl_messages/intl_messages.dart';
+import 'package:swiss_knife/swiss_knife.dart';
 
 import '../bones_ui_bootstrap_base.dart';
+import '../bones_ui_bootstrap_icons.dart';
 
 /// Format of time picker for [BSDateRangePicker].
 enum TimePicker {
-  NONE,
-  HOURS_MINUTES,
-  HOURS_MINUTES_BY_5,
-  HOURS_MINUTES_BY_10,
-  HOURS_MINUTES_BY_15,
-  HOURS_MINUTES_BY_30,
+  none,
+  hoursMinutes,
+  hoursMinutesBy5,
+  hoursMinutesBy10,
+  hoursMinutesBy15,
+  hoursMinutesBy30,
 }
 
 /// Bootstrap Date Range Picker component.
@@ -54,7 +55,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     }
   }
 
-  /// The time picker format. Default: [TimePicker.NONE]
+  /// The time picker format. Default: [TimePicker.none]
   final TimePicker timePicker;
 
   /// If [true shows a summaru of selected date range in input text. Default: [true]
@@ -76,14 +77,14 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       DateTime? startTime,
       DateTime? endTime,
       dynamic classes})
-      : timePicker = timePicker ?? TimePicker.NONE,
+      : timePicker = timePicker ?? TimePicker.none,
         _rangesTypes = LinkedHashSet.from(rangesTypes ?? []).toList().cast(),
         _startTime = _resolveDateTime(startTime, initialRangeType, true),
         _endTime = _resolveDateTime(endTime, initialRangeType, false),
         super(parent, classes: classes, classes2: 'ui-bs-date-range-picker');
 
   /// Returns [true] if time picker is present.
-  bool get hasTimePicker => timePicker != TimePicker.NONE;
+  bool get hasTimePicker => timePicker != TimePicker.none;
 
   /// Returns the start time of selected date range.
   DateTime get startTime => _startTime;
@@ -136,15 +137,15 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   int? _getTimePickerMinutesInterval() {
     switch (timePicker) {
-      case TimePicker.HOURS_MINUTES:
+      case TimePicker.hoursMinutes:
         return 1;
-      case TimePicker.HOURS_MINUTES_BY_5:
+      case TimePicker.hoursMinutesBy5:
         return 5;
-      case TimePicker.HOURS_MINUTES_BY_10:
+      case TimePicker.hoursMinutesBy10:
         return 10;
-      case TimePicker.HOURS_MINUTES_BY_15:
+      case TimePicker.hoursMinutesBy15:
         return 15;
-      case TimePicker.HOURS_MINUTES_BY_30:
+      case TimePicker.hoursMinutesBy30:
         return 30;
       default:
         return null;
@@ -228,8 +229,8 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   }
 
   void _setDateRange(JsObject jsStartTime, JsObject jsEndTime) {
-    setDateRange(Moment.jsObject_toDateTime(jsStartTime),
-        Moment.jsObject_toDateTime(jsEndTime));
+    setDateRange(Moment.jsObjectToDateTime(jsStartTime),
+        Moment.jsObjectToDateTime(jsEndTime));
   }
 
   /// Sets the selected date range by [dateRangeType].

@@ -2,21 +2,28 @@ import 'dart:async';
 import 'dart:js';
 
 import 'package:amdjs/amdjs.dart';
-import 'package:bones_ui/bones_ui_kit.dart';
+import 'package:bones_ui/bones_ui.dart';
+import 'package:dom_tools/dom_tools.dart';
 import 'package:swiss_knife/swiss_knife.dart';
 
+// ignore: non_constant_identifier_names
 final String BONES_UI_BOOTSTRAP_PACKAGE_PATH = 'packages/bones_ui_bootstrap';
 
+// ignore: non_constant_identifier_names
 final bool ENABLE_MINIFIED = true;
 
 /// Bootstrap wrapper and loader.
 class Bootstrap {
-  static final String VERSION = '4.6.0';
+  // ignore: non_constant_identifier_names
+  static final String VERSION = '4.6.1';
 
+  // ignore: non_constant_identifier_names
   static final String PATH = 'bootstrap-$VERSION';
 
+  // ignore: non_constant_identifier_names
   static final String PATH_CSS = '$PATH/css';
 
+  // ignore: non_constant_identifier_names
   static final String PATH_JS = '$PATH/js';
 
   static final LoadController _load = LoadController('JSBootstrap');
@@ -96,10 +103,13 @@ class Bootstrap {
 
 /// JQuery wrapper and loader.
 class JQuery {
+  // ignore: non_constant_identifier_names
   static final String VERSION = '3.5.1';
 
+  // ignore: non_constant_identifier_names
   static final String PATH = 'jquery-$VERSION';
 
+  // ignore: non_constant_identifier_names
   static final String PATH_JS = '$PATH/js';
 
   static final LoadController _load = LoadController('JSJQuery');
@@ -184,10 +194,13 @@ class JQuery {
 
 /// Moment wrapper and loader.
 class Moment {
+  // ignore: non_constant_identifier_names
   static final String VERSION = '2.25.2';
 
+  // ignore: non_constant_identifier_names
   static final String PATH = 'moment-$VERSION';
 
+  // ignore: non_constant_identifier_names
   static final String PATH_JS = '$PATH/js';
 
   static final LoadController _load = LoadController('JSMoment');
@@ -246,16 +259,16 @@ class Moment {
     return moment(dateTime).callMethod('format', format);
   }
 
-  static String? jsObject_format(JsObject moment, format) {
+  static String? jsObjectFormat(JsObject moment, format) {
     return moment.callMethod('format', [format]);
   }
 
-  static int? jsObject_toMillisecondsSinceEpoch(JsObject moment) {
+  static int? jsObjectToMillisecondsSinceEpoch(JsObject moment) {
     return moment.callMethod('valueOf');
   }
 
-  static DateTime jsObject_toDateTime(JsObject moment) {
-    var time = jsObject_toMillisecondsSinceEpoch(moment)!;
+  static DateTime jsObjectToDateTime(JsObject moment) {
+    var time = jsObjectToMillisecondsSinceEpoch(moment)!;
     return DateTime.fromMillisecondsSinceEpoch(time);
   }
 

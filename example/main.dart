@@ -25,14 +25,38 @@ class MyPage extends UIComponent {
     return [
       $header(content: '''
         <nav class="navbar navbar-dark fixed-top bg-dark">
-          <a class="navbar-brand" href="#">Fixed navbar</a>
+          <a class="navbar-brand" href="#">
+            <ui-svg width="20px" height="20px" src="${BootstrapIcons.getIconPath('app-indicator')}"></ui-svg>
+            Fixed navbar
+          </a>
         </nav>
       '''),
-      $div(classes: 'container', content: '''
+      $div(classes: 'container', content: [
+        '''
         <br>
         <h1 class="mt-5">Welcome</h1>
         This is <b>Bones_UI</b> with <b>Bootstrap</b>!
-      '''),
+        <br><br>
+      ''',
+        '<hr>',
+        '<b>BootstrapIcons</b>: &nbsp;',
+        BootstrapIcons.allIcons
+            .sublist(0, 15)
+            .map((name) => BootstrapIcons.svgIconElement(name,
+                width: 20, style: 'margin: 2px 4px'))
+            .toList(),
+        ' ...',
+        '<hr>',
+        '<b>BSDateRangePicker</b>: &nbsp;',
+        BSDateRangePicker(content!),
+        '<hr>',
+        '<b>BSAccordion</b>: <br>',
+        BSAccordion(content!, [
+          AccordionItem('A Title', 'A text'),
+          AccordionItem('B Title', 'B text'),
+          AccordionItem('C Title', 'C text'),
+        ]),
+      ]),
       $footer(classes: 'footer fixed-bottom', content: [
         $hr,
         $div(

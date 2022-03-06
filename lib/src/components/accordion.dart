@@ -1,6 +1,7 @@
 import 'dart:html';
 
-import 'package:bones_ui/bones_ui_kit.dart';
+import 'package:bones_ui/bones_ui.dart';
+import 'package:dom_builder/dom_builder.dart';
 
 /// Accordion item.
 class AccordionItem {
@@ -19,7 +20,10 @@ class BSAccordion extends UIComponent {
 
   /// ID of component. Is required by Bootstrap for correct handling of elements.
   @override
-  final String id;
+  String get id => super.id as String;
+
+  @override
+  set id(dynamic id) => super.id = '$id';
 
   /// Items in accordion.
   final List<AccordionItem> items;
@@ -29,9 +33,11 @@ class BSAccordion extends UIComponent {
 
   BSAccordion(Element parent, this.items,
       {String? id, this.expandIndex, dynamic classes})
-      : id = id ?? '__BSAccordion__${++_idCounter}',
-        super(parent, classes: 'ui-bs-accordion', classes2: classes) {
-    if (id == null || id.isEmpty) {
+      : super(parent,
+            id: id ?? '__BSAccordion__${++_idCounter}',
+            classes: 'ui-bs-accordion',
+            classes2: classes) {
+    if (this.id.isEmpty) {
       throw ArgumentError('id is required for BSAccordion');
     }
   }

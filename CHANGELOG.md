@@ -1,3 +1,19 @@
+## 2.0.4
+
+- Upgrade Bootstrap to `v4.6.1`.
+- Upgrade Bootstrap Icons to `v1.8.1`.
+- Improved Web Example.
+  - Added icons, date range picker and accordion.
+  - Added SCSS file.
+- sdk: '>=2.15.0 <3.0.0'
+- bones_ui: ^2.0.8
+- amdjs: ^2.0.2
+- dom_tools: ^2.1.0
+- dom_builder: ^2.0.8
+- lints: ^1.0.1
+- sass_builder: ^2.1.3
+- dependency_validator: ^3.1.0
+
 ## 2.0.3
 
 - `Bootstrap.enableTooltip` now using named parameters.
