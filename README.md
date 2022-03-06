@@ -18,8 +18,8 @@ Adds [Bootstrap][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use o
 
 This package automatically loads (and bundles) the necessaries JavaScript libraries for [Bootstrap][bootstrap].
 
-- Bootstrap: 4.6.0
-- Bootstrap Icons: 1.5.0
+- Bootstrap: 4.6.1
+- Bootstrap Icons: 1.8.1
 - JQuery: 3.5.1
 - Moment: 2.25.2
 
