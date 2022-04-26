@@ -276,19 +276,19 @@ class Moment {
     if (weekDay == null) return null;
 
     switch (weekDay) {
-      case DateTimeWeekDay.Sunday:
+      case DateTimeWeekDay.sunday:
         return 0;
-      case DateTimeWeekDay.Monday:
+      case DateTimeWeekDay.monday:
         return 1;
-      case DateTimeWeekDay.Tuesday:
+      case DateTimeWeekDay.tuesday:
         return 2;
-      case DateTimeWeekDay.Wednesday:
+      case DateTimeWeekDay.wednesday:
         return 3;
-      case DateTimeWeekDay.Thursday:
+      case DateTimeWeekDay.thursday:
         return 4;
-      case DateTimeWeekDay.Friday:
+      case DateTimeWeekDay.friday:
         return 5;
-      case DateTimeWeekDay.Saturday:
+      case DateTimeWeekDay.saturday:
         return 6;
       default:
         return null;
@@ -298,19 +298,19 @@ class Moment {
   static DateTimeWeekDay toDateTimeWeekDay(int momentWeekDay) {
     switch (momentWeekDay) {
       case 0:
-        return DateTimeWeekDay.Sunday;
+        return DateTimeWeekDay.sunday;
       case 1:
-        return DateTimeWeekDay.Monday;
+        return DateTimeWeekDay.monday;
       case 2:
-        return DateTimeWeekDay.Tuesday;
+        return DateTimeWeekDay.tuesday;
       case 3:
-        return DateTimeWeekDay.Wednesday;
+        return DateTimeWeekDay.wednesday;
       case 4:
-        return DateTimeWeekDay.Thursday;
+        return DateTimeWeekDay.thursday;
       case 5:
-        return DateTimeWeekDay.Friday;
+        return DateTimeWeekDay.friday;
       case 6:
-        return DateTimeWeekDay.Saturday;
+        return DateTimeWeekDay.saturday;
       default:
         throw ArgumentError(
             'Invalid Moment weekDay index. Should be of range 0-6, where Sunday is 0 and Saturday is 6 (Sunday-to-Saturday week).');

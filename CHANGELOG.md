@@ -1,3 +1,12 @@
+## 2.0.5
+
+- Improve GitHub CI.
+- bones_ui: ^2.0.10
+- swiss_knife: ^3.1.1
+- amdjs: ^2.0.3
+- dom_tools: ^2.1.1
+- dom_builder: ^2.0.9
+
 ## 2.0.4
 
 - Upgrade Bootstrap to `v4.6.1`.
