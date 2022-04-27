@@ -1,3 +1,8 @@
+## 2.0.6
+
+- bones_ui: ^2.0.11
+- intl_messages: ^2.0.2
+
 ## 2.0.5
 
 - Improve GitHub CI.
