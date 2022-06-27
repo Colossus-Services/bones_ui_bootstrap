@@ -1,3 +1,12 @@
+## 2.0.7
+
+- bones_ui: ^2.0.13
+- build_runner: ^2.1.11
+- build_web_compilers: ^3.2.3
+- lints: ^2.0.0
+- dependency_validator: ^3.2.0
+- test: ^1.21.3
+
 ## 2.0.6
 
 - bones_ui: ^2.0.11

@@ -55,6 +55,9 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     }
   }
 
+  @override
+  final String fieldName;
+
   /// The time picker format. Default: [TimePicker.none]
   final TimePicker timePicker;
 
@@ -70,7 +73,8 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   HashMap<String, List<int>>? _dateRanges;
 
   BSDateRangePicker(Element parent,
-      {TimePicker? timePicker,
+      {this.fieldName = 'date-range-picker',
+      TimePicker? timePicker,
       this.showDateTextTitle = true,
       List<DateRangeType>? rangesTypes,
       DateRangeType? initialRangeType,
