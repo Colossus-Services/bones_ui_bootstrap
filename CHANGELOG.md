@@ -1,3 +1,16 @@
+## 2.0.8
+
+- `AccordionItem`:
+  - Added `classes`, `style`, `headClasses`, `headStyle`, `bodyClasses`, `bodyStyle`.
+- bones_ui: ^2.0.14
+- dom_tools: ^2.1.3
+- dom_builder: ^2.1.0
+- intl_messages: ^2.0.3
+- build_runner: ^2.2.0
+- build_web_compilers: ^3.2.4
+- dependency_validator: ^3.2.2
+- test: ^1.21.4
+
 ## 2.0.7
 
 - bones_ui: ^2.0.13

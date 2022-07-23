@@ -11,7 +11,23 @@ class AccordionItem {
 
   bool expanded;
 
-  AccordionItem(this.title, this.content, [this.expanded = false]);
+  dynamic classes;
+  dynamic style;
+
+  dynamic headClasses;
+  dynamic headStyle;
+
+  dynamic bodyClasses;
+  dynamic bodyStyle;
+
+  AccordionItem(this.title, this.content,
+      {this.expanded = false,
+      this.classes,
+      this.style,
+      this.headClasses,
+      this.headStyle,
+      this.bodyClasses,
+      this.bodyStyle});
 }
 
 /// Bootstrap Accordion component.
@@ -31,12 +47,14 @@ class BSAccordion extends UIComponent {
   /// Index of expanded item.
   final int? expandIndex;
 
-  BSAccordion(Element parent, this.items,
-      {String? id, this.expandIndex, dynamic classes})
+  BSAccordion(Element? parent, this.items,
+      {String? id, this.expandIndex, dynamic classes, dynamic style})
       : super(parent,
             id: id ?? '__BSAccordion__${++_idCounter}',
+            componentClass: 'ui-bs-accordion',
             classes: 'ui-bs-accordion',
-            classes2: classes) {
+            classes2: classes,
+            style2: style) {
     if (this.id.isEmpty) {
       throw ArgumentError('id is required for BSAccordion');
     }
@@ -68,21 +86,39 @@ class BSAccordion extends UIComponent {
           (expandIndex! < 0 && itemIndex == items.length + expandIndex!);
     }
 
-    var itemDiv = $divHTML('''
-        <div class="card">
-          <div class="card-header" id="$id-heading-$itemIndex">
-            <h2 class="mb-0">
-              <button class="d-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}" data-toggle="collapse" data-target="#$id-collapse-$itemIndex" aria-expanded="$expanded" aria-controls="$id-collapse-$itemIndex"></button>
-            </h2>
-          </div>
-          <div id="$id-collapse-$itemIndex" class="collapse ${expanded ? 'show' : ''}" aria-labelledby="$id-heading-$itemIndex" data-parent="#$id">
-            <div class="card-body"></div>
-          </div>
-        </div>
-    ''')!
-      ..select('.btn')!.add(item.title)
-      ..select('.card-body')!.add(item.content);
-
-    return itemDiv;
+    return $div(
+        classes: ['card', item.classes],
+        style: item.style,
+        content: [
+          $div(
+              id: '$id-heading-$itemIndex',
+              classes: ['card-header', item.headClasses],
+              style: item.headStyle,
+              content: $tag('h2',
+                  classes: 'mb-0',
+                  content: $button(
+                      classes:
+                          'd-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}',
+                      attributes: {
+                        'data-toggle': 'collapse',
+                        'data-target': '#$id-collapse-$itemIndex',
+                        'aria-expanded': '$expanded',
+                        'aria-controls': '$id-collapse-$itemIndex'
+                      },
+                      content: item.title))),
+          $div(
+              id: '$id-collapse-$itemIndex',
+              classes: [
+                'card-body',
+                'collapse ${expanded ? 'show' : ''}',
+                item.bodyClasses
+              ],
+              style: item.bodyStyle,
+              attributes: {
+                'aria-labelledby': '$id-heading-$itemIndex',
+                'data-parent': '#$id'
+              },
+              content: item.content),
+        ]);
   }
 }
