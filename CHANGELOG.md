@@ -1,3 +1,16 @@
+## 2.1.0
+
+- sdk: '>=2.18.0 <3.0.0'
+- bones_ui: ^2.1.3
+- swiss_knife: ^3.1.3
+- dom_tools: ^2.1.9
+- intl_messages: ^2.0.5
+- build_runner: ^2.3.3
+- build_web_compilers: ^3.2.7
+- sass_builder: ^2.2.1
+- lints: ^2.0.1
+- test: ^1.22.1
+
 ## 2.0.8
 
 - `AccordionItem`:
