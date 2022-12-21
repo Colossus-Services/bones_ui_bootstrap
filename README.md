@@ -2,8 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/bones_ui_bootstrap.svg?logo=dart&logoColor=00b9fc)](https://pub.dartlang.org/packages/bones_ui_bootstrap)
 [![Null Safety](https://img.shields.io/badge/null-safety-brightgreen)](https://dart.dev/null-safety)
-
-[![CI](https://img.shields.io/github/workflow/status/Colossus-Services/bones_ui_bootstrap/Dart%20CI/master?logo=github-actions&logoColor=white)](https://github.com/Colossus-Services/bones_ui_bootstrap/actions)
+[![Dart CI](https://github.com/Colossus-Services/bones_ui_bootstrap/actions/workflows/dart.yml/badge.svg?branch=master)](https://github.com/Colossus-Services/bones_ui_bootstrap/actions/workflows/dart.yml)
 [![GitHub Tag](https://img.shields.io/github/v/tag/Colossus-Services/bones_ui_bootstrap?logo=git&logoColor=white)](https://github.com/Colossus-Services/bones_ui_bootstrap/releases)
 [![New Commits](https://img.shields.io/github/commits-since/Colossus-Services/bones_ui_bootstrap/latest?logo=git&logoColor=white)](https://github.com/Colossus-Services/bones_ui_bootstrap/network)
 [![Last Commits](https://img.shields.io/github/last-commit/Colossus-Services/bones_ui_bootstrap?logo=git&logoColor=white)](https://github.com/Colossus-Services/bones_ui_bootstrap/commits/master)
