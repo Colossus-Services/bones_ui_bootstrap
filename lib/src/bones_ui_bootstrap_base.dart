@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:js';
 
 import 'package:amdjs/amdjs.dart';

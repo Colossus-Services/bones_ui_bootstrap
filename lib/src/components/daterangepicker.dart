@@ -72,12 +72,14 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   HashMap<String, List<int>>? _dateRanges;
 
+  final DateRangeType? initialRangeType;
+
   BSDateRangePicker(Element parent,
       {this.fieldName = 'date-range-picker',
       TimePicker? timePicker,
       this.showDateTextTitle = true,
       List<DateRangeType>? rangesTypes,
-      DateRangeType? initialRangeType,
+      this.initialRangeType,
       DateTime? startTime,
       DateTime? endTime,
       dynamic classes})
@@ -101,6 +103,17 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   @override
   Pair<DateTime> getFieldValue() => dateTimeRange;
+
+  @override
+  void setFieldValue(Pair<DateTime>? value) {
+    value ??= Pair(
+      _resolveDateTime(null, initialRangeType, true),
+      _resolveDateTime(null, initialRangeType, false),
+    );
+
+    _startTime = value.a;
+    _endTime = value.b;
+  }
 
   @override
   void configure() {
