@@ -8,7 +8,7 @@ import 'bones_ui_bootstrap_base.dart';
 /// Bootstrap icons support.
 class BootstrapIcons {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '1.8.1';
+  static final String VERSION = '1.10.4';
 
   static final String iconsList = '''
 0-circle-fill.svg                 building.svg                      currency-yen.svg                  filetype-m4p.svg                  motherboard.svg                   sign-turn-slight-left.svg
