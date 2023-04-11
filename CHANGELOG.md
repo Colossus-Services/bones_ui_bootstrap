@@ -1,6 +1,12 @@
 ## 2.1.2
 
 - update icons `1.10.4`.
+- bones_ui: ^2.1.20
+- swiss_knife: ^3.1.5
+- dom_tools: ^2.1.14
+- dom_builder: ^2.1.6
+- intl_messages: ^2.0.7
+- test: ^1.23.1
 
 ## 2.1.1
 
