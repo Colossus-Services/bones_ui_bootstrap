@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:bones_ui/bones_ui.dart';
 import 'package:dom_builder/dom_builder.dart';
 
@@ -47,9 +45,9 @@ class BSAccordion extends UIComponent {
   /// Index of expanded item.
   final int? expandIndex;
 
-  BSAccordion(Element? parent, this.items,
+  BSAccordion(super.parent, this.items,
       {String? id, this.expandIndex, dynamic classes, dynamic style})
-      : super(parent,
+      : super(
             id: id ?? '__BSAccordion__${++_idCounter}',
             componentClass: 'ui-bs-accordion',
             classes: 'ui-bs-accordion',

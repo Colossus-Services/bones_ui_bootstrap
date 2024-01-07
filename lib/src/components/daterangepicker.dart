@@ -74,7 +74,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   final DateRangeType? initialRangeType;
 
-  BSDateRangePicker(Element parent,
+  BSDateRangePicker(super.parent,
       {this.fieldName = 'date-range-picker',
       TimePicker? timePicker,
       this.showDateTextTitle = true,
@@ -82,12 +82,13 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       this.initialRangeType,
       DateTime? startTime,
       DateTime? endTime,
-      dynamic classes})
+      super.classes,
+      super.style})
       : timePicker = timePicker ?? TimePicker.none,
         _rangesTypes = LinkedHashSet.from(rangesTypes ?? []).toList().cast(),
         _startTime = _resolveDateTime(startTime, initialRangeType, true),
         _endTime = _resolveDateTime(endTime, initialRangeType, false),
-        super(parent, classes: classes, classes2: 'ui-bs-date-range-picker');
+        super(classes2: 'ui-bs-date-range-picker');
 
   /// Returns [true] if time picker is present.
   bool get hasTimePicker => timePicker != TimePicker.none;

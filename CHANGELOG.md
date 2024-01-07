@@ -1,3 +1,16 @@
+## 2.2.0
+
+- sdk: '>=3.0.0 <4.0.0'
+- bones_ui: ^2.4.0
+- swiss_knife: ^3.1.6
+- dom_tools: ^2.2.0
+- dom_builder: ^2.2.2
+- intl_messages: ^2.2.3
+- build_runner: ^2.4.7
+- lints: ^3.0.0
+- dependency_validator: ^3.2.3
+- test: ^1.24.9
+
 ## 2.1.2
 
 - update icons `1.10.4`.

@@ -4,7 +4,7 @@ import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 
 class MyUI extends UIRoot {
-  MyUI(Element? rootContainer) : super(rootContainer);
+  MyUI(super.rootContainer);
 
   @override
   void configure() {
@@ -18,7 +18,7 @@ class MyUI extends UIRoot {
 }
 
 class MyPage extends UIComponent {
-  MyPage(Element? parent) : super(parent);
+  MyPage(super.parent);
 
   @override
   dynamic render() {
