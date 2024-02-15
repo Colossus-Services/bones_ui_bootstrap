@@ -1,3 +1,16 @@
+## 2.3.0
+
+- sdk: '>=3.3.0 <4.0.0'
+
+- bones_ui: ^2.5.0
+- swiss_knife: ^3.2.0
+- dom_tools: ^2.3.0
+- intl_messages: ^2.3.0
+
+- build_runner: ^2.4.8
+- build_web_compilers: ^4.0.9
+- test: ^1.25.2
+
 ## 2.2.0
 
 - sdk: '>=3.0.0 <4.0.0'
