@@ -1,3 +1,19 @@
+## 2.3.1
+
+- sdk: '>=3.5.0 <4.0.0'
+
+- bones_ui: ^2.5.13
+- swiss_knife: ^3.2.3
+- amdjs: ^2.0.4
+- dom_tools: ^2.3.2
+- dom_builder: ^2.2.7
+- intl_messages: ^2.3.4
+
+- build_runner: ^2.4.15
+- build_web_compilers: ^4.1.1
+- lints: ^5.1.1
+- test: ^1.25.15
+
 ## 2.3.0
 
 - sdk: '>=3.3.0 <4.0.0'

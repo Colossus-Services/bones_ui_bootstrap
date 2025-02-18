@@ -289,8 +289,6 @@ class Moment {
         return 5;
       case DateTimeWeekDay.saturday:
         return 6;
-      default:
-        return null;
     }
   }
 

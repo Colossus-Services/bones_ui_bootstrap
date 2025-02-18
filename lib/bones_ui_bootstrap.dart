@@ -1,4 +1,4 @@
-library bones_ui_bootstrap;
+library;
 
 export 'src/bones_ui_bootstrap_base.dart';
 export 'src/bones_ui_bootstrap_icons.dart';
