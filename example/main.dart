@@ -1,3 +1,4 @@
+// ignore: deprecated_member_use
 import 'dart:html';
 
 import 'package:bones_ui/bones_ui_kit.dart';

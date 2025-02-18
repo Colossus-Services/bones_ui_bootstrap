@@ -1,5 +1,7 @@
 import 'dart:collection';
+// ignore: deprecated_member_use
 import 'dart:html';
+// ignore: deprecated_member_use
 import 'dart:js';
 
 import 'package:bones_ui/bones_ui.dart';
