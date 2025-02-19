@@ -1,13 +1,10 @@
 import 'dart:collection';
-// ignore: deprecated_member_use
-import 'dart:html';
-// ignore: deprecated_member_use
-import 'dart:js';
 
 import 'package:bones_ui/bones_ui.dart';
 import 'package:dom_tools/dom_tools.dart';
 import 'package:intl_messages/intl_messages.dart';
 import 'package:swiss_knife/swiss_knife.dart';
+import 'package:web_utils/web_utils.dart';
 
 import '../bones_ui_bootstrap_base.dart';
 import '../bones_ui_bootstrap_icons.dart';
@@ -124,9 +121,9 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     _load.onLoad.listen((_) => refresh());
   }
 
-  Element? _icon;
+  HTMLElement? _icon;
 
-  Element? _textElement;
+  HTMLElement? _textElement;
 
   @override
   dynamic render() {
@@ -142,11 +139,11 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     _icon = BootstrapIcons.svgIconElement('calendar');
 
-    _textElement = createHTML('''
+    _textElement = createHTML(html: '''
       <div class="form-control" style="max-width: 80vw; white-space: nowrap; text-overflow: ellipsis;"></div>
     ''');
 
-    _textElement!.children.add(_icon!);
+    _textElement!.appendChild(_icon!);
 
     _configureLocale();
     _buildDateRanges();
@@ -243,12 +240,12 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     print(config);
 
     JQuery.$(_textElement).call('daterangepicker',
-        [JsObject.jsify(config), ([a, b, c]) => _setDateRange(a, b)]);
+        [config.toJSDeep, ([a, b, c]) => _setDateRange(a, b)]);
 
     _updateTextElement();
   }
 
-  void _setDateRange(JsObject jsStartTime, JsObject jsEndTime) {
+  void _setDateRange(JSObject jsStartTime, JSObject jsEndTime) {
     setDateRange(Moment.jsObjectToDateTime(jsStartTime),
         Moment.jsObjectToDateTime(jsEndTime));
   }
@@ -285,16 +282,17 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       d.year, d.month, d.day, d.hour, d.minute, seconds, millisecond, 0);
 
   void _updateTextElement() {
-    if (_textElement == null) return;
+    final textElement = _textElement;
+    if (textElement == null) return;
 
     var text = dateText;
 
-    _textElement!.children.clear();
+    textElement.clear();
 
-    _textElement!.children.add(createSpan(text));
+    textElement.appendChild(createSpan(html: text));
 
     _icon!.style.paddingLeft = '10px';
-    _textElement!.children.add(_icon!);
+    textElement.appendChild(_icon!);
   }
 
   String get dateText => _getDateText(_startTime, _endTime);

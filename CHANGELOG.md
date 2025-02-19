@@ -1,3 +1,17 @@
+## 3.0.0-beta.1
+
+- Migrate `dart:html` (deprecated) to package `web`.
+
+- sdk: '>=3.6.0 <4.0.0'
+
+- bones_ui: ^3.0.0-beta.2
+- amdjs: ^3.0.0-beta.2
+- dom_tools: ^3.0.0-beta.4
+- dom_builder: ^3.0.0-beta.2
+- web: ^1.1.0
+- js_interop_utils: ^1.0.5
+- web_utils: ^1.0.6
+
 ## 2.3.1
 
 - sdk: '>=3.5.0 <4.0.0'
