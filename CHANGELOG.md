@@ -9,7 +9,6 @@
 - dom_tools: ^3.0.0-beta.4
 - dom_builder: ^3.0.0-beta.2
 - web: ^1.1.0
-- js_interop_utils: ^1.0.5
 - web_utils: ^1.0.6
 
 ## 2.3.1

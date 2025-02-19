@@ -14,7 +14,6 @@ dependencies:
   dom_builder: ^3.0.0-beta.2
   intl_messages: ^2.3.4
   web: ^1.1.0
-  js_interop_utils: ^1.0.5
   web_utils: ^1.0.6
 
 dev_dependencies:
