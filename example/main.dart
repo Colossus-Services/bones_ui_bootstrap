@@ -1,6 +1,3 @@
-// ignore: deprecated_member_use
-import 'dart:html';
-
 import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 
@@ -49,10 +46,10 @@ class MyPage extends UIComponent {
         ' ...',
         '<hr>',
         '<b>BSDateRangePicker</b>: &nbsp;',
-        BSDateRangePicker(content!),
+        BSDateRangePicker(null),
         '<hr>',
         '<b>BSAccordion</b>: <br>',
-        BSAccordion(content!, [
+        BSAccordion(null, [
           AccordionItem('A Title', 'A text'),
           AccordionItem('B Title', 'B text'),
           AccordionItem('C Title', 'C text'),
