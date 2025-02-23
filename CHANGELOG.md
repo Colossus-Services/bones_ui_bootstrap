@@ -1,3 +1,10 @@
+## 3.0.0-beta.2
+
+- Using `JSDate` from `js_interop_utils: ^1.0.6`.
+
+- bones_ui: ^3.0.0-beta.4
+- web_utils: ^1.0.8
+
 ## 3.0.0-beta.1
 
 - Migrate `dart:html` (deprecated) to package `web`.
