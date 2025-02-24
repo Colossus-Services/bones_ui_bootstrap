@@ -1,3 +1,11 @@
+## 3.0.0-beta.3
+
+- bones_ui: ^3.0.0-beta.5
+- swiss_knife: ^3.3.0
+- dom_tools: ^3.0.0-beta.5
+- intl_messages: ^3.0.0-beta.1
+- web_utils: ^1.0.9
+
 ## 3.0.0-beta.2
 
 - Using `JSDate` from `js_interop_utils: ^1.0.6`.
