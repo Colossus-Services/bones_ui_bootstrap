@@ -1,3 +1,31 @@
+## 3.0.0-beta.3
+
+- bones_ui: ^3.0.0-beta.5
+- swiss_knife: ^3.3.0
+- dom_tools: ^3.0.0-beta.5
+- intl_messages: ^3.0.0-beta.1
+- web_utils: ^1.0.9
+
+## 3.0.0-beta.2
+
+- Using `JSDate` from `js_interop_utils: ^1.0.6`.
+
+- bones_ui: ^3.0.0-beta.4
+- web_utils: ^1.0.8
+
+## 3.0.0-beta.1
+
+- Migrate `dart:html` (deprecated) to package `web`.
+
+- sdk: '>=3.6.0 <4.0.0'
+
+- bones_ui: ^3.0.0-beta.2
+- amdjs: ^3.0.0-beta.2
+- dom_tools: ^3.0.0-beta.4
+- dom_builder: ^3.0.0-beta.2
+- web: ^1.1.0
+- web_utils: ^1.0.6
+
 ## 2.3.1
 
 - sdk: '>=3.5.0 <4.0.0'

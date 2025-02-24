@@ -1,5 +1,4 @@
-// ignore: deprecated_member_use
-import 'dart:js';
+import 'dart:js_interop_unsafe';
 
 import 'package:amdjs/amdjs.dart';
 import 'package:bones_ui/bones_ui.dart';
@@ -142,12 +141,12 @@ class JQuery {
   }
 
   /// Does JQuery [query]
-  static JQuery $(dynamic query) {
-    var o = context.callMethod(r'$', [query]);
+  static JQuery $(Object? query) {
+    var o = globalContext.callMethod<JSObject?>(r'$'.toJS, query.toJSDeep);
     return JQuery(o);
   }
 
-  final JsObject? _o;
+  final JSObject? _o;
 
   JQuery(this._o);
 
@@ -156,7 +155,8 @@ class JQuery {
   /// [method] The method to call.
   /// [args] Arguments to the method.
   dynamic call(String method, [List? args]) {
-    return _o!.callMethod(method, args);
+    var arguments = args?.map((e) => (e as Object?).toJSDeep).toList();
+    return _o!.callMethodVarArgs<JSAny?>(method.toJS, arguments).dartify();
   }
 
   /// Opens a new Window.
@@ -164,7 +164,7 @@ class JQuery {
   /// - [name] of the Window.
   /// - [html] the Window HTML.
   /// - [print] if `true` will print the window.
-  static JsObject openWindow({String? name, String? html, bool print = false}) {
+  static JSObject openWindow({String? name, String? html, bool print = false}) {
     var openParams = <dynamic>[];
 
     if (name != null) {
@@ -174,18 +174,19 @@ class JQuery {
       openParams.add(name);
     }
 
-    var w = context.callMethod('open', openParams) as JsObject;
+    var w = globalContext.callMethodVarArgs<JSObject?>('open'.toJS,
+        openParams.map((e) => (e as Object?).toJSDeep).toList()) as JSObject;
 
     if (html != null && html.isNotEmpty) {
-      var doc = w['document'] as JsObject;
-      var body = doc['body'] as JsObject;
-      var o = context.callMethod(r'$', [body]) as JsObject;
-      o.callMethod('html', [html]);
+      var doc = w['document'] as JSObject;
+      var body = doc['body'] as JSObject;
+      var o = globalContext.callMethod(r'$'.toJS, body) as JSObject;
+      o.callMethod<JSAny?>('html'.toJS, html.toJS);
     }
 
     if (print) {
-      w.callMethod('focus');
-      w.callMethod('print');
+      w.callMethod<JSAny?>('focus'.toJS);
+      w.callMethod<JSAny?>('print'.toJS);
     }
 
     return w;
@@ -215,7 +216,7 @@ class Moment {
   static bool get isSuccessfullyLoaded =>
       _load.isLoaded && _load.loadSuccessful!;
 
-  static JsFunction? _moment;
+  static JSFunction? _moment;
 
   /// Loads Moment JS library.
   static Future<bool> load() {
@@ -228,7 +229,7 @@ class Moment {
       var okJS = await AMDJS.require('moment',
           jsFullPath: jsFullPath, globalJSVariableName: 'moment');
 
-      _moment = context['moment'] as JsFunction?;
+      _moment = globalContext['moment'] as JSFunction?;
 
       var okMoment = _moment != null;
 
@@ -245,29 +246,31 @@ class Moment {
 
     locale = locale.replaceFirst('_', '-');
 
-    _moment!.callMethod('locale', [locale]);
+    _moment!.callMethod<JSAny?>('locale'.toJS, locale.toJS);
     return true;
   }
 
   /// Parses a [DateTime] to a moment object.
-  static JsObject moment(DateTime dateTime) {
-    return JsObject(_moment!, [dateTime]);
+  static JSObject moment(DateTime dateTime) {
+    return _moment!.callAsConstructor<JSObject>(dateTime.toJSDeep);
   }
 
   /// Formats [dateTime] to [format].
-  static String? format(DateTime dateTime, format) {
-    return moment(dateTime).callMethod('format', format);
+  static String? format(DateTime dateTime, Object format) {
+    return moment(dateTime)
+        .callMethod<JSString?>('format'.toJS, format.toJSDeep)
+        ?.toDart;
   }
 
-  static String? jsObjectFormat(JsObject moment, format) {
-    return moment.callMethod('format', [format]);
+  static String? jsObjectFormat(JSObject moment, Object format) {
+    return moment.callMethod<JSString>('format'.toJS, format.toJSDeep).toDart;
   }
 
-  static int? jsObjectToMillisecondsSinceEpoch(JsObject moment) {
-    return moment.callMethod('valueOf');
+  static int? jsObjectToMillisecondsSinceEpoch(JSObject moment) {
+    return moment.callMethod<JSNumber?>('valueOf'.toJS)?.toDartInt;
   }
 
-  static DateTime jsObjectToDateTime(JsObject moment) {
+  static DateTime jsObjectToDateTime(JSObject moment) {
     var time = jsObjectToMillisecondsSinceEpoch(moment)!;
     return DateTime.fromMillisecondsSinceEpoch(time);
   }
