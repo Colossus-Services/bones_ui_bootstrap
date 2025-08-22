@@ -85,12 +85,12 @@ class BSAccordion extends UIComponent {
     }
 
     return $div(
-        classes: ['card', item.classes],
+        classes: ['accordion-item', item.classes],
         style: item.style,
         content: [
           $div(
               id: '$id-heading-$itemIndex',
-              classes: ['card-header', item.headClasses],
+              classes: ['accordion-header', item.headClasses],
               style: item.headStyle,
               content: $tag('h2',
                   classes: 'mb-0',
@@ -98,8 +98,8 @@ class BSAccordion extends UIComponent {
                       classes:
                           'd-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}',
                       attributes: {
-                        'data-toggle': 'collapse',
-                        'data-target': '#$id-collapse-$itemIndex',
+                        'data-bs-toggle': 'collapse',
+                        'data-bs-target': '#$id-collapse-$itemIndex',
                         'aria-expanded': '$expanded',
                         'aria-controls': '$id-collapse-$itemIndex'
                       },
@@ -107,14 +107,14 @@ class BSAccordion extends UIComponent {
           $div(
               id: '$id-collapse-$itemIndex',
               classes: [
-                'card-body',
+                'accordion-body',
                 'collapse ${expanded ? 'show' : ''}',
                 item.bodyClasses
               ],
               style: item.bodyStyle,
               attributes: {
                 'aria-labelledby': '$id-heading-$itemIndex',
-                'data-parent': '#$id'
+                'data-bs-parent': '#$id'
               },
               content: item.content),
         ]);
