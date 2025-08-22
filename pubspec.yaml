@@ -1,26 +1,26 @@
 name: bones_ui_bootstrap
 description: Adds Bootstrap 4+ support to Dart package bones_ui, allowing use of Bootstrap components and CSS.
-version: 2.3.1
+version: 2.4.0-beta.1
 homepage: https://github.com/Colossus-Services/bones_ui_bootstrap
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
 
 dependencies:
-  bones_ui: ^2.5.13
+  bones_ui: ^2.5.21
   swiss_knife: ^3.2.3
   amdjs: ^2.0.4
   dom_tools: ^2.3.2
   dom_builder: ^2.2.7
-  intl_messages: ^2.3.4
+  intl_messages: ^2.3.5
 
 dev_dependencies:
-  build_runner: ^2.4.15
-  build_web_compilers: ^4.1.1
+  build_runner: ^2.5.4
+  build_web_compilers: ^4.2.2
   sass_builder: ^2.2.1 # To automatically build SCSS files.
   lints: ^5.1.1
-  dependency_validator: ^3.2.3
-  test: ^1.25.15
+  #dependency_validator: ^3.2.3
+  test: ^1.26.3
 
 #dependency_overrides:
 #  bones_ui:

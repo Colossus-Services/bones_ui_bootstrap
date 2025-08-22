@@ -1,3 +1,21 @@
+## 2.4.0-beta.1
+
+- Bootstrap 5.3.7
+  - Remove `JQuery`.
+
+- Moment 2.30.1
+
+- sdk: '>=3.6.0 <4.0.0'
+
+- bones_ui: ^2.5.16
+- intl_messages: ^2.3.5
+
+- build_runner: ^2.5.4
+- build_web_compilers: ^4.2.2
+- test: ^1.26.3
+
+- Comment: `dependency_validator: ^3.2.3`.
+
 ## 2.3.1
 
 - sdk: '>=3.5.0 <4.0.0'
