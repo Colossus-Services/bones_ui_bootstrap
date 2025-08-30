@@ -1,9 +1,12 @@
 ## 2.4.0-beta.1
 
-- Bootstrap 5.3.7
-  - Remove `JQuery`.
+- Bootstrap 5.3.7: do not load `JQuery`.
+
+- JQuery 3.7.1
 
 - Moment 2.30.1
+
+- `BSDateRangePicker`: load `JQuery`.
 
 - sdk: '>=3.6.0 <4.0.0'
 

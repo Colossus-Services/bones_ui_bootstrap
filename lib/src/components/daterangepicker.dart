@@ -29,6 +29,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   /// Loads [BSDateRangePicker] component and related JS libraries and CSS.
   static void load() {
     _load.load(() async {
+      var ok1 = await JQuery.load();
       var ok2 = await Moment.load();
       var ok3 = await Bootstrap.load();
 
@@ -37,7 +38,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       var ok4 = await addJavaScriptSource(
           'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.js');
 
-      var allOk = ok2 && ok3 && ok4 && ok5;
+      var allOk = ok1 && ok2 && ok3 && ok4 && ok5;
       return allOk;
     });
   }
@@ -241,9 +242,8 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     print(config);
 
-    //TODO: fix daterangepicker
-    // JQuery.$(_textElement).call('daterangepicker',
-    //     [JsObject.jsify(config), ([a, b, c]) => _setDateRange(a, b)]);
+    JQuery.$(_textElement).call('daterangepicker',
+        [JsObject.jsify(config), ([a, b, c]) => _setDateRange(a, b)]);
 
     _updateTextElement();
   }
