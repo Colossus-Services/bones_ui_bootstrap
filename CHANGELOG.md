@@ -8,6 +8,10 @@
 
 - `BSDateRangePicker`: load `JQuery`.
 
+- Date Range Picker 3.1
+
+- Bootstrap Icons 1.13.1
+
 - sdk: '>=3.6.0 <4.0.0'
 
 - bones_ui: ^2.5.16
