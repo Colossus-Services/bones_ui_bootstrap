@@ -102,6 +102,97 @@ class Bootstrap {
   }
 }
 
+/// JQuery wrapper and loader.
+class JQuery {
+  // ignore: non_constant_identifier_names
+  static final String VERSION = '3.7.1';
+
+  // ignore: non_constant_identifier_names
+  static final String PATH = 'jquery-$VERSION';
+
+  // ignore: non_constant_identifier_names
+  static final String PATH_JS = '$PATH/js';
+
+  static final LoadController _load = LoadController('JSJQuery');
+
+  /// [EventStream] for loading event.
+  static EventStream<LoadController> get onLoad => _load.onLoad;
+
+  /// Returns [true] if JS library is loaded.
+  static bool get isLoaded => _load.isLoaded;
+
+  /// Returns [true] if JS library is successfully loaded.
+  static bool get isSuccessfullyLoaded =>
+      _load.isLoaded && _load.loadSuccessful!;
+
+  /// Loads JQuery JS library.
+  static Future<bool> load() {
+    return _load.load(() async {
+      var jsFile = ENABLE_MINIFIED ? 'jquery.min.js' : 'jquery.js';
+      var jsFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_JS/$jsFile';
+
+      AMDJS.verbose = true;
+
+      var okJS = await AMDJS.require('jquery',
+          jsFullPath: jsFullPath, globalJSVariableName: 'jquery');
+
+      print('LOADED[js: $okJS]> JQuery $VERSION');
+
+      return okJS;
+    });
+  }
+
+  /// Does JQuery [query]
+  static JQuery $(dynamic query) {
+    var o = context.callMethod(r'$', [query]);
+    return JQuery(o);
+  }
+
+  final JsObject? _o;
+
+  JQuery(this._o);
+
+  /// Makes a JQuery call.
+  ///
+  /// [method] The method to call.
+  /// [args] Arguments to the method.
+  dynamic call(String method, [List? args]) {
+    return _o!.callMethod(method, args);
+  }
+
+  /// Opens a new Window.
+  ///
+  /// - [name] of the Window.
+  /// - [html] the Window HTML.
+  /// - [print] if `true` will print the window.
+  static JsObject openWindow({String? name, String? html, bool print = false}) {
+    var openParams = <dynamic>[];
+
+    if (name != null) {
+      if (openParams.isEmpty) {
+        openParams.add(null);
+      }
+      openParams.add(name);
+    }
+
+    var w = context.callMethod('open', openParams) as JsObject;
+
+    if (html != null && html.isNotEmpty) {
+      var doc = w['document'] as JsObject;
+      var body = doc['body'] as JsObject;
+      var o = context.callMethod(r'$', [body]) as JsObject;
+      o.callMethod('html', [html]);
+    }
+
+    if (print) {
+      w.callMethod('focus');
+      w.callMethod('print');
+    }
+
+    return w;
+  }
+}
+
 /// Moment wrapper and loader.
 class Moment {
   // ignore: non_constant_identifier_names
