@@ -76,12 +76,11 @@ class Bootstrap {
         await Future.delayed(delay);
       }
 
-      //TODO: enable tooltips:
-      var tooltipTriggerList =
+      final tooltipTriggerList =
           document.querySelectorAll('[data-bs-toggle="tooltip"]');
 
-      for (var e in tooltipTriggerList) {
-        // bootstrap.ToolTip(e)
+      for (final el in tooltipTriggerList) {
+        context.callMethod('bootstrap.Tooltip', [el]);
       }
 
       return tooltipTriggerList.isNotEmpty;
