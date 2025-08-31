@@ -14,7 +14,7 @@
 
 - sdk: '>=3.6.0 <4.0.0'
 
-- bones_ui: ^2.5.16
+- bones_ui: ^2.5.21
 - intl_messages: ^2.3.5
 
 - build_runner: ^2.5.4
