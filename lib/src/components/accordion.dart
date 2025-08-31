@@ -85,38 +85,46 @@ class BSAccordion extends UIComponent {
     }
 
     return $div(
-        classes: ['accordion-item', item.classes],
-        style: item.style,
-        content: [
-          $div(
-              id: '$id-heading-$itemIndex',
-              classes: ['accordion-header', item.headClasses],
-              style: item.headStyle,
-              content: $tag('h2',
-                  classes: 'mb-0',
-                  content: $button(
-                      classes:
-                          'd-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}',
-                      attributes: {
-                        'data-bs-toggle': 'collapse',
-                        'data-bs-target': '#$id-collapse-$itemIndex',
-                        'aria-expanded': '$expanded',
-                        'aria-controls': '$id-collapse-$itemIndex'
-                      },
-                      content: item.title))),
-          $div(
-              id: '$id-collapse-$itemIndex',
-              classes: [
-                'accordion-body',
-                'collapse ${expanded ? 'show' : ''}',
-                item.bodyClasses
-              ],
-              style: item.bodyStyle,
-              attributes: {
-                'aria-labelledby': '$id-heading-$itemIndex',
-                'data-bs-parent': '#$id'
-              },
-              content: item.content),
-        ]);
+      classes: ['accordion-item', item.classes],
+      style: item.style,
+      content: [
+        $div(
+            id: '$id-heading-$itemIndex',
+            classes: ['accordion-header', item.headClasses],
+            style: item.headStyle,
+            content: $tag('h2',
+                classes: 'mb-0',
+                content: $button(classes: [
+                  'd-flex w-100 align-items-center justify-content-between',
+                  'accordion-button',
+                  if (!expanded) 'collapsed',
+                ], attributes: {
+                  'data-bs-toggle': 'collapse',
+                  'data-bs-target': '#$id-collapse-$itemIndex',
+                  'aria-expanded': '$expanded',
+                  'aria-controls': '$id-collapse-$itemIndex'
+                }, content: item.title))),
+        $div(
+          id: '$id-collapse-$itemIndex',
+          classes: [
+            'accordion-collapse',
+            'collapse',
+            if (expanded) 'show',
+          ],
+          attributes: {
+            'aria-labelledby': '$id-heading-$itemIndex',
+            'data-bs-parent': '#$id',
+          },
+          content: $div(
+            classes: [
+              'accordion-body',
+              item.bodyClasses,
+            ],
+            style: item.bodyStyle,
+            content: item.content,
+          ),
+        ),
+      ],
+    );
   }
 }
