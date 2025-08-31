@@ -1,3 +1,28 @@
+## 2.4.0-beta.1
+
+- Bootstrap 5.3.7: do not load `JQuery`.
+
+- JQuery 3.7.1
+
+- Moment 2.30.1
+
+- `BSDateRangePicker`: load `JQuery`.
+
+- Date Range Picker 3.1
+
+- Bootstrap Icons 1.13.1
+
+- sdk: '>=3.6.0 <4.0.0'
+
+- bones_ui: ^2.5.21
+- intl_messages: ^2.3.5
+
+- build_runner: ^2.5.4
+- build_web_compilers: ^4.2.2
+- test: ^1.26.3
+
+- Comment: `dependency_validator: ^3.2.3`.
+
 ## 2.3.1
 
 - sdk: '>=3.5.0 <4.0.0'
