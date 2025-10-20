@@ -1,3 +1,17 @@
+## 3.0.0-beta.4
+
+- bones_ui: ^3.0.0-beta.7
+- swiss_knife: ^3.3.3
+- dom_tools: ^3.0.0-beta.12
+- dom_builder: ^3.0.0-beta.4
+- web: ^1.1.1
+- web_utils: ^1.0.15
+
+- build_runner: ^2.10.0
+- build_web_compilers: ^4.3.0
+- sass_builder: ^2.4.0
+- test: ^1.26.3
+
 ## 3.0.0-beta.3
 
 - bones_ui: ^3.0.0-beta.5
