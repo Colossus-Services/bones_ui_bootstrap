@@ -1,11 +1,15 @@
 ## 3.0.0-beta.4
 
+- `BSDateRangePicker`:
+  - `_configureDatePicker`:
+    - Fix `JQuery.$(_textElement).call()`, pass fallback as `_jsQueryCallback.toJS`, avoiding `jsify` issues.
+
 - bones_ui: ^3.0.0-beta.7
 - swiss_knife: ^3.3.3
 - dom_tools: ^3.0.0-beta.12
 - dom_builder: ^3.0.0-beta.4
 - web: ^1.1.1
-- web_utils: ^1.0.15
+- web_utils: ^1.0.16
 
 - build_runner: ^2.10.0
 - build_web_compilers: ^4.3.0
