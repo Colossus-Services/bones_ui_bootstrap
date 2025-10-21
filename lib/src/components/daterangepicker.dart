@@ -239,13 +239,21 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     print(config);
 
-    JQuery.$(_textElement).call('daterangepicker',
-        [config.toJSDeep, ([a, b, c]) => _setDateRange(a, b)]);
+    JQuery.$(_textElement).call(
+      'daterangepicker',
+      [config.toJSDeep, _jsQueryCallback.toJS],
+    );
 
     _updateTextElement();
   }
 
-  void _setDateRange(JSObject jsStartTime, JSObject jsEndTime) {
+  void _jsQueryCallback([JSObject? a, JSObject? b, JSObject? c]) {
+    _setDateRange(a, b);
+  }
+
+  void _setDateRange(JSObject? jsStartTime, JSObject? jsEndTime) {
+    if (jsStartTime == null || jsEndTime == null) return;
+
     setDateRange(Moment.jsObjectToDateTime(jsStartTime),
         Moment.jsObjectToDateTime(jsEndTime));
   }
