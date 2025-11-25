@@ -251,7 +251,9 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     _updateTextElement();
   }
 
-  void _jsQueryCallback([JSObject? a, JSObject? b, JSObject? c]) {
+  void _jsQueryCallback(JSArray args) {
+    var a = args[0].asJSObject;
+    var b = args[1].asJSObject;
     _setDateRange(a, b);
   }
 

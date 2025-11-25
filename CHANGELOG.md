@@ -1,3 +1,19 @@
+## 3.0.0-beta.5
+
+- `BSDateRangePicker`:
+  - `_jsQueryCallback`: change parameters to `JSArray args` to avoid a bug passing a JS string to a JSObject in a Dart function.
+
+- bones_ui: ^3.0.0-beta.19
+- dom_tools: ^3.0.0-beta.13
+- dom_builder: ^3.0.0-beta.7
+- web_utils: ^1.0.19
+
+- build_runner: ^2.10.4
+- build_web_compilers: ^4.4.3
+- test: ^1.28.0
+
+- Removed dev dependency `sass_builder`.
+
 ## 3.0.0-beta.4
 
 - `BSDateRangePicker`:
