@@ -252,7 +252,8 @@ class Moment {
 
   /// Parses a [DateTime] to a moment object.
   static JSObject moment(DateTime dateTime) {
-    return _moment!.callAsConstructor<JSObject>(dateTime.toJSDeep);
+    var dateStr = dateTime.toIso8601String();
+    return _moment!.callAsConstructor<JSObject>(dateStr.toJS);
   }
 
   /// Formats [dateTime] to [format].

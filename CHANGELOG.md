@@ -1,3 +1,12 @@
+## 3.0.0-beta.6
+
+- `Moment`:
+  - `moment(DateTime)`: changed to construct moment object from ISO 8601 string instead of `dateTime.toJSDeep` conversion.
+
+- dom_tools: ^3.0.0-beta.15
+- dom_builder: ^3.0.0-beta.8
+- build_web_compilers: ^4.4.6
+
 ## 3.0.0-beta.5
 
 - `BSDateRangePicker`:
