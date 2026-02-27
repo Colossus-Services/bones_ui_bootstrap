@@ -1,3 +1,18 @@
+## 3.0.0-beta.7
+
+- `pubspec.yaml`:
+  - Updated dependencies:
+    - `bones_ui`: from `^3.0.0-beta.19` to `^3.0.12`
+    - `swiss_knife`: from `^3.3.3` to `^3.3.14`
+    - `dom_tools`: from `^3.0.0-beta.15` to `^3.0.0`
+    - `dom_builder`: from `^3.0.0-beta.8` to `^3.0.7`
+    - `intl_messages`: from `^3.0.0-beta.1` to `^3.0.0`
+    - `web_utils`: from `^1.0.19` to `^1.0.23`
+  - Updated dev_dependencies:
+    - `build_runner`: from `^2.10.4` to `^2.11.1`
+    - `build_web_compilers`: from `^4.4.6` to `^4.4.13`
+    - `test`: from `^1.28.0` to `^1.30.0`
+
 ## 3.0.0-beta.6
 
 - `Moment`:
