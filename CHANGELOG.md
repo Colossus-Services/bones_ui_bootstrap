@@ -1,3 +1,20 @@
+## 4.0.2
+
+- Bootstrap 4 maintenance release (branch `4.x`).
+
+- `JQuery.openWindow`: doesn't fail when JQuery is not loaded (falls back to the `body` `innerHTML`).
+- `Moment.locale`: returns `false` instead of throwing when Moment is not loaded yet.
+- `BSDateRangePicker`: removed debug `print`s (config on each render and the selected range on each change).
+- `BootstrapIcons`: removed a stray `font` entry from `iconsList` (no such icon).
+- README: Bootstrap Icons version (1.10.4), Date Range Picker version, `4.x` note and updated usage example.
+
+- Tests:
+  - New `bones_ui_bootstrap_unloaded_test.dart`: `Moment.locale` and `JQuery.openWindow` without the libraries loaded.
+  - Integration: `JQuery.openWindow` with JQuery.
+  - New VM tests: `iconsList` matches `lib/icons/*.svg`; versions consistent across code, bundled assets,
+    `pubspec.yaml`, CHANGELOG and README; no stale bundled libraries; `daterangepicker.js` local patches present.
+  - CI: also run VM tests.
+
 ## 4.0.1
 
 - `BSAccordion`:

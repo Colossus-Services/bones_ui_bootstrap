@@ -174,7 +174,8 @@ class JQuery {
   /// Opens a new Window.
   ///
   /// - [name] of the Window.
-  /// - [html] the Window HTML.
+  /// - [html] the Window HTML. Set with JQuery `html()` if JQuery is loaded,
+  ///   otherwise with the `body` `innerHTML` (inline scripts are not executed).
   /// - [print] if `true` will print the window.
   static JSObject openWindow({String? name, String? html, bool print = false}) {
     var openParams = <dynamic>[];
@@ -196,8 +197,13 @@ class JQuery {
     if (html != null && html.isNotEmpty) {
       var doc = w['document'] as JSObject;
       var body = doc['body'] as JSObject;
-      var o = globalContext.callMethod(r'$'.toJS, body) as JSObject;
-      o.callMethod<JSAny?>('html'.toJS, html.toJS);
+
+      if (globalContext[r'$'].isA<JSFunction>()) {
+        var o = globalContext.callMethod(r'$'.toJS, body) as JSObject;
+        o.callMethod<JSAny?>('html'.toJS, html.toJS);
+      } else {
+        body['innerHTML'] = html.toJS;
+      }
     }
 
     if (print) {
@@ -257,6 +263,9 @@ class Moment {
   }
 
   /// Sets the locale of [Moment].
+  ///
+  /// Returns `false` if [locale] is empty or if [Moment] is not loaded yet
+  /// (it triggers [load]; `await Moment.load()` before calling it).
   static bool locale(String locale) {
     load();
 
@@ -265,7 +274,10 @@ class Moment {
 
     locale = locale.replaceFirst('_', '-');
 
-    _moment!.callMethod<JSAny?>('locale'.toJS, locale.toJS);
+    var moment = _moment;
+    if (moment == null) return false;
+
+    moment.callMethod<JSAny?>('locale'.toJS, locale.toJS);
     return true;
   }
 

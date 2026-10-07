@@ -11,16 +11,19 @@
 [![License](https://img.shields.io/github/license/Colossus-Services/bones_ui_bootstrap?logo=open-source-initiative&logoColor=green)](https://github.com/Colossus-Services/bones_ui_bootstrap/blob/master/LICENSE)
 
 
-Adds [Bootstrap][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use of Bootstrap components and CSS.
+Adds [Bootstrap 4][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use of Bootstrap components and CSS.
+
+> This is the `4.x` line (Bootstrap 4, maintenance). For Bootstrap 5 use version `5.x` (branch `master`).
 
 ## Embedded JavaScript Libraries 
 
 This package automatically loads (and bundles) the necessaries JavaScript libraries for [Bootstrap][bootstrap].
 
 - Bootstrap: 4.6.1
-- Bootstrap Icons: 1.8.1
+- Bootstrap Icons: 1.10.4
 - JQuery: 3.5.1
 - Moment: 2.25.2
+- Date Range Picker: 3.0.5
 
 NOTE: You don't need to add any HTML or JavaScript code to your project to have full integration of
 [Bootstrap][bootstrap] with [Bones_UI][bones_ui].
@@ -30,13 +33,11 @@ NOTE: You don't need to add any HTML or JavaScript code to your project to have 
 A simple usage example:
 
 ```dart
-import 'dart:html';
-
 import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 
 class MyUI extends UIRoot {
-  MyUI(Element rootContainer) : super(rootContainer);
+  MyUI(super.rootContainer);
 
   @override
   void configure() {
@@ -51,7 +52,7 @@ class MyUI extends UIRoot {
 }
 
 class MyPage extends UIComponent {
-  MyPage(Element parent) : super(parent);
+  MyPage(super.parent);
 
   @override
   dynamic render() {

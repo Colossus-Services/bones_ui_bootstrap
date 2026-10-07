@@ -88,6 +88,18 @@ void main() {
         div.remove();
       }
     });
+
+    test('openWindow (with JQuery)', () {
+      var w = JQuery.openWindow(html: '<p id="ow">Hello <b>JQuery</b></p>');
+      try {
+        var doc = w['document'] as JSObject;
+        var p = doc.callMethod<JSObject?>('getElementById'.toJS, 'ow'.toJS);
+        expect(p, isNotNull);
+        expect((p!['textContent'] as JSString).toDart, equals('Hello JQuery'));
+      } finally {
+        w.callMethod<JSAny?>('close'.toJS);
+      }
+    });
   });
 
   group('Integration: Moment', () {
