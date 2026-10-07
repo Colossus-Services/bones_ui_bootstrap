@@ -354,12 +354,14 @@ building-x.svg currency-rupee.svg filetype-key.svg motherboard-fill.svg sign-tur
   }
 
   /// Returns the HTML of a SVG icon with [name].
-  static String? svgIconHTML(String name,
-      {String? title,
-      int? width,
-      int? height,
-      String? classes,
-      String? style}) {
+  static String? svgIconHTML(
+    String name, {
+    String? title,
+    int? width,
+    int? height,
+    String? classes,
+    String? style,
+  }) {
     var path = getIconPath(name);
     if (path == null) return null;
 
@@ -391,18 +393,22 @@ building-x.svg currency-rupee.svg filetype-key.svg motherboard-fill.svg sign-tur
   }
 
   /// Returns an [Element] of a SVG icon with [name].
-  static HTMLElement svgIconElement(String name,
-      {String? title,
-      int? width,
-      int? height,
-      String? classes,
-      String? style}) {
-    var iconHTML = svgIconHTML(name,
-        title: title,
-        width: width,
-        height: height,
-        classes: classes,
-        style: style);
+  static HTMLElement svgIconElement(
+    String name, {
+    String? title,
+    int? width,
+    int? height,
+    String? classes,
+    String? style,
+  }) {
+    var iconHTML = svgIconHTML(
+      name,
+      title: title,
+      width: width,
+      height: height,
+      classes: classes,
+      style: style,
+    );
     return createHTML(html: iconHTML);
   }
 

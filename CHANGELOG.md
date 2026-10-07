@@ -1,6 +1,7 @@
-## 3.0.0-beta.8
+## 4.0.0
 
 - `pubspec.yaml`:
+  - sdk: from `>=3.6.0 <4.0.0` to `>=3.10.0 <4.0.0`
   - Updated dependencies:
     - `bones_ui`: from `^3.0.12` to `^3.1.4`
     - `dom_tools`: from `^3.0.0` to `^3.1.0`

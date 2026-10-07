@@ -18,14 +18,17 @@ class AccordionItem {
   dynamic bodyClasses;
   dynamic bodyStyle;
 
-  AccordionItem(this.title, this.content,
-      {this.expanded = false,
-      this.classes,
-      this.style,
-      this.headClasses,
-      this.headStyle,
-      this.bodyClasses,
-      this.bodyStyle});
+  AccordionItem(
+    this.title,
+    this.content, {
+    this.expanded = false,
+    this.classes,
+    this.style,
+    this.headClasses,
+    this.headStyle,
+    this.bodyClasses,
+    this.bodyStyle,
+  });
 }
 
 /// Bootstrap Accordion component.
@@ -45,14 +48,20 @@ class BSAccordion extends UIComponent {
   /// Index of expanded item.
   final int? expandIndex;
 
-  BSAccordion(super.parent, this.items,
-      {String? id, this.expandIndex, dynamic classes, dynamic style})
-      : super(
-            id: id ?? '__BSAccordion__${++_idCounter}',
-            componentClass: 'ui-bs-accordion',
-            classes: 'ui-bs-accordion',
-            classes2: classes,
-            style2: style) {
+  BSAccordion(
+    super.parent,
+    this.items, {
+    String? id,
+    this.expandIndex,
+    dynamic classes,
+    dynamic style,
+  }) : super(
+         id: id ?? '__BSAccordion__${++_idCounter}',
+         componentClass: 'ui-bs-accordion',
+         classes: 'ui-bs-accordion',
+         classes2: classes,
+         style2: style,
+       ) {
     if (this.id.isEmpty) {
       throw ArgumentError('id is required for BSAccordion');
     }
@@ -80,43 +89,50 @@ class BSAccordion extends UIComponent {
     var expanded = item.expanded;
 
     if (!expanded && expandIndex != null) {
-      expanded = itemIndex == expandIndex ||
+      expanded =
+          itemIndex == expandIndex ||
           (expandIndex! < 0 && itemIndex == items.length + expandIndex!);
     }
 
     return $div(
-        classes: ['card', item.classes],
-        style: item.style,
-        content: [
-          $div(
-              id: '$id-heading-$itemIndex',
-              classes: ['card-header', item.headClasses],
-              style: item.headStyle,
-              content: $tag('h2',
-                  classes: 'mb-0',
-                  content: $button(
-                      classes:
-                          'd-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}',
-                      attributes: {
-                        'data-toggle': 'collapse',
-                        'data-target': '#$id-collapse-$itemIndex',
-                        'aria-expanded': '$expanded',
-                        'aria-controls': '$id-collapse-$itemIndex'
-                      },
-                      content: item.title))),
-          $div(
-              id: '$id-collapse-$itemIndex',
-              classes: [
-                'card-body',
-                'collapse ${expanded ? 'show' : ''}',
-                item.bodyClasses
-              ],
-              style: item.bodyStyle,
+      classes: ['card', item.classes],
+      style: item.style,
+      content: [
+        $div(
+          id: '$id-heading-$itemIndex',
+          classes: ['card-header', item.headClasses],
+          style: item.headStyle,
+          content: $tag(
+            'h2',
+            classes: 'mb-0',
+            content: $button(
+              classes:
+                  'd-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}',
               attributes: {
-                'aria-labelledby': '$id-heading-$itemIndex',
-                'data-parent': '#$id'
+                'data-toggle': 'collapse',
+                'data-target': '#$id-collapse-$itemIndex',
+                'aria-expanded': '$expanded',
+                'aria-controls': '$id-collapse-$itemIndex',
               },
-              content: item.content),
-        ]);
+              content: item.title,
+            ),
+          ),
+        ),
+        $div(
+          id: '$id-collapse-$itemIndex',
+          classes: [
+            'card-body',
+            'collapse ${expanded ? 'show' : ''}',
+            item.bodyClasses,
+          ],
+          style: item.bodyStyle,
+          attributes: {
+            'aria-labelledby': '$id-heading-$itemIndex',
+            'data-parent': '#$id',
+          },
+          content: item.content,
+        ),
+      ],
+    );
   }
 }

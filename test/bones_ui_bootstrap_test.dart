@@ -41,11 +41,8 @@ class MyHome extends UIComponent {
   MyHome(super.parent) : super(id: 'my-home');
 
   @override
-  render() => BSAccordion(
-      content!,
-      [
-        AccordionItem('Item A', 'aaa'),
-        AccordionItem('Item B', 'bbb'),
-      ],
-      id: 'my-accordion');
+  render() => BSAccordion(content!, [
+    AccordionItem('Item A', 'aaa'),
+    AccordionItem('Item B', 'bbb'),
+  ], id: 'my-accordion');
 }
