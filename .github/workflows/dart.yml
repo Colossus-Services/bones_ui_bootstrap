@@ -2,9 +2,9 @@ name: Dart CI
 
 on:
   push:
-    branches: [ master, web-migration ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, web-migration ]
+    branches: [ master ]
 
 jobs:
   build:

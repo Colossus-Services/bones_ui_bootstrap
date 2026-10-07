@@ -1,5 +1,8 @@
 ## 4.0.0
 
+- Maintenance release for **Bootstrap 4** (`package:web` / JS interop migration, from `3.0.0-beta.x`).
+  - The Bootstrap 5 work (published as `2.4.0-beta.1`) moved to branch `bootstrap-5`, for a future `5.0.0`.
+
 - `pubspec.yaml`:
   - sdk: from `>=3.6.0 <4.0.0` to `>=3.10.0 <4.0.0`
   - Updated dependencies:
@@ -14,8 +17,6 @@
     - `lints`: from `^5.1.1` to `^6.1.0`
     - `dependency_validator`: from `^3.2.3` to `^5.1.0`
     - `test`: from `^1.30.0` to `^1.32.0`
-
-- CI: also run on pushes/PRs to `web-migration`.
 
 ## 3.0.0-beta.7
 
