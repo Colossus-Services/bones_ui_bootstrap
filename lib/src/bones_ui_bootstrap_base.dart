@@ -1,4 +1,3 @@
-import 'dart:html';
 // ignore: deprecated_member_use
 import 'dart:js';
 
@@ -16,7 +15,7 @@ final bool ENABLE_MINIFIED = true;
 /// Bootstrap wrapper and loader.
 class Bootstrap {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '5.3.7';
+  static final String VERSION = '4.6.1';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'bootstrap-$VERSION';
@@ -44,6 +43,8 @@ class Bootstrap {
     return _load.load(() async {
       AMDJS.verbose = true;
 
+      var okJQuery = await JQuery.load();
+
       var cssFile = ENABLE_MINIFIED ? 'bootstrap.min.css' : 'bootstrap.css';
       var cssFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/$cssFile';
 
@@ -56,9 +57,10 @@ class Bootstrap {
       var okJS = await AMDJS.require('bootstrap',
           jsFullPath: jsFullPath, addScriptTagInsideBody: true);
 
-      print('LOADED[BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
+      print(
+          'LOADED[jquery: $okJQuery ; BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
 
-      return okCss && okJS;
+      return okJQuery && okCss && okJS;
     });
   }
 
@@ -70,20 +72,18 @@ class Bootstrap {
     if (_enableTooltip && !force) return true;
     _enableTooltip = true;
 
+    if (!JQuery.isLoaded) {
+      await JQuery.load();
+    }
+
     try {
       delay ??= Duration(milliseconds: 100);
       if (delay.inMilliseconds > 0) {
         await Future.delayed(delay);
       }
 
-      final tooltipTriggerList =
-          document.querySelectorAll('[data-bs-toggle="tooltip"]');
-
-      for (final el in tooltipTriggerList) {
-        context.callMethod('bootstrap.Tooltip', [el]);
-      }
-
-      return tooltipTriggerList.isNotEmpty;
+      var ret = JQuery.$('[data-toggle="tooltip"]').call('tooltip');
+      return ret != null;
     } catch (e) {
       print(e);
       return false;
@@ -104,7 +104,7 @@ class Bootstrap {
 /// JQuery wrapper and loader.
 class JQuery {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '3.7.1';
+  static final String VERSION = '3.5.1';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'jquery-$VERSION';
@@ -195,7 +195,7 @@ class JQuery {
 /// Moment wrapper and loader.
 class Moment {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '2.30.1';
+  static final String VERSION = '2.25.2';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'moment-$VERSION';
