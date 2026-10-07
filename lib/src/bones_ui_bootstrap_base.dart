@@ -271,6 +271,9 @@ class Moment {
   }
 
   /// Sets the locale of [Moment].
+  ///
+  /// Returns `false` if [locale] is empty or if [Moment] is not loaded yet
+  /// (it triggers [load]; `await Moment.load()` before calling it).
   static bool locale(String locale) {
     load();
 
@@ -279,7 +282,10 @@ class Moment {
 
     locale = locale.replaceFirst('_', '-');
 
-    _moment!.callMethod<JSAny?>('locale'.toJS, locale.toJS);
+    var moment = _moment;
+    if (moment == null) return false;
+
+    moment.callMethod<JSAny?>('locale'.toJS, locale.toJS);
     return true;
   }
 

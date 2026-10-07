@@ -249,8 +249,6 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       if (configLocale.isNotEmpty) 'locale': configLocale,
     };
 
-    print(config);
-
     JQuery.$(
       _textElement,
     ).call('daterangepicker', [config.toJSDeep, _jsQueryCallback.toJS]);
@@ -295,8 +293,6 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     _startTime = startTime;
     _endTime = endTime;
-
-    print('Selected Date Range:  $startTime  >>  $endTime');
 
     _updateTextElement();
 

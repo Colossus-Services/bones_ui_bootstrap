@@ -1,3 +1,13 @@
+## 5.0.1
+
+- `Moment.locale`: returns `false` instead of throwing when Moment is not loaded yet.
+- `BSDateRangePicker`: removed debug `print`s (config on each render and the selected range on each change).
+
+- Tests:
+  - New `bones_ui_bootstrap_unloaded_test.dart`: `Moment.locale` with Moment not loaded.
+  - VM: no debug prints in `BSDateRangePicker`; stale-library check ignores directories with only hidden files
+    (e.g. `.DS_Store` left by git when switching branches).
+
 ## 5.0.0
 
 - **Bootstrap 5** (5.3.7). For Bootstrap 4 use version `4.x` (branch `4.x`).
