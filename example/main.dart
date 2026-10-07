@@ -11,7 +11,9 @@ class MyUI extends UIRoot {
 
   @override
   UIComponent renderContent() {
-    return MyPage(content);
+    var page = MyPage(content);
+    Bootstrap.enableTooltipOnRender(page);
+    return page;
   }
 }
 
@@ -38,7 +40,11 @@ class MyPage extends UIComponent {
           '''
         <br>
         <h1 class="mt-5">Welcome</h1>
-        This is <b>Bones_UI</b> with <b>Bootstrap</b>!
+        This is <b>Bones_UI</b> with <b>Bootstrap ${Bootstrap.VERSION}</b>!
+        <br><br>
+        <button type="button" class="btn btn-secondary"
+            data-bs-toggle="tooltip" data-bs-placement="right"
+            data-bs-title="A Bootstrap 5 tooltip">Tooltip</button>
         <br><br>
       ''',
           '<hr>',
@@ -64,6 +70,11 @@ class MyPage extends UIComponent {
             AccordionItem('B Title', 'B text'),
             AccordionItem('C Title', 'C text'),
           ]),
+          '<br><b>BSAccordion</b> (<code>flush: true</code>): <br>',
+          BSAccordion(null, [
+            AccordionItem('A Title', 'A text'),
+            AccordionItem('B Title', 'B text'),
+          ], flush: true),
         ],
       ),
       $footer(
@@ -71,7 +82,7 @@ class MyPage extends UIComponent {
         content: [
           $hr,
           $div(
-            classes: 'container text-muted pb-2',
+            classes: 'container text-body-secondary pb-2',
             content: 'Copyright © ${DateTime.now().year} Some Example',
           ),
         ],

@@ -27,37 +27,67 @@ void main() {
     test('BSAccordion', () async {
       var myAccordion = rootContainer.querySelector('#my-accordion');
       expect(myAccordion, isA<HTMLDivElement>());
-      expect(myAccordion!.classList.contains('ui-bs-accordion'), isTrue);
+      expect(myAccordion!.classList.contains('accordion'), isTrue);
+      expect(myAccordion.classList.contains('ui-bs-accordion'), isTrue);
+      expect(myAccordion.classList.contains('accordion-flush'), isFalse);
       expect(myAccordion.classList.contains('my-accordion-class'), isTrue);
-      expect(myAccordion.querySelectorAll('.card').length, equals(3));
+      expect(myAccordion.querySelectorAll('.accordion-item').length, equals(3));
+      expect(myAccordion.querySelectorAll('.card'), isEmpty);
     });
 
     test('BSAccordion: item structure', () {
-      var heading = rootContainer.querySelector('#my-accordion-heading-0')!;
-      expect(heading.classList.contains('card-header'), isTrue);
+      var item = rootContainer.querySelector(
+        '#my-accordion > .accordion-item',
+      )!;
+      expect(item.classList.contains('my-item'), isTrue);
+
+      var heading = item.querySelector('#my-accordion-heading-0')!;
+      expect(heading.tagName.toLowerCase(), equals('h2'));
+      expect(heading.classList.contains('accordion-header'), isTrue);
       expect(heading.classList.contains('my-head'), isTrue);
 
-      var button = heading.querySelector('button')!;
+      var button = heading.querySelector('button.accordion-button')!;
       expect(button.textContent, equals('Item A'));
-      expect(button.getAttribute('data-toggle'), equals('collapse'));
+      expect(button.getAttribute('type'), equals('button'));
+      expect(button.getAttribute('data-bs-toggle'), equals('collapse'));
       expect(
-        button.getAttribute('data-target'),
+        button.getAttribute('data-bs-target'),
         equals('#my-accordion-collapse-0'),
       );
       expect(
         button.getAttribute('aria-controls'),
         equals('my-accordion-collapse-0'),
       );
+      // No Bootstrap 4 attributes:
+      expect(button.hasAttribute('data-toggle'), isFalse);
+      expect(button.hasAttribute('data-target'), isFalse);
 
-      var body = rootContainer.querySelector('#my-accordion-collapse-0')!;
-      expect(body.textContent, equals('aaa'));
-      expect(body.classList.contains('collapse'), isTrue);
-      expect(body.classList.contains('my-body'), isTrue);
-      expect(body.getAttribute('data-parent'), equals('#my-accordion'));
+      var collapse = item.querySelector('#my-accordion-collapse-0')!;
+      expect(collapse.classList.contains('accordion-collapse'), isTrue);
+      expect(collapse.classList.contains('collapse'), isTrue);
+      expect(collapse.getAttribute('data-bs-parent'), equals('#my-accordion'));
+      expect(collapse.hasAttribute('data-parent'), isFalse);
       expect(
-        body.getAttribute('aria-labelledby'),
+        collapse.getAttribute('aria-labelledby'),
         equals('my-accordion-heading-0'),
       );
+
+      var body = collapse.querySelector('.accordion-body')!;
+      expect(body.textContent, equals('aaa'));
+      expect(body.classList.contains('my-body'), isTrue);
+      expect(body.getAttribute('style'), contains('color: red'));
+    });
+
+    test('BSAccordion: flush', () {
+      var parent = HTMLDivElement();
+      var flush = BSAccordion(parent, [AccordionItem('A', 'a')], flush: true);
+      flush.ensureRendered();
+      expect(flush.flush, isTrue);
+      expect(flush.content!.classList.contains('accordion'), isTrue);
+      expect(flush.content!.classList.contains('accordion-flush'), isTrue);
+
+      var normal = BSAccordion(HTMLDivElement(), [AccordionItem('A', 'a')]);
+      expect(normal.flush, isFalse);
     });
 
     test('BSAccordion: expanded items', () {
@@ -210,6 +240,25 @@ void main() {
       var svg = await content.getContent();
       expect(svg, contains('<svg'));
     });
+
+    test('Bootstrap Icons 1.13.1', () async {
+      expect(BootstrapIcons.VERSION, equals('1.13.1'));
+
+      // Icons added after 1.10.4:
+      for (var name in ['claude', 'backpack', 'floppy', 'twitter-x', 'ban']) {
+        expect(
+          BootstrapIcons.getIconPath(name),
+          equals('packages/bones_ui_bootstrap/icons/$name.svg'),
+          reason: name,
+        );
+        var svg = await BootstrapIcons.svgResourceContent(name)!.getContent();
+        expect(svg, contains('<svg'), reason: name);
+      }
+
+      // Not icons (font/sprite distribution files):
+      expect(BootstrapIcons.getIconPath('font'), isNull);
+      expect(BootstrapIcons.getIconPath('bootstrap-icons.css'), isNull);
+    });
   });
 
   group('Moment (unit)', () {
@@ -336,8 +385,10 @@ class MyHome extends UIComponent {
       AccordionItem(
         'Item A',
         'aaa',
+        classes: 'my-item',
         headClasses: 'my-head',
         bodyClasses: 'my-body',
+        bodyStyle: 'color: red',
       ),
       AccordionItem('Item B', 'bbb', expanded: true),
       AccordionItem('Item C', 'ccc'),

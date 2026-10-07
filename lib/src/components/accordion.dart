@@ -38,8 +38,8 @@ class BSAccordion extends UIComponent {
   /// ID of the component, also set as the `id` of the accordion element.
   ///
   /// Bootstrap needs it to link each item header to its collapsible body
-  /// (`data-target="#<id>-collapse-<index>"`) and to the accordion itself
-  /// (`data-parent="#<id>"`). Item elements get the IDs
+  /// (`data-bs-target="#<id>-collapse-<index>"`) and to the accordion itself
+  /// (`data-bs-parent="#<id>"`). Item elements get the IDs
   /// `<id>-heading-<index>` and `<id>-collapse-<index>`.
   ///
   /// See the `id` parameter of the [BSAccordion] constructor.
@@ -55,7 +55,13 @@ class BSAccordion extends UIComponent {
   /// Index of expanded item.
   final int? expandIndex;
 
+  /// If `true`, renders a Bootstrap "flush" accordion (`accordion-flush`).
+  final bool flush;
+
   /// Creates an accordion with [items] inside [parent].
+  ///
+  /// The accordion element has the classes `accordion` (required by
+  /// Bootstrap 5 for the accordion styles) and `ui-bs-accordion`.
   ///
   /// - [id]: the accordion [id] (see [BSAccordion.id]).
   ///   - `null` (default): a unique ID is generated automatically
@@ -66,17 +72,26 @@ class BSAccordion extends UIComponent {
   ///     Pass `null` (or omit it) to get a generated ID.
   /// - [expandIndex]: index of the item initially expanded. Negative values
   ///   count from the end (`-1` is the last item).
+  /// - [flush]: if `true`, adds `accordion-flush`: removes the outer borders
+  ///   and rounded corners, keeping the lines between items. Useful when the
+  ///   accordion is inside a container that already has its own frame
+  ///   (a card, a modal, a sidebar or a full-width list). Default: `false`.
   BSAccordion(
     super.parent,
     this.items, {
     String? id,
     this.expandIndex,
+    this.flush = false,
     dynamic classes,
     dynamic style,
   }) : super(
          id: _resolveId(id),
          componentClass: 'ui-bs-accordion',
-         classes: 'ui-bs-accordion',
+         classes: [
+           'accordion',
+           'ui-bs-accordion',
+           if (flush) 'accordion-flush',
+         ],
          classes2: classes,
          style2: style,
        );
@@ -125,42 +140,38 @@ class BSAccordion extends UIComponent {
     }
 
     return $div(
-      classes: ['card', item.classes],
+      classes: ['accordion-item', item.classes],
       style: item.style,
       content: [
-        $div(
+        $tag(
+          'h2',
           id: '$id-heading-$itemIndex',
-          classes: ['card-header', item.headClasses],
+          classes: ['accordion-header', item.headClasses],
           style: item.headStyle,
-          content: $tag(
-            'h2',
-            classes: 'mb-0',
-            content: $button(
-              classes:
-                  'd-flex w-100 align-items-center justify-content-between btn btn-link ${expanded ? '' : 'collapsed'}',
-              attributes: {
-                'data-toggle': 'collapse',
-                'data-target': '#$id-collapse-$itemIndex',
-                'aria-expanded': '$expanded',
-                'aria-controls': '$id-collapse-$itemIndex',
-              },
-              content: item.title,
-            ),
+          content: $button(
+            type: 'button',
+            classes: ['accordion-button', if (!expanded) 'collapsed'],
+            attributes: {
+              'data-bs-toggle': 'collapse',
+              'data-bs-target': '#$id-collapse-$itemIndex',
+              'aria-expanded': '$expanded',
+              'aria-controls': '$id-collapse-$itemIndex',
+            },
+            content: item.title,
           ),
         ),
         $div(
           id: '$id-collapse-$itemIndex',
-          classes: [
-            'card-body',
-            'collapse ${expanded ? 'show' : ''}',
-            item.bodyClasses,
-          ],
-          style: item.bodyStyle,
+          classes: ['accordion-collapse', 'collapse', if (expanded) 'show'],
           attributes: {
             'aria-labelledby': '$id-heading-$itemIndex',
-            'data-parent': '#$id',
+            'data-bs-parent': '#$id',
           },
-          content: item.content,
+          content: $div(
+            classes: ['accordion-body', item.bodyClasses],
+            style: item.bodyStyle,
+            content: item.content,
+          ),
         ),
       ],
     );
