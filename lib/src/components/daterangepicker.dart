@@ -1,13 +1,10 @@
 import 'dart:collection';
-// ignore: deprecated_member_use
-import 'dart:html';
-// ignore: deprecated_member_use
-import 'dart:js';
 
 import 'package:bones_ui/bones_ui.dart';
 import 'package:dom_tools/dom_tools.dart';
 import 'package:intl_messages/intl_messages.dart';
 import 'package:swiss_knife/swiss_knife.dart';
+import 'package:web_utils/web_utils.dart';
 
 import '../bones_ui_bootstrap_base.dart';
 import '../bones_ui_bootstrap_icons.dart';
@@ -124,29 +121,31 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
     _load.onLoad.listen((_) => refresh());
   }
 
-  Element? _icon;
+  HTMLElement? _icon;
 
-  Element? _textElement;
+  HTMLElement? _textElement;
 
   @override
   dynamic render() {
     if (_load.isNotLoaded) return '...';
 
-    if (_icon != null) {
-      _icon!.remove();
+    var prevIcon = _icon;
+    if (prevIcon != null) {
+      prevIcon.remove();
     }
 
-    if (_textElement != null) {
-      _textElement!.remove();
+    var prevTextElement = _textElement;
+    if (prevTextElement != null) {
+      prevTextElement.remove();
     }
 
-    _icon = BootstrapIcons.svgIconElement('calendar');
+    var icon = _icon = BootstrapIcons.svgIconElement('calendar');
 
-    _textElement = createHTML('''
+    var textElement = _textElement = createHTML(html: '''
       <div class="form-control" style="max-width: 80vw; white-space: nowrap; text-overflow: ellipsis;"></div>
     ''');
 
-    _textElement!.children.add(_icon!);
+    textElement.appendChild(icon);
 
     _configureLocale();
     _buildDateRanges();
@@ -186,8 +185,8 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   late bool _localeUsesAMPM;
 
   void _configureLocale() {
-    _locale = IntlLocale.getDefaultIntlLocale();
-    Moment.locale(_locale!.code);
+    var locale = _locale = IntlLocale.getDefaultIntlLocale();
+    Moment.locale(locale.code);
 
     _localeWeekFirstDay = getFirstDayOfWeek(_locale);
     _localeUsesAMPM = getTimeFormatUsesAMPM(_locale);
@@ -205,8 +204,10 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       var dateTimeRange = getDateTimeRange(dateRangeType, now, weekFirstDay);
       rangesTypesDateTimeRange[dateRangeType] = dateTimeRange;
 
-      var dateRangeTypeTitle =
-          toUpperCaseInitials(getDateRangeTypeTitle(dateRangeType)!);
+      var typeTitle =
+          getDateRangeTypeTitle(dateRangeType) ?? dateRangeType.name;
+
+      var dateRangeTypeTitle = toUpperCaseInitials(typeTitle);
       dateRanges[dateRangeTypeTitle] = [
         dateTimeRange.a.millisecondsSinceEpoch,
         dateTimeRange.b.millisecondsSinceEpoch
@@ -236,27 +237,39 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       'timePicker': hasTimePicker,
       if (hasTimePicker) 'timePicker24Hour': !_localeUsesAMPM,
       if (hasTimePicker) 'timePickerIncrement': _getTimePickerMinutesInterval(),
-      if (_dateRanges!.isNotEmpty) 'ranges': _dateRanges,
+      if (_dateRanges?.isNotEmpty ?? false) 'ranges': _dateRanges,
       if (configLocale.isNotEmpty) 'locale': configLocale
     };
 
     print(config);
 
-    JQuery.$(_textElement).call('daterangepicker',
-        [JsObject.jsify(config), ([a, b, c]) => _setDateRange(a, b)]);
+    JQuery.$(_textElement).call(
+      'daterangepicker',
+      [config.toJSDeep, _jsQueryCallback.toJS],
+    );
 
     _updateTextElement();
   }
 
-  void _setDateRange(JsObject jsStartTime, JsObject jsEndTime) {
+  void _jsQueryCallback(JSArray args) {
+    var a = args[0].asJSObject;
+    var b = args[1].asJSObject;
+    _setDateRange(a, b);
+  }
+
+  void _setDateRange(JSObject? jsStartTime, JSObject? jsEndTime) {
+    if (jsStartTime == null || jsEndTime == null) return;
+
     setDateRange(Moment.jsObjectToDateTime(jsStartTime),
         Moment.jsObjectToDateTime(jsEndTime));
   }
 
   /// Sets the selected date range by [dateRangeType].
   void setDateRangeByType(DateRangeType dateRangeType) {
-    var range = _rangesTypesDateTimeRange != null
-        ? _rangesTypesDateTimeRange![dateRangeType]
+    var rangesTypesDateTimeRange = _rangesTypesDateTimeRange;
+
+    var range = rangesTypesDateTimeRange != null
+        ? rangesTypesDateTimeRange[dateRangeType]
         : null;
     range ??= getDateTimeRange(dateRangeType, DateTime.now(), weekFirstDay);
 
@@ -285,16 +298,20 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       d.year, d.month, d.day, d.hour, d.minute, seconds, millisecond, 0);
 
   void _updateTextElement() {
-    if (_textElement == null) return;
+    final textElement = _textElement;
+    if (textElement == null) return;
 
     var text = dateText;
 
-    _textElement!.children.clear();
+    textElement.clear();
 
-    _textElement!.children.add(createSpan(text));
+    textElement.appendChild(createSpan(html: text));
 
-    _icon!.style.paddingLeft = '10px';
-    _textElement!.children.add(_icon!);
+    var icon = _icon;
+    if (icon != null) {
+      icon.style.paddingLeft = '10px';
+      textElement.appendChild(icon);
+    }
   }
 
   String get dateText => _getDateText(_startTime, _endTime);
@@ -317,12 +334,13 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   }
 
   String? _buildDateTextTitle(DateTime startTime, DateTime endTime) {
-    if (_dateRanges == null) return null;
+    var dateRanges = _dateRanges;
+    if (dateRanges == null) return null;
 
     var startMillis = startTime.millisecondsSinceEpoch;
     var endMillis = endTime.millisecondsSinceEpoch;
 
-    for (var entry in _dateRanges!.entries) {
+    for (var entry in dateRanges.entries) {
       var rangeInit = entry.value[0];
       var rangeEnd = entry.value[1];
 

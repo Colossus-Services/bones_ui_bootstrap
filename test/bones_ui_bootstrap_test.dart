@@ -1,16 +1,14 @@
 @TestOn('browser')
 library;
 
-// ignore: deprecated_member_use
-import 'dart:html';
-
+import 'package:web_utils/web_utils.dart';
 import 'package:bones_ui/bones_ui.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Components', () {
-    final rootContainer = DivElement();
+    final rootContainer = HTMLDivElement();
     late final MyRoot root;
 
     setUpAll(() {
@@ -22,12 +20,12 @@ void main() {
       await root.onFinishRender.first;
 
       var myHome = rootContainer.querySelector('#my-home');
-      expect(myHome, isA<DivElement>());
+      expect(myHome, isA<HTMLDivElement>());
     });
 
     test('BSAccordion', () async {
       var myAccordion = rootContainer.querySelector('#my-accordion');
-      expect(myAccordion, isA<DivElement>());
+      expect(myAccordion, isA<HTMLDivElement>());
     });
   });
 }

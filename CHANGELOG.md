@@ -1,3 +1,89 @@
+## 3.0.0-beta.7
+
+- `pubspec.yaml`:
+  - Updated dependencies:
+    - `bones_ui`: from `^3.0.0-beta.19` to `^3.0.12`
+    - `swiss_knife`: from `^3.3.3` to `^3.3.14`
+    - `dom_tools`: from `^3.0.0-beta.15` to `^3.0.0`
+    - `dom_builder`: from `^3.0.0-beta.8` to `^3.0.7`
+    - `intl_messages`: from `^3.0.0-beta.1` to `^3.0.0`
+    - `web_utils`: from `^1.0.19` to `^1.0.23`
+  - Updated dev_dependencies:
+    - `build_runner`: from `^2.10.4` to `^2.11.1`
+    - `build_web_compilers`: from `^4.4.6` to `^4.4.13`
+    - `test`: from `^1.28.0` to `^1.30.0`
+
+## 3.0.0-beta.6
+
+- `Moment`:
+  - `moment(DateTime)`: changed to construct moment object from ISO 8601 string instead of `dateTime.toJSDeep` conversion.
+
+- dom_tools: ^3.0.0-beta.15
+- dom_builder: ^3.0.0-beta.8
+- build_web_compilers: ^4.4.6
+
+## 3.0.0-beta.5
+
+- `BSDateRangePicker`:
+  - `_jsQueryCallback`: change parameters to `JSArray args` to avoid a bug passing a JS string to a JSObject in a Dart function.
+
+- bones_ui: ^3.0.0-beta.19
+- dom_tools: ^3.0.0-beta.13
+- dom_builder: ^3.0.0-beta.7
+- web_utils: ^1.0.19
+
+- build_runner: ^2.10.4
+- build_web_compilers: ^4.4.3
+- test: ^1.28.0
+
+- Removed dev dependency `sass_builder`.
+
+## 3.0.0-beta.4
+
+- `BSDateRangePicker`:
+  - `_configureDatePicker`:
+    - Fix `JQuery.$(_textElement).call()`, pass fallback as `_jsQueryCallback.toJS`, avoiding `jsify` issues.
+
+- bones_ui: ^3.0.0-beta.7
+- swiss_knife: ^3.3.3
+- dom_tools: ^3.0.0-beta.12
+- dom_builder: ^3.0.0-beta.4
+- web: ^1.1.1
+- web_utils: ^1.0.16
+
+- build_runner: ^2.10.0
+- build_web_compilers: ^4.3.0
+- sass_builder: ^2.4.0
+- test: ^1.26.3
+
+## 3.0.0-beta.3
+
+- bones_ui: ^3.0.0-beta.5
+- swiss_knife: ^3.3.0
+- dom_tools: ^3.0.0-beta.5
+- intl_messages: ^3.0.0-beta.1
+- web_utils: ^1.0.9
+
+## 3.0.0-beta.2
+
+- Using `JSDate` from `js_interop_utils: ^1.0.6`.
+
+- bones_ui: ^3.0.0-beta.4
+- web_utils: ^1.0.8
+
+## 3.0.0-beta.1
+
+- Migrate `dart:html` (deprecated) to package `web`.
+
+- sdk: '>=3.6.0 <4.0.0'
+
+- bones_ui: ^3.0.0-beta.2
+- amdjs: ^3.0.0-beta.2
+- dom_tools: ^3.0.0-beta.4
+- dom_builder: ^3.0.0-beta.2
+- web: ^1.1.0
+- web_utils: ^1.0.6
+
 ## 2.3.1
 
 - sdk: '>=3.5.0 <4.0.0'

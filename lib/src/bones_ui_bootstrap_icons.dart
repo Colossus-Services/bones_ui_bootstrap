@@ -1,8 +1,6 @@
-// ignore: deprecated_member_use
-import 'dart:html';
-
 import 'package:dom_tools/dom_tools.dart';
 import 'package:swiss_knife/swiss_knife.dart';
+import 'package:web/web.dart';
 
 import 'bones_ui_bootstrap_base.dart';
 
@@ -393,7 +391,7 @@ building-x.svg currency-rupee.svg filetype-key.svg motherboard-fill.svg sign-tur
   }
 
   /// Returns an [Element] of a SVG icon with [name].
-  static Element svgIconElement(String name,
+  static HTMLElement svgIconElement(String name,
       {String? title,
       int? width,
       int? height,
@@ -405,7 +403,7 @@ building-x.svg currency-rupee.svg filetype-key.svg motherboard-fill.svg sign-tur
         height: height,
         classes: classes,
         style: style);
-    return createHTML(iconHTML);
+    return createHTML(html: iconHTML);
   }
 
   static final ResourceContentCache _resourceContentCache =
