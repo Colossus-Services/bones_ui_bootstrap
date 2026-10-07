@@ -89,11 +89,27 @@ void main() {
       expect(a1.id, isNot(equals(a2.id)));
     });
 
-    test('empty id', () {
-      expect(
-        () => BSAccordion(HTMLDivElement(), [], id: ''),
-        throwsArgumentError,
-      );
+    test('null id: auto-generated', () {
+      var a = BSAccordion(HTMLDivElement(), [], id: null);
+      expect(a.id, startsWith('__BSAccordion__'));
+    });
+
+    test('empty/blank id', () {
+      for (var id in ['', '  ']) {
+        expect(
+          () => BSAccordion(HTMLDivElement(), [], id: id),
+          throwsA(
+            isA<ArgumentError>()
+                .having((e) => e.name, 'name', equals('id'))
+                .having((e) => e.invalidValue, 'invalidValue', equals(id))
+                .having(
+                  (e) => e.message,
+                  'message',
+                  allOf(contains('empty or blank'), contains('`null`')),
+                ),
+          ),
+        );
+      }
     });
 
     test('expandIndex', () {

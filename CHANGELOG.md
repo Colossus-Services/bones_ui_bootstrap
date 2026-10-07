@@ -1,3 +1,9 @@
+## 4.0.1
+
+- `BSAccordion`:
+  - Document the `id` parameter: `null` (default) auto-generates a unique ID; empty/blank IDs are rejected.
+  - Clearer `ArgumentError` for an empty/blank `id`, explaining to pass `null` (or omit it) or a non-empty ID.
+
 ## 4.0.0
 
 - Maintenance release for **Bootstrap 4** (`package:web` / JS interop migration, from `3.0.0-beta.x`).

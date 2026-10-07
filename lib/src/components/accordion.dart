@@ -35,7 +35,14 @@ class AccordionItem {
 class BSAccordion extends UIComponent {
   static int _idCounter = 0;
 
-  /// ID of component. Is required by Bootstrap for correct handling of elements.
+  /// ID of the component, also set as the `id` of the accordion element.
+  ///
+  /// Bootstrap needs it to link each item header to its collapsible body
+  /// (`data-target="#<id>-collapse-<index>"`) and to the accordion itself
+  /// (`data-parent="#<id>"`). Item elements get the IDs
+  /// `<id>-heading-<index>` and `<id>-collapse-<index>`.
+  ///
+  /// See the `id` parameter of the [BSAccordion] constructor.
   @override
   String get id => super.id as String;
 
@@ -48,6 +55,17 @@ class BSAccordion extends UIComponent {
   /// Index of expanded item.
   final int? expandIndex;
 
+  /// Creates an accordion with [items] inside [parent].
+  ///
+  /// - [id]: the accordion [id] (see [BSAccordion.id]).
+  ///   - `null` (default): a unique ID is generated automatically
+  ///     (`__BSAccordion__1`, `__BSAccordion__2`, ...).
+  ///   - Non-empty: used as is. Use it when you need a stable ID, for
+  ///     example to select the accordion elements in CSS or tests.
+  ///   - Empty or blank (e.g. `''`, `'  '`): throws an [ArgumentError].
+  ///     Pass `null` (or omit it) to get a generated ID.
+  /// - [expandIndex]: index of the item initially expanded. Negative values
+  ///   count from the end (`-1` is the last item).
   BSAccordion(
     super.parent,
     this.items, {
@@ -68,7 +86,13 @@ class BSAccordion extends UIComponent {
   static String _resolveId(String? id) {
     if (id == null) return '__BSAccordion__${++_idCounter}';
     if (id.trim().isEmpty) {
-      throw ArgumentError('id is required for BSAccordion');
+      throw ArgumentError.value(
+        id,
+        'id',
+        'BSAccordion `id` cannot be empty or blank. '
+            'Pass `null` (or omit `id`) to auto-generate a unique ID, '
+            'or pass a non-empty ID (e.g. `id: "my-accordion"`)',
+      );
     }
     return id;
   }
