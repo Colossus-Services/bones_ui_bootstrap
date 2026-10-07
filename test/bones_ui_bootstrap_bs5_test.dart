@@ -153,6 +153,165 @@ void main() {
       var flushLast = style('#acc-flush > .accordion-item:last-child');
       expect(flushLast.borderBottomWidth, equals('0px'));
     });
+
+    test('clicking the open item collapses it', () async {
+      // After the previous test, item 1 is open:
+      await _waitFor(
+        () => e('#acc-normal-collapse-1').classList.contains('show'),
+      );
+
+      e('#acc-normal-heading-1 button').click();
+
+      await _waitFor(
+        () => !e('#acc-normal-collapse-1').classList.contains('show'),
+      );
+      var button = e('#acc-normal-heading-1 button');
+      expect(button.getAttribute('aria-expanded'), equals('false'));
+      expect(button.classList.contains('collapsed'), isTrue);
+
+      // All items closed:
+      expect(rootContainer.querySelectorAll('#acc-normal .show').length, 0);
+    });
+
+    test('Bootstrap Collapse instance controls the items', () async {
+      var collapseClass =
+          (globalContext['bootstrap'] as JSObject)['Collapse'] as JSObject;
+
+      var instance = collapseClass.callMethod<JSObject>(
+        'getOrCreateInstance'.toJS,
+        e('#acc-normal-collapse-2'),
+        {'toggle': false}.toJSDeep,
+      );
+      instance.callMethod<JSAny?>('show'.toJS);
+
+      await _waitFor(
+        () => e('#acc-normal-collapse-2').classList.contains('show'),
+      );
+      expect(
+        e('#acc-normal-heading-2 button').getAttribute('aria-expanded'),
+        equals('true'),
+      );
+    });
+
+    test('items with DOM and component content', () {
+      var title = e('#acc-rich-heading-0 button');
+      expect(title.querySelector('b.rich-title')?.textContent, 'Rich');
+
+      var body = e('#acc-rich-collapse-0 .accordion-body');
+      expect(body.querySelector('.rich-body')?.textContent, 'Body text');
+      expect(body.querySelector('.rich-component')?.textContent, 'Component');
+    });
+
+    test('item classes and styles', () {
+      var item = e('#acc-rich > .accordion-item');
+      expect(item.classList.contains('rich-item'), isTrue);
+      expect(item.style.getPropertyValue('margin-top'), equals('3px'));
+
+      var header = e('#acc-rich-heading-0');
+      expect(header.classList.contains('rich-head'), isTrue);
+      expect(header.style.getPropertyValue('font-size'), equals('12px'));
+    });
+
+    test('multiple items expanded by `AccordionItem.expanded`', () {
+      expect(e('#acc-rich-collapse-0').classList.contains('show'), isTrue);
+      expect(e('#acc-rich-collapse-1').classList.contains('show'), isTrue);
+    });
+  });
+
+  group('Bootstrap 5: bundled versions', () {
+    test('Bootstrap JS version', () {
+      var tooltip =
+          (globalContext['bootstrap'] as JSObject)['Tooltip'] as JSObject;
+      expect(
+        (tooltip['VERSION'] as JSString).toDart,
+        equals(Bootstrap.VERSION),
+      );
+    });
+
+    test('Bootstrap CSS is the first stylesheet', () {
+      var links = document.querySelectorAll('link[rel="stylesheet"]');
+      expect(links.length, greaterThan(0));
+      var first = links.item(0) as HTMLLinkElement;
+      expect(first.href, contains('bootstrap-${Bootstrap.VERSION}/css/'));
+    });
+
+    test('Bootstrap 5 CSS utilities', () {
+      var div = HTMLDivElement();
+      document.body!.appendChild(div);
+      try {
+        HTMLElement add(String classes) {
+          var el = HTMLSpanElement()..className = classes;
+          div.appendChild(el);
+          return el;
+        }
+
+        CSSStyleDeclaration s(HTMLElement el) => window.getComputedStyle(el);
+
+        // Bootstrap 5 only classes:
+        expect(s(add('ms-3')).marginLeft, equals('16px'));
+        expect(s(add('me-2')).marginRight, equals('8px'));
+        expect(s(add('fw-bold')).fontWeight, equals('700'));
+        expect(s(add('visually-hidden')).position, equals('absolute'));
+        expect(s(add('d-none')).display, equals('none'));
+      } finally {
+        div.remove();
+      }
+    });
+  });
+
+  group('Bootstrap 5: tooltip (rendering)', () {
+    test('tooltip is shown with the `data-bs-title`', () async {
+      var button = createHTML(
+        html:
+            '<button data-bs-toggle="tooltip" data-bs-title="Shown title"'
+            ' data-bs-animation="false">Hover</button>',
+      );
+      document.body!.appendChild(button);
+
+      try {
+        await Bootstrap.enableTooltip(force: true, delay: Duration.zero);
+
+        var instance =
+            ((globalContext['bootstrap'] as JSObject)['Tooltip'] as JSObject)
+                .callMethod<JSObject>('getInstance'.toJS, button);
+        instance.callMethod<JSAny?>('show'.toJS);
+
+        await _waitFor(() => document.querySelector('.tooltip.show') != null);
+
+        var tip = document.querySelector('.tooltip.show')!;
+        expect(tip.textContent, equals('Shown title'));
+        expect(button.getAttribute('aria-describedby'), equals(tip.id));
+
+        instance.callMethod<JSAny?>('dispose'.toJS);
+      } finally {
+        button.remove();
+      }
+    });
+
+    test('enableTooltipOnRender', () async {
+      var container = HTMLDivElement();
+      document.body!.appendChild(container);
+
+      try {
+        var root = _TooltipRoot(container);
+        root.initialize();
+        await root.onFinishRender.first;
+
+        var button = container.querySelector('#on-render-tooltip')!;
+        var tooltipClass =
+            (globalContext['bootstrap'] as JSObject)['Tooltip'] as JSObject;
+
+        // Enabled ~1s after render:
+        await _waitFor(
+          () =>
+              tooltipClass.callMethod<JSAny?>('getInstance'.toJS, button) !=
+              null,
+          timeout: Duration(seconds: 5),
+        );
+      } finally {
+        container.remove();
+      }
+    });
   });
 }
 
@@ -197,5 +356,49 @@ class _Home extends UIComponent {
       id: 'acc-flush',
       flush: true,
     ),
+    BSAccordion(content!, [
+      AccordionItem(
+        createHTML(html: '<b class="rich-title">Rich</b>'),
+        [
+          createHTML(html: '<p class="rich-body">Body text</p>'),
+          _TextComponent(null, 'Component'),
+        ],
+        expanded: true,
+        classes: 'rich-item',
+        style: 'margin-top: 3px',
+        headClasses: 'rich-head',
+        headStyle: 'font-size: 12px',
+      ),
+      AccordionItem('Second', 'second', expanded: true),
+    ], id: 'acc-rich'),
   ];
+}
+
+class _TextComponent extends UIComponent {
+  final String text;
+
+  _TextComponent(super.parent, this.text) : super(classes: 'rich-component');
+
+  @override
+  render() => text;
+}
+
+class _TooltipRoot extends UIRoot {
+  _TooltipRoot(super.rootContainer);
+
+  @override
+  UIComponent? renderContent() {
+    var page = _TooltipPage(content!);
+    Bootstrap.enableTooltipOnRender(page);
+    return page;
+  }
+}
+
+class _TooltipPage extends UIComponent {
+  _TooltipPage(super.parent);
+
+  @override
+  render() =>
+      '<button id="on-render-tooltip" data-bs-toggle="tooltip"'
+      ' data-bs-title="On render">Hover</button>';
 }

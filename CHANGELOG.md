@@ -29,10 +29,16 @@
   now documented in the file header.
 
 - Tests:
-  - New `bones_ui_bootstrap_bs5_test.dart`: Bootstrap 5 without JQuery (load, tooltips, accordion collapse and
-    `flush` styles, `JQuery.openWindow`).
-  - New `bones_ui_bootstrap_icons_vm_test.dart` (VM): `iconsList` matches `lib/icons/*.svg`.
-  - Date Range Picker: minute rounding with `TimePicker.hoursMinutesBy15`.
+  - New `bones_ui_bootstrap_bs5_test.dart`: Bootstrap 5 without JQuery: load, bundled JS version, CSS loaded first,
+    Bootstrap 5 CSS utilities, tooltips (instances, shown title, `enableTooltipOnRender`, no `data-toggle`),
+    `BSAccordion` (Bootstrap 5 styles, collapse/expand via clicks and the `Collapse` API, `flush` computed styles,
+    DOM/component content, item classes/styles) and `JQuery.openWindow`.
+  - Integration: bundled JQuery/Moment versions, Bootstrap 5 JQuery plugins when JQuery is present,
+    Date Range Picker (minute rounding with `TimePicker.hoursMinutesBy15`, cancel, ranges).
+  - Unit: new `BSAccordion` markup (`data-bs-*`, no Bootstrap 4 attributes), `flush`, Bootstrap Icons 1.13.1.
+  - New VM tests: `iconsList` matches `lib/icons/*.svg`; versions consistent across code, bundled assets,
+    `pubspec.yaml`, CHANGELOG and README; no stale bundled libraries; `daterangepicker.js` local patches present;
+    no Bootstrap 4 data attributes in the library.
   - CI: also run VM tests.
 
 ### Migration from 4.x (breaking changes)

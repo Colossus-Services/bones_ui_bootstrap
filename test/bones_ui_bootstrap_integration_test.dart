@@ -19,6 +19,10 @@ void main() {
       expect(JQuery.isLoaded, isTrue);
       expect(JQuery.isSuccessfullyLoaded, isTrue);
       expect(globalContext['jQuery'], isNotNull);
+
+      // Bundled version matches `JQuery.VERSION`:
+      var fn = (globalContext['jQuery'] as JSObject)['fn'] as JSObject;
+      expect((fn['jquery'] as JSString).toDart, equals(JQuery.VERSION));
     });
 
     test('Bootstrap.load', () async {
@@ -50,6 +54,18 @@ void main() {
     test('Moment.load', () async {
       expect(await Moment.load(), isTrue);
       expect(Moment.isSuccessfullyLoaded, isTrue);
+
+      // Bundled version matches `Moment.VERSION`:
+      var moment = globalContext['moment'] as JSObject;
+      expect((moment['version'] as JSString).toDart, equals(Moment.VERSION));
+    });
+
+    test('Bootstrap 5 + JQuery: Bootstrap registers JQuery plugins', () async {
+      // When JQuery is present, Bootstrap 5 also exposes its jQuery plugins:
+      expect(await JQuery.load(), isTrue);
+      expect(await Bootstrap.load(), isTrue);
+      var fn = (globalContext['jQuery'] as JSObject)['fn'] as JSObject;
+      expect(fn['collapse'], isNotNull);
     });
   });
 
@@ -242,6 +258,51 @@ void main() {
         expect(formControl().textContent, contains(picker().dateText));
       } finally {
         await sub.cancel();
+      }
+    });
+
+    test('JS cancel does not change the Dart value', () async {
+      var changes = <Object?>[];
+      var sub = picker().onChange.listen(changes.add);
+
+      try {
+        var prevStart = picker().startTime;
+        var prevEnd = picker().endTime;
+
+        var drp = _jsPicker(formControl());
+        drp.callMethod('show'.toJS);
+        drp.callMethod('setStartDate'.toJS, Moment.moment(DateTime(2020)));
+        drp.callMethod('setEndDate'.toJS, Moment.moment(DateTime(2020, 2)));
+        drp.callMethod('clickCancel'.toJS);
+
+        await Future.delayed(Duration(milliseconds: 200));
+
+        expect(changes, isEmpty);
+        expect(picker().startTime, equals(prevStart));
+        expect(picker().endTime, equals(prevEnd));
+      } finally {
+        await sub.cancel();
+      }
+    });
+
+    test('ranges are shown in the picker', () {
+      var drp = _jsPicker(formControl());
+      drp.callMethod('show'.toJS);
+      try {
+        var container =
+            (drp['container'] as JSObject).callMethod<JSAny?>(
+                  'get'.toJS,
+                  0.toJS,
+                )
+                as HTMLElement;
+        var labels = <String>[];
+        var items = container.querySelectorAll('.ranges li');
+        for (var i = 0; i < items.length; ++i) {
+          labels.add(items.item(i)!.textContent!.trim());
+        }
+        expect(labels, containsAll(['Today', 'Yesterday']));
+      } finally {
+        drp.callMethod('hide'.toJS);
       }
     });
 

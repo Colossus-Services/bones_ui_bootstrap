@@ -240,6 +240,25 @@ void main() {
       var svg = await content.getContent();
       expect(svg, contains('<svg'));
     });
+
+    test('Bootstrap Icons 1.13.1', () async {
+      expect(BootstrapIcons.VERSION, equals('1.13.1'));
+
+      // Icons added after 1.10.4:
+      for (var name in ['claude', 'backpack', 'floppy', 'twitter-x', 'ban']) {
+        expect(
+          BootstrapIcons.getIconPath(name),
+          equals('packages/bones_ui_bootstrap/icons/$name.svg'),
+          reason: name,
+        );
+        var svg = await BootstrapIcons.svgResourceContent(name)!.getContent();
+        expect(svg, contains('<svg'), reason: name);
+      }
+
+      // Not icons (font/sprite distribution files):
+      expect(BootstrapIcons.getIconPath('font'), isNull);
+      expect(BootstrapIcons.getIconPath('bootstrap-icons.css'), isNull);
+    });
   });
 
   group('Moment (unit)', () {
