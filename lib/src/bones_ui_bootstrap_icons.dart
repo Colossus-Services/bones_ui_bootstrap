@@ -7,7 +7,7 @@ import 'bones_ui_bootstrap_base.dart';
 /// Bootstrap icons support.
 class BootstrapIcons {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '1.10.4';
+  static final String VERSION = '1.13.1';
 
   static final String iconsList = '''
 0-circle-fill.svg building.svg currency-yen.svg filetype-m4p.svg motherboard.svg sign-turn-slight-left.svg 0-circle.svg
@@ -63,7 +63,7 @@ folder-symlink.svg patch-plus.svg snapchat.svg align-middle.svg calendar2-plus.s
 patch-question-fill.svg snow.svg align-start.svg calendar2-range-fill.svg dice-5-fill.svg folder.svg
 patch-question-fll.svg snow2.svg align-top.svg calendar2-range.svg dice-5.svg folder2-open.svg patch-question.svg
 snow3.svg alipay.svg calendar2-week-fill.svg dice-6-fill.svg folder2.svg pause-btn-fill.svg sort-alpha-down-alt.svg
-alt.svg calendar2-week.svg dice-6.svg font pause-btn.svg sort-alpha-down.svg amd.svg calendar2-x-fill.svg disc-fill.svg
+alt.svg calendar2-week.svg dice-6.svg pause-btn.svg sort-alpha-down.svg amd.svg calendar2-x-fill.svg disc-fill.svg
 fonts.svg pause-circle-fill.svg sort-alpha-up-alt.svg android.svg calendar2-x.svg disc.svg forward-fill.svg
 pause-circle.svg sort-alpha-up.svg android2.svg calendar2.svg discord.svg forward.svg pause-fill.svg sort-down-alt.svg
 app-indicator.svg calendar3-event-fill.svg display-fill.svg front.svg pause.svg sort-down.svg app.svg
@@ -323,6 +323,25 @@ moon-stars.svg sign-turn-left-fill.svg zoom-out.svg building-lock.svg currency-e
 sign-turn-left.svg building-slash.svg currency-exchange.svg filetype-json.svg mortarboard-fill.svg
 sign-turn-right-fill.svg building-up.svg currency-pound.svg filetype-jsx.svg mortarboard.svg sign-turn-right.svg
 building-x.svg currency-rupee.svg filetype-key.svg motherboard-fill.svg sign-turn-slight-left-fill.svg
+alphabet.svg alphabet-uppercase.svg amazon.svg anthropic.svg apple-music.svg arrows.svg arrows-collapse-vertical.svg
+arrows-expand-vertical.svg arrows-vertical.svg backpack.svg backpack-fill.svg backpack2.svg backpack2-fill.svg
+backpack3.svg backpack3-fill.svg backpack4.svg backpack4-fill.svg ban.svg ban-fill.svg battery-low.svg beaker.svg
+beaker-fill.svg bing.svg bluesky.svg brilliance.svg cake.svg cake-fill.svg cake2.svg cake2-fill.svg claude.svg
+cookie.svg copy.svg crosshair.svg crosshair2.svg css.svg duffle.svg duffle-fill.svg emoji-astonished.svg
+emoji-astonished-fill.svg emoji-grimace.svg emoji-grimace-fill.svg emoji-grin.svg emoji-grin-fill.svg
+emoji-surprise.svg emoji-surprise-fill.svg emoji-tear.svg emoji-tear-fill.svg envelope-arrow-down.svg
+envelope-arrow-down-fill.svg envelope-arrow-up.svg envelope-arrow-up-fill.svg exposure.svg feather.svg feather2.svg
+flask.svg flask-fill.svg flask-florence.svg flask-florence-fill.svg floppy.svg floppy-fill.svg floppy2.svg
+floppy2-fill.svg fork-knife.svg gender-neuter.svg gitlab.svg globe-americas-fill.svg globe-asia-australia-fill.svg
+globe-central-south-asia-fill.svg globe-europe-africa-fill.svg highlighter.svg highlights.svg javascript.svg leaf.svg
+leaf-fill.svg luggage.svg luggage-fill.svg mailbox-flag.svg mailbox2-flag.svg marker-tip.svg measuring-cup.svg
+measuring-cup-fill.svg noise-reduction.svg nvme.svg nvme-fill.svg openai.svg opencollective.svg passport.svg
+passport-fill.svg pci-card-network.svg pci-card-sound.svg perplexity.svg person-arms-up.svg person-raised-hand.svg
+person-standing.svg person-standing-dress.svg person-walking.svg person-wheelchair.svg radar.svg send-arrow-down.svg
+send-arrow-down-fill.svg send-arrow-up.svg send-arrow-up-fill.svg shadows.svg sim-slash.svg sim-slash-fill.svg
+sourceforge.svg substack.svg suitcase.svg suitcase-fill.svg suitcase-lg.svg suitcase-lg-fill.svg suitcase2.svg
+suitcase2-fill.svg threads.svg threads-fill.svg transparency.svg tux.svg twitter-x.svg type-h4.svg type-h5.svg
+type-h6.svg typescript.svg unlock2.svg unlock2-fill.svg vignette.svg
 ''';
 
   static final List<String> _icons = iconsList

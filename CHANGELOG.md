@@ -1,3 +1,55 @@
+## 5.0.0
+
+- **Bootstrap 5** (5.3.7). For Bootstrap 4 use version `4.x` (branch `4.x`).
+
+- Bundled libraries:
+  - Bootstrap: 5.3.7 (was 4.6.1).
+  - Bootstrap Icons: 1.13.1 (was 1.10.4).
+  - JQuery: 3.7.1 (was 3.5.1).
+  - Moment: 2.30.1 (was 2.25.2).
+  - Date Range Picker: 3.1 (was 3.0.5).
+
+- `Bootstrap`:
+  - `load`: doesn't load JQuery anymore (not needed by Bootstrap 5).
+  - `enableTooltip`: uses the Bootstrap 5 API (`bootstrap.Tooltip.getOrCreateInstance`) for elements with
+    `data-bs-toggle="tooltip"`. Returns `true` if any tooltip element was found.
+
+- `JQuery`:
+  - `openWindow`: sets the window HTML with `innerHTML` (doesn't depend on JQuery).
+
+- `BSAccordion`:
+  - Bootstrap 5 accordion markup: `accordion`, `accordion-item`, `accordion-header`, `accordion-button`,
+    `accordion-collapse` and `accordion-body` (was based on `card`).
+  - New option `flush` (`accordion-flush`): no outer borders and rounded corners.
+
+- `BootstrapIcons`:
+  - `iconsList` updated to Bootstrap Icons 1.13.1 (125 new icons).
+
+- `daterangepicker.js`: keeps the local patches (minute rounded to `timePickerIncrement`; callback with a single array),
+  now documented in the file header.
+
+- Tests:
+  - New `bones_ui_bootstrap_bs5_test.dart`: Bootstrap 5 without JQuery (load, tooltips, accordion collapse and
+    `flush` styles, `JQuery.openWindow`).
+  - New `bones_ui_bootstrap_icons_vm_test.dart` (VM): `iconsList` matches `lib/icons/*.svg`.
+  - Date Range Picker: minute rounding with `TimePicker.hoursMinutesBy15`.
+  - CI: also run VM tests.
+
+### Migration from 4.x (breaking changes)
+
+- `Bootstrap.load()` no longer loads JQuery. If you use `JQuery.$`, call `JQuery.load()` yourself.
+  (`BSDateRangePicker` still loads JQuery, which it needs.)
+- Bootstrap 5 data attributes: `data-toggle` → `data-bs-toggle`, `data-target` → `data-bs-target`,
+  `data-parent` → `data-bs-parent`, `data-dismiss` → `data-bs-dismiss`, `data-placement` → `data-bs-placement`, etc.
+  - Tooltips are only enabled for `data-bs-toggle="tooltip"`; `data-toggle="tooltip"` is not supported.
+- `BSAccordion` markup changed (no `card`, `card-header`, `card-body`, `btn-link`; the header is now the `h2`
+  with the `<id>-heading-<index>` ID). Update app CSS that targets the old classes. Element IDs
+  (`<id>-heading-<index>`, `<id>-collapse-<index>`) didn't change.
+- `JQuery.openWindow(html: ...)`: scripts inside `html` are not executed anymore (`innerHTML` instead of JQuery `html()`).
+- Bootstrap 5 renamed many CSS classes (`ml-*`/`mr-*` → `ms-*`/`me-*`, `text-left` → `text-start`,
+  `float-right` → `float-end`, `font-weight-*` → `fw-*`, `badge-*` → `bg-*`, `sr-only` → `visually-hidden`, ...).
+  See the official guide: https://getbootstrap.com/docs/5.3/migration/
+
 ## 4.0.1
 
 - `BSAccordion`:

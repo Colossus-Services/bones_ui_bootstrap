@@ -4,6 +4,7 @@ import 'package:amdjs/amdjs.dart';
 import 'package:bones_ui/bones_ui.dart';
 import 'package:dom_tools/dom_tools.dart';
 import 'package:swiss_knife/swiss_knife.dart';
+import 'package:web_utils/web_utils.dart';
 
 // ignore: non_constant_identifier_names
 final String BONES_UI_BOOTSTRAP_PACKAGE_PATH = 'packages/bones_ui_bootstrap';
@@ -14,7 +15,7 @@ final bool ENABLE_MINIFIED = true;
 /// Bootstrap wrapper and loader.
 class Bootstrap {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '4.6.1';
+  static final String VERSION = '5.3.7';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'bootstrap-$VERSION';
@@ -37,12 +38,13 @@ class Bootstrap {
   static bool get isSuccessfullyLoaded =>
       _load.isLoaded && _load.loadSuccessful!;
 
-  /// Loads Bootstrap and JQuery JS library and CSS.
+  /// Loads Bootstrap JS library and CSS.
+  ///
+  /// Bootstrap 5 doesn't depend on JQuery, so JQuery is not loaded.
+  /// Call [JQuery.load] if you need it.
   static Future<bool> load() {
     return _load.load(() async {
       AMDJS.verbose = true;
-
-      var okJQuery = await JQuery.load();
 
       var cssFile = ENABLE_MINIFIED ? 'bootstrap.min.css' : 'bootstrap.css';
       var cssFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/$cssFile';
@@ -60,17 +62,18 @@ class Bootstrap {
         addScriptTagInsideBody: true,
       );
 
-      print(
-        'LOADED[jquery: $okJQuery ; BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION',
-      );
+      print('LOADED[BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
 
-      return okJQuery && okCss && okJS;
+      return okCss && okJS;
     });
   }
 
   static bool _enableTooltip = false;
 
-  /// Enables tooltip functionality.
+  /// Enables tooltip functionality for the elements with
+  /// `data-bs-toggle="tooltip"` (Bootstrap 5 attribute).
+  ///
+  /// Returns `true` if any tooltip element was found.
   static Future<bool> enableTooltip({
     bool force = false,
     Duration? delay,
@@ -78,8 +81,8 @@ class Bootstrap {
     if (_enableTooltip && !force) return true;
     _enableTooltip = true;
 
-    if (!JQuery.isLoaded) {
-      await JQuery.load();
+    if (!isLoaded) {
+      await load();
     }
 
     try {
@@ -88,8 +91,19 @@ class Bootstrap {
         await Future.delayed(delay);
       }
 
-      var ret = JQuery.$('[data-toggle="tooltip"]').call('tooltip');
-      return ret != null;
+      var tooltip =
+          (globalContext['bootstrap'] as JSObject)['Tooltip'] as JSObject;
+
+      var elements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+      for (var i = 0; i < elements.length; ++i) {
+        tooltip.callMethod<JSAny?>(
+          'getOrCreateInstance'.toJS,
+          elements.item(i),
+        );
+      }
+
+      return elements.length > 0;
     } catch (e) {
       print(e);
       return false;
@@ -112,7 +126,7 @@ class Bootstrap {
 /// JQuery wrapper and loader.
 class JQuery {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '3.5.1';
+  static final String VERSION = '3.7.1';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'jquery-$VERSION';
@@ -174,7 +188,8 @@ class JQuery {
   /// Opens a new Window.
   ///
   /// - [name] of the Window.
-  /// - [html] the Window HTML.
+  /// - [html] the Window HTML, set as the `body` `innerHTML`
+  ///   (doesn't depend on JQuery).
   /// - [print] if `true` will print the window.
   static JSObject openWindow({String? name, String? html, bool print = false}) {
     var openParams = <dynamic>[];
@@ -196,8 +211,7 @@ class JQuery {
     if (html != null && html.isNotEmpty) {
       var doc = w['document'] as JSObject;
       var body = doc['body'] as JSObject;
-      var o = globalContext.callMethod(r'$'.toJS, body) as JSObject;
-      o.callMethod<JSAny?>('html'.toJS, html.toJS);
+      body['innerHTML'] = html.toJS;
     }
 
     if (print) {
@@ -212,7 +226,7 @@ class JQuery {
 /// Moment wrapper and loader.
 class Moment {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '2.25.2';
+  static final String VERSION = '2.30.1';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'moment-$VERSION';

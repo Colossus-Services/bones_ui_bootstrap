@@ -11,32 +11,39 @@
 [![License](https://img.shields.io/github/license/Colossus-Services/bones_ui_bootstrap?logo=open-source-initiative&logoColor=green)](https://github.com/Colossus-Services/bones_ui_bootstrap/blob/master/LICENSE)
 
 
-Adds [Bootstrap][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use of Bootstrap components and CSS.
+Adds [Bootstrap 5][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use of Bootstrap components and CSS.
 
 ## Embedded JavaScript Libraries 
 
 This package automatically loads (and bundles) the necessaries JavaScript libraries for [Bootstrap][bootstrap].
 
-- Bootstrap: 4.6.1
-- Bootstrap Icons: 1.8.1
-- JQuery: 3.5.1
-- Moment: 2.25.2
+- Bootstrap: 5.3.7
+- Bootstrap Icons: 1.13.1
+- JQuery: 3.7.1 (only loaded when needed, e.g. by `BSDateRangePicker`)
+- Moment: 2.30.1
+- Date Range Picker: 3.1
 
 NOTE: You don't need to add any HTML or JavaScript code to your project to have full integration of
 [Bootstrap][bootstrap] with [Bones_UI][bones_ui].
+
+## Bootstrap 4
+
+Version `5.x` of this package uses Bootstrap 5. For Bootstrap 4 use version `4.x`
+(maintained on branch [`4.x`][branch_4x]).
+
+To migrate from `4.x`, see the [CHANGELOG](CHANGELOG.md) (`5.0.0`) and the official
+[Bootstrap 5 migration guide][bootstrap_migration].
 
 ## Usage
 
 A simple usage example:
 
 ```dart
-import 'dart:html';
-
 import 'package:bones_ui/bones_ui_kit.dart';
 import 'package:bones_ui_bootstrap/bones_ui_bootstrap.dart';
 
 class MyUI extends UIRoot {
-  MyUI(Element rootContainer) : super(rootContainer);
+  MyUI(super.rootContainer);
 
   @override
   void configure() {
@@ -51,7 +58,7 @@ class MyUI extends UIRoot {
 }
 
 class MyPage extends UIComponent {
-  MyPage(Element parent) : super(parent);
+  MyPage(super.parent);
 
   @override
   dynamic render() {
@@ -88,6 +95,27 @@ void main() {
 
 }
 
+```
+
+## BSAccordion
+
+```dart
+BSAccordion(parent, [
+  AccordionItem('Item A', 'Content A'),
+  AccordionItem('Item B', 'Content B'),
+], expandIndex: 0);
+
+// Without outer borders and rounded corners (`accordion-flush`):
+BSAccordion(parent, items, flush: true);
+```
+
+## Tooltips
+
+Use the Bootstrap 5 attributes (`data-bs-*`) and enable them with `Bootstrap.enableTooltip()`
+(or `Bootstrap.enableTooltipOnRender(component)`):
+
+```html
+<button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-title="Hello">Hover me</button>
 ```
 
 ## Bootstrap Icons
@@ -127,5 +155,7 @@ Graciliano M. Passos: [gmpassos@GitHub][gmpassos_github].
 [colossus]: https://colossus.services/
 [bones_ui]: https://pub.dev/packages/bones_ui
 [bootstrap]: https://getbootstrap.com/
+[bootstrap_migration]: https://getbootstrap.com/docs/5.3/migration/
+[branch_4x]: https://github.com/Colossus-Services/bones_ui_bootstrap/tree/4.x
 [bootstrap_icons]: https://icons.getbootstrap.com/
 [apache_license]: https://www.apache.org/licenses/LICENSE-2.0.txt

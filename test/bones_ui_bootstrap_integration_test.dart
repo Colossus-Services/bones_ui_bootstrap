@@ -30,10 +30,10 @@ void main() {
       );
       expect(bsLink, isNotNull);
 
-      // Bootstrap JS registers its plugins in JQuery:
-      var fn = (globalContext['jQuery'] as JSObject)['fn'] as JSObject;
-      expect(fn['collapse'], isNotNull);
-      expect(fn['tooltip'], isNotNull);
+      // Bootstrap 5 JS API (`window.bootstrap`):
+      var bootstrap = globalContext['bootstrap'] as JSObject;
+      expect(bootstrap['Collapse'], isNotNull);
+      expect(bootstrap['Tooltip'], isNotNull);
     });
 
     test('Bootstrap.load: idempotent', () async {
@@ -254,6 +254,68 @@ void main() {
       expect(formControl().textContent, startsWith('Yesterday ('));
     });
   });
+
+  group('Integration: BSDateRangePicker (time picker)', () {
+    late HTMLDivElement rootContainer;
+
+    setUpAll(() async {
+      rootContainer = HTMLDivElement();
+      document.body!.appendChild(rootContainer);
+
+      var root = _BuilderRoot(
+        rootContainer,
+        (parent) => BSDateRangePicker(
+          parent,
+          timePicker: TimePicker.hoursMinutesBy15,
+          startTime: DateTime(2024, 4, 10, 10, 37),
+          endTime: DateTime(2024, 4, 11, 18, 52),
+        ),
+      );
+      root.initialize();
+      await root.onFinishRender.first;
+
+      await _waitFor(
+        () =>
+            rootContainer.querySelector(
+              '.ui-bs-date-range-picker .form-control',
+            ) !=
+            null,
+      );
+    });
+
+    tearDownAll(() => rootContainer.remove());
+
+    test('selected minute is rounded to the time picker increment', () {
+      var formControl =
+          rootContainer.querySelector('.ui-bs-date-range-picker .form-control')
+              as HTMLElement;
+
+      var drp = _jsPicker(formControl);
+      drp.callMethod('show'.toJS);
+
+      try {
+        var container =
+            (drp['container'] as JSObject).callMethod<JSAny?>(
+                  'get'.toJS,
+                  0.toJS,
+                )
+                as HTMLElement;
+
+        // Local patch in `daterangepicker.js`: 37 -> 30 and 52 -> 45:
+        String? selectedMinute(String side) =>
+            (container.querySelector(
+                      '.drp-calendar.$side .minuteselect option[selected]',
+                    )
+                    as HTMLOptionElement?)
+                ?.value;
+
+        expect(selectedMinute('left'), equals('30'));
+        expect(selectedMinute('right'), equals('45'));
+      } finally {
+        drp.callMethod('hide'.toJS);
+      }
+    });
+  });
 }
 
 JSObject _jsPicker(HTMLElement element) =>
@@ -296,6 +358,15 @@ class _AccordionHome extends UIComponent {
     id: 'int-accordion',
     expandIndex: 0,
   );
+}
+
+class _BuilderRoot extends UIRoot {
+  final UIComponent Function(Object parent) builder;
+
+  _BuilderRoot(super.rootContainer, this.builder);
+
+  @override
+  UIComponent? renderContent() => builder(content!);
 }
 
 class _PickerRoot extends UIRoot {
