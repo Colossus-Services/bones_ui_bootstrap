@@ -21,46 +21,61 @@ class MyPage extends UIComponent {
   @override
   dynamic render() {
     return [
-      $header(content: '''
+      $header(
+        content:
+            '''
         <nav class="navbar navbar-dark fixed-top bg-dark">
           <a class="navbar-brand" href="#">
             <ui-svg width="20px" height="20px" src="${BootstrapIcons.getIconPath('app-indicator')}"></ui-svg>
             Fixed navbar
           </a>
         </nav>
-      '''),
-      $div(classes: 'container', content: [
-        '''
+      ''',
+      ),
+      $div(
+        classes: 'container',
+        content: [
+          '''
         <br>
         <h1 class="mt-5">Welcome</h1>
         This is <b>Bones_UI</b> with <b>Bootstrap</b>!
         <br><br>
       ''',
-        '<hr>',
-        '<b>BootstrapIcons</b>: &nbsp;',
-        BootstrapIcons.allIcons
-            .sublist(0, 15)
-            .map((name) => BootstrapIcons.svgIconElement(name,
-                width: 20, style: 'margin: 2px 4px'))
-            .toList(),
-        ' ...',
-        '<hr>',
-        '<b>BSDateRangePicker</b>: &nbsp;',
-        BSDateRangePicker(null),
-        '<hr>',
-        '<b>BSAccordion</b>: <br>',
-        BSAccordion(null, [
-          AccordionItem('A Title', 'A text'),
-          AccordionItem('B Title', 'B text'),
-          AccordionItem('C Title', 'C text'),
-        ]),
-      ]),
-      $footer(classes: 'footer fixed-bottom', content: [
-        $hr,
-        $div(
+          '<hr>',
+          '<b>BootstrapIcons</b>: &nbsp;',
+          BootstrapIcons.allIcons
+              .sublist(0, 15)
+              .map(
+                (name) => BootstrapIcons.svgIconElement(
+                  name,
+                  width: 20,
+                  style: 'margin: 2px 4px',
+                ),
+              )
+              .toList(),
+          ' ...',
+          '<hr>',
+          '<b>BSDateRangePicker</b>: &nbsp;',
+          BSDateRangePicker(null),
+          '<hr>',
+          '<b>BSAccordion</b>: <br>',
+          BSAccordion(null, [
+            AccordionItem('A Title', 'A text'),
+            AccordionItem('B Title', 'B text'),
+            AccordionItem('C Title', 'C text'),
+          ]),
+        ],
+      ),
+      $footer(
+        classes: 'footer fixed-bottom',
+        content: [
+          $hr,
+          $div(
             classes: 'container text-muted pb-2',
-            content: 'Copyright © ${DateTime.now().year} Some Example')
-      ])
+            content: 'Copyright © ${DateTime.now().year} Some Example',
+          ),
+        ],
+      ),
     ];
   }
 }

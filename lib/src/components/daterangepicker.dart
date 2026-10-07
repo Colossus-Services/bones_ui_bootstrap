@@ -31,9 +31,11 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       var ok3 = await Bootstrap.load();
 
       var ok5 = await addCssSource(
-          'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.css');
+        'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.css',
+      );
       var ok4 = await addJavaScriptSource(
-          'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.js');
+        'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.js',
+      );
 
       var allOk = ok1 && ok2 && ok3 && ok4 && ok5;
       return allOk;
@@ -41,7 +43,10 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   }
 
   static DateTime _resolveDateTime(
-      DateTime? time, DateRangeType? rangeType, bool start) {
+    DateTime? time,
+    DateRangeType? rangeType,
+    bool start,
+  ) {
     if (rangeType != null) {
       var now = time ?? DateTime.now();
       var dateTimeRange = getDateTimeRange(rangeType, now);
@@ -73,21 +78,22 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   final DateRangeType? initialRangeType;
 
-  BSDateRangePicker(super.parent,
-      {this.fieldName = 'date-range-picker',
-      TimePicker? timePicker,
-      this.showDateTextTitle = true,
-      List<DateRangeType>? rangesTypes,
-      this.initialRangeType,
-      DateTime? startTime,
-      DateTime? endTime,
-      super.classes,
-      super.style})
-      : timePicker = timePicker ?? TimePicker.none,
-        _rangesTypes = LinkedHashSet.from(rangesTypes ?? []).toList().cast(),
-        _startTime = _resolveDateTime(startTime, initialRangeType, true),
-        _endTime = _resolveDateTime(endTime, initialRangeType, false),
-        super(classes2: 'ui-bs-date-range-picker');
+  BSDateRangePicker(
+    super.parent, {
+    this.fieldName = 'date-range-picker',
+    TimePicker? timePicker,
+    this.showDateTextTitle = true,
+    List<DateRangeType>? rangesTypes,
+    this.initialRangeType,
+    DateTime? startTime,
+    DateTime? endTime,
+    super.classes,
+    super.style,
+  }) : timePicker = timePicker ?? TimePicker.none,
+       _rangesTypes = LinkedHashSet.from(rangesTypes ?? []).toList().cast(),
+       _startTime = _resolveDateTime(startTime, initialRangeType, true),
+       _endTime = _resolveDateTime(endTime, initialRangeType, false),
+       super(classes2: 'ui-bs-date-range-picker');
 
   /// Returns [true] if time picker is present.
   bool get hasTimePicker => timePicker != TimePicker.none;
@@ -141,9 +147,11 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
     var icon = _icon = BootstrapIcons.svgIconElement('calendar');
 
-    var textElement = _textElement = createHTML(html: '''
+    var textElement = _textElement = createHTML(
+      html: '''
       <div class="form-control" style="max-width: 80vw; white-space: nowrap; text-overflow: ellipsis;"></div>
-    ''');
+    ''',
+    );
 
     textElement.appendChild(icon);
 
@@ -210,7 +218,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       var dateRangeTypeTitle = toUpperCaseInitials(typeTitle);
       dateRanges[dateRangeTypeTitle] = [
         dateTimeRange.a.millisecondsSinceEpoch,
-        dateTimeRange.b.millisecondsSinceEpoch
+        dateTimeRange.b.millisecondsSinceEpoch,
       ];
     }
 
@@ -225,7 +233,7 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       'applyLabel': IntlBasicDictionary.msgUpperCaseInitials('apply'),
       'cancelLabel': IntlBasicDictionary.msgUpperCaseInitials('cancel'),
       'customRangeLabel': IntlBasicDictionary.msgUpperCaseInitials('custom'),
-      'firstDay': momentWeekDay
+      'firstDay': momentWeekDay,
     };
 
     var jsStartTime = Moment.moment(_startTime);
@@ -238,15 +246,14 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       if (hasTimePicker) 'timePicker24Hour': !_localeUsesAMPM,
       if (hasTimePicker) 'timePickerIncrement': _getTimePickerMinutesInterval(),
       if (_dateRanges?.isNotEmpty ?? false) 'ranges': _dateRanges,
-      if (configLocale.isNotEmpty) 'locale': configLocale
+      if (configLocale.isNotEmpty) 'locale': configLocale,
     };
 
     print(config);
 
-    JQuery.$(_textElement).call(
-      'daterangepicker',
-      [config.toJSDeep, _jsQueryCallback.toJS],
-    );
+    JQuery.$(
+      _textElement,
+    ).call('daterangepicker', [config.toJSDeep, _jsQueryCallback.toJS]);
 
     _updateTextElement();
   }
@@ -260,8 +267,10 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   void _setDateRange(JSObject? jsStartTime, JSObject? jsEndTime) {
     if (jsStartTime == null || jsEndTime == null) return;
 
-    setDateRange(Moment.jsObjectToDateTime(jsStartTime),
-        Moment.jsObjectToDateTime(jsEndTime));
+    setDateRange(
+      Moment.jsObjectToDateTime(jsStartTime),
+      Moment.jsObjectToDateTime(jsEndTime),
+    );
   }
 
   /// Sets the selected date range by [dateRangeType].
@@ -295,7 +304,15 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   }
 
   DateTime _ensureSeconds(DateTime d, int seconds, int millisecond) => DateTime(
-      d.year, d.month, d.day, d.hour, d.minute, seconds, millisecond, 0);
+    d.year,
+    d.month,
+    d.day,
+    d.hour,
+    d.minute,
+    seconds,
+    millisecond,
+    0,
+  );
 
   void _updateTextElement() {
     final textElement = _textElement;
@@ -319,8 +336,9 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   String _getDateText(DateTime startTime, DateTime endTime) {
     var dateText = _buildDateText(startTime, endTime);
 
-    var dateRangeTitle =
-        showDateTextTitle ? _buildDateTextTitle(startTime, endTime) : null;
+    var dateRangeTitle = showDateTextTitle
+        ? _buildDateTextTitle(startTime, endTime)
+        : null;
 
     if (dateRangeTitle != null && dateRangeTitle.isNotEmpty) {
       dateText = '$dateRangeTitle ($dateText)';

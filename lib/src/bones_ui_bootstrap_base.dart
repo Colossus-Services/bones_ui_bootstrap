@@ -49,15 +49,20 @@ class Bootstrap {
 
       var okCss = await addCssSource(cssFullPath, insertIndex: 0);
 
-      var jsFile =
-          ENABLE_MINIFIED ? 'bootstrap.bundle.min.js' : 'bootstrap.bundle.js';
+      var jsFile = ENABLE_MINIFIED
+          ? 'bootstrap.bundle.min.js'
+          : 'bootstrap.bundle.js';
       var jsFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_JS/$jsFile';
 
-      var okJS = await AMDJS.require('bootstrap',
-          jsFullPath: jsFullPath, addScriptTagInsideBody: true);
+      var okJS = await AMDJS.require(
+        'bootstrap',
+        jsFullPath: jsFullPath,
+        addScriptTagInsideBody: true,
+      );
 
       print(
-          'LOADED[jquery: $okJQuery ; BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
+        'LOADED[jquery: $okJQuery ; BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION',
+      );
 
       return okJQuery && okCss && okJS;
     });
@@ -66,8 +71,10 @@ class Bootstrap {
   static bool _enableTooltip = false;
 
   /// Enables tooltip functionality.
-  static Future<bool> enableTooltip(
-      {bool force = false, Duration? delay}) async {
+  static Future<bool> enableTooltip({
+    bool force = false,
+    Duration? delay,
+  }) async {
     if (_enableTooltip && !force) return true;
     _enableTooltip = true;
 
@@ -95,7 +102,9 @@ class Bootstrap {
 
     component.onRender.listen((_) {
       Future.delayed(
-          Duration(seconds: 1), () => Bootstrap.enableTooltip(force: true));
+        Duration(seconds: 1),
+        () => Bootstrap.enableTooltip(force: true),
+      );
     });
   }
 }
@@ -131,8 +140,11 @@ class JQuery {
 
       AMDJS.verbose = true;
 
-      var okJS = await AMDJS.require('jquery',
-          jsFullPath: jsFullPath, globalJSVariableName: 'jquery');
+      var okJS = await AMDJS.require(
+        'jquery',
+        jsFullPath: jsFullPath,
+        globalJSVariableName: 'jquery',
+      );
 
       print('LOADED[js: $okJS]> JQuery $VERSION');
 
@@ -174,8 +186,12 @@ class JQuery {
       openParams.add(name);
     }
 
-    var w = globalContext.callMethodVarArgs<JSObject?>('open'.toJS,
-        openParams.map((e) => (e as Object?).toJSDeep).toList()) as JSObject;
+    var w =
+        globalContext.callMethodVarArgs<JSObject?>(
+              'open'.toJS,
+              openParams.map((e) => (e as Object?).toJSDeep).toList(),
+            )
+            as JSObject;
 
     if (html != null && html.isNotEmpty) {
       var doc = w['document'] as JSObject;
@@ -226,8 +242,11 @@ class Moment {
           : 'moment-with-locales.js';
       var jsFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_JS/$jsFile';
 
-      var okJS = await AMDJS.require('moment',
-          jsFullPath: jsFullPath, globalJSVariableName: 'moment');
+      var okJS = await AMDJS.require(
+        'moment',
+        jsFullPath: jsFullPath,
+        globalJSVariableName: 'moment',
+      );
 
       _moment = globalContext['moment'] as JSFunction?;
 
@@ -258,9 +277,9 @@ class Moment {
 
   /// Formats [dateTime] to [format].
   static String? format(DateTime dateTime, Object format) {
-    return moment(dateTime)
-        .callMethod<JSString?>('format'.toJS, format.toJSDeep)
-        ?.toDart;
+    return moment(
+      dateTime,
+    ).callMethod<JSString?>('format'.toJS, format.toJSDeep)?.toDart;
   }
 
   static String? jsObjectFormat(JSObject moment, Object format) {
@@ -315,7 +334,8 @@ class Moment {
         return DateTimeWeekDay.saturday;
       default:
         throw ArgumentError(
-            'Invalid Moment weekDay index. Should be of range 0-6, where Sunday is 0 and Saturday is 6 (Sunday-to-Saturday week).');
+          'Invalid Moment weekDay index. Should be of range 0-6, where Sunday is 0 and Saturday is 6 (Sunday-to-Saturday week).',
+        );
     }
   }
 }
