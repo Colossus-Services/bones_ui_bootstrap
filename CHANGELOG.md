@@ -1,3 +1,21 @@
+## 3.0.0-beta.8
+
+- `pubspec.yaml`:
+  - Updated dependencies:
+    - `bones_ui`: from `^3.0.12` to `^3.1.4`
+    - `dom_tools`: from `^3.0.0` to `^3.1.0`
+    - `dom_builder`: from `^3.0.7` to `^3.2.0`
+    - `intl_messages`: from `^3.0.0` to `^3.0.2`
+    - `web_utils`: from `^1.0.23` to `^1.1.0`
+  - Updated dev_dependencies:
+    - `build_runner`: from `^2.11.1` to `^2.16.2`
+    - `build_web_compilers`: from `^4.4.13` to `^4.8.11`
+    - `lints`: from `^5.1.1` to `^6.1.0`
+    - `dependency_validator`: from `^3.2.3` to `^5.1.0`
+    - `test`: from `^1.30.0` to `^1.32.0`
+
+- CI: also run on pushes/PRs to `web-migration`.
+
 ## 3.0.0-beta.7
 
 - `pubspec.yaml`:
