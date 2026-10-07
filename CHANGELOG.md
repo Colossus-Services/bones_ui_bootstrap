@@ -7,6 +7,7 @@
   - sdk: from `>=3.6.0 <4.0.0` to `>=3.10.0 <4.0.0`
   - Updated dependencies:
     - `bones_ui`: from `^3.0.12` to `^3.1.4`
+    - `amdjs`: from `^3.0.0-beta.2` to `^3.0.0`
     - `dom_tools`: from `^3.0.0` to `^3.1.0`
     - `dom_builder`: from `^3.0.7` to `^3.2.0`
     - `intl_messages`: from `^3.0.0` to `^3.0.2`
