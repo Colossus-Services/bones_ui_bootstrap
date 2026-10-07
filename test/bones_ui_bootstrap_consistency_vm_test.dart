@@ -95,9 +95,17 @@ void main() {
     });
 
     test('no stale bundled library versions', () {
+      // Ignores directories with only hidden files (e.g. `.DS_Store`), left
+      // behind by git when switching branches:
+      bool hasFiles(Directory d) => d
+          .listSync(recursive: true)
+          .whereType<File>()
+          .any((f) => !f.uri.pathSegments.last.startsWith('.'));
+
       List<String> dirs(String prefix) => Directory('lib')
           .listSync()
           .whereType<Directory>()
+          .where(hasFiles)
           .map((d) => d.uri.pathSegments.where((s) => s.isNotEmpty).last)
           .where((n) => n.startsWith(prefix))
           .toList();
@@ -164,5 +172,12 @@ void main() {
         expect(dart, isNot(contains(attr)), reason: attr);
       }
     });
+  });
+
+  test('no debug prints in BSDateRangePicker', () {
+    var source = File(
+      'lib/src/components/daterangepicker.dart',
+    ).readAsStringSync();
+    expect(source, isNot(contains('print(')));
   });
 }
