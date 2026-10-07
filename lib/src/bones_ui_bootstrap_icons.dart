@@ -63,7 +63,7 @@ folder-symlink.svg patch-plus.svg snapchat.svg align-middle.svg calendar2-plus.s
 patch-question-fill.svg snow.svg align-start.svg calendar2-range-fill.svg dice-5-fill.svg folder.svg
 patch-question-fll.svg snow2.svg align-top.svg calendar2-range.svg dice-5.svg folder2-open.svg patch-question.svg
 snow3.svg alipay.svg calendar2-week-fill.svg dice-6-fill.svg folder2.svg pause-btn-fill.svg sort-alpha-down-alt.svg
-alt.svg calendar2-week.svg dice-6.svg font pause-btn.svg sort-alpha-down.svg amd.svg calendar2-x-fill.svg disc-fill.svg
+alt.svg calendar2-week.svg dice-6.svg pause-btn.svg sort-alpha-down.svg amd.svg calendar2-x-fill.svg disc-fill.svg
 fonts.svg pause-circle-fill.svg sort-alpha-up-alt.svg android.svg calendar2-x.svg disc.svg forward-fill.svg
 pause-circle.svg sort-alpha-up.svg android2.svg calendar2.svg discord.svg forward.svg pause-fill.svg sort-down-alt.svg
 app-indicator.svg calendar3-event-fill.svg display-fill.svg front.svg pause.svg sort-down.svg app.svg
