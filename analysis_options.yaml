@@ -7,8 +7,6 @@ include: package:lints/recommended.yaml
 #   rules:
 #     - camel_case_types
 
-analyzer:
-  errors:
-    deprecated_member_use: ignore
+#analyzer:
 #   exclude:
 #     - path/to/excluded/files/**
