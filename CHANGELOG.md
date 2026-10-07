@@ -18,6 +18,15 @@
     - `dependency_validator`: from `^3.2.3` to `^5.1.0`
     - `test`: from `^1.30.0` to `^1.32.0`
 
+- `BSAccordion`:
+  - Fix: a blank `id` now throws `ArgumentError` (was silently set to `'null'`).
+
+- Tests:
+  - More unit tests: `BSAccordion`, `BootstrapIcons`, `Moment`, `BSDateRangePicker`.
+  - New browser integration tests (`bones_ui_bootstrap_integration_test.dart`): loading of
+    JQuery/Bootstrap/Moment, `JQuery` calls, `Moment` conversions/locale, `BSAccordion` collapse via
+    Bootstrap JS and `BSDateRangePicker` JS selection → Dart callback.
+
 ## 3.0.0-beta.7
 
 - `pubspec.yaml`:

@@ -56,15 +56,21 @@ class BSAccordion extends UIComponent {
     dynamic classes,
     dynamic style,
   }) : super(
-         id: id ?? '__BSAccordion__${++_idCounter}',
+         id: _resolveId(id),
          componentClass: 'ui-bs-accordion',
          classes: 'ui-bs-accordion',
          classes2: classes,
          style2: style,
-       ) {
-    if (this.id.isEmpty) {
+       );
+
+  // Validated before `super`: `UIComponent` resets a blank ID to `null`,
+  // which the `id` setter would turn into the string `'null'`.
+  static String _resolveId(String? id) {
+    if (id == null) return '__BSAccordion__${++_idCounter}';
+    if (id.trim().isEmpty) {
       throw ArgumentError('id is required for BSAccordion');
     }
+    return id;
   }
 
   @override
