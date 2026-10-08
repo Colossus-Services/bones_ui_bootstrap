@@ -142,16 +142,36 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   /// The JS `DateRangePicker` instance (`null` before the first render).
   JSObject? get jsPicker => _jsPicker;
 
+  /// Removes the JS picker (its popup is in `document.body`, with document and
+  /// window listeners while shown).
+  ///
+  /// Deferred: it may be called from the picker callback (e.g. `onChange` →
+  /// [refresh]) while the picker is still inside its `hide()`.
+  void _removeJsPicker() {
+    var jsPicker = _jsPicker;
+    if (jsPicker == null) return;
+    _jsPicker = null;
+
+    scheduleMicrotask(() => jsPicker.callMethod<JSAny?>('remove'.toJS));
+  }
+
+  @override
+  void clear({bool force = false, bool removeFromParent = false}) {
+    _removeJsPicker();
+    super.clear(force: force, removeFromParent: removeFromParent);
+  }
+
+  @override
+  void dispose() {
+    _removeJsPicker();
+    super.dispose();
+  }
+
   @override
   dynamic render() {
     if (_load.isNotLoaded) return '...';
 
-    // The previous JS picker (its popup is in `document.body`):
-    var prevJsPicker = _jsPicker;
-    if (prevJsPicker != null) {
-      prevJsPicker.callMethod<JSAny?>('remove'.toJS);
-      _jsPicker = null;
-    }
+    _removeJsPicker();
 
     var prevIcon = _icon;
     if (prevIcon != null) {
@@ -267,7 +287,12 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       if (configLocale.isNotEmpty) 'locale': configLocale,
     };
 
-    var dateRangePicker = globalContext['DateRangePicker'] as JSFunction;
+    var dateRangePicker = globalContext['DateRangePicker'] as JSFunction?;
+    if (dateRangePicker == null) {
+      // `daterangepicker.js` not loaded (`load` failed): only the text field.
+      _updateTextElement();
+      return;
+    }
 
     _jsPicker = dateRangePicker.callAsConstructor<JSObject>(
       _textElement,

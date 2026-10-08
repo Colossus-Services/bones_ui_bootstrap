@@ -9,11 +9,18 @@ import 'package:swiss_knife/swiss_knife.dart';
 import 'package:test/test.dart';
 import 'package:web_utils/web_utils.dart';
 
-/// `BSDateRangePicker` without JQuery (never loaded in this test file).
+/// `BSDateRangePicker` without JQuery (never loaded in this test file), with
+/// two pickers in the page.
 void main() {
   group('BSDateRangePicker (no JQuery)', () {
     late HTMLDivElement rootContainer;
     late _Root root;
+
+    BSDateRangePicker pickerA() => root.home.pickerA;
+    BSDateRangePicker pickerB() => root.home.pickerB;
+
+    int pickersInBody() =>
+        document.body!.querySelectorAll('.daterangepicker').length;
 
     setUpAll(() async {
       rootContainer = HTMLDivElement();
@@ -23,7 +30,9 @@ void main() {
       root.initialize();
       await root.onFinishRender.first;
 
-      await _waitFor(() => root.picker.jsPicker != null);
+      await _waitFor(
+        () => pickerA().jsPicker != null && pickerB().jsPicker != null,
+      );
     });
 
     tearDownAll(() => rootContainer.remove());
@@ -36,7 +45,7 @@ void main() {
     });
 
     test('JS selection calls back into Dart', () async {
-      var picker = root.picker;
+      var picker = pickerA();
       var changes = <Object?>[];
       var sub = picker.onChange.listen(changes.add);
 
@@ -60,7 +69,7 @@ void main() {
     });
 
     test('clicking the field opens the picker', () async {
-      var drp = root.picker.jsPicker!;
+      var drp = pickerA().jsPicker!;
       var container = drp['container'] as HTMLElement;
 
       (drp['element'] as HTMLElement).click();
@@ -71,18 +80,99 @@ void main() {
       expect(container.style.display, equals('none'));
     });
 
+    test('a click on the other picker field closes the open picker', () {
+      var drpA = pickerA().jsPicker!;
+      var elementB = pickerB().jsPicker!['element'] as HTMLElement;
+
+      drpA.callMethod('show'.toJS);
+      expect((drpA['isShowing'] as JSBoolean).toDart, isTrue);
+
+      // Same tag and classes (`div.form-control`) as picker A's element:
+      elementB.dispatchEvent(
+        MouseEvent('mousedown', MouseEventInit(bubbles: true)),
+      );
+
+      expect((drpA['isShowing'] as JSBoolean).toDart, isFalse);
+      expect((drpA['container'] as HTMLElement).style.display, equals('none'));
+    });
+
+    test('a click inside the picker keeps it open', () {
+      var drpA = pickerA().jsPicker!;
+      drpA.callMethod('show'.toJS);
+      try {
+        var container = drpA['container'] as HTMLElement;
+        container
+            .querySelector('.ranges')!
+            .dispatchEvent(
+              MouseEvent('mousedown', MouseEventInit(bubbles: true)),
+            );
+        expect((drpA['isShowing'] as JSBoolean).toDart, isTrue);
+      } finally {
+        drpA.callMethod('hide'.toJS);
+      }
+    });
+
     test('a new render removes the previous JS picker', () async {
-      int pickersInBody() =>
-          document.body!.querySelectorAll('.daterangepicker').length;
-
       var before = pickersInBody();
-      var prevJsPicker = root.picker.jsPicker;
+      var prevJsPicker = pickerA().jsPicker!;
+      prevJsPicker.callMethod('show'.toJS);
 
-      root.picker.refresh();
-      await _waitFor(() => !identical(root.picker.jsPicker, prevJsPicker));
+      pickerA().refresh();
+      await _waitFor(() => !identical(pickerA().jsPicker, prevJsPicker));
+      await _waitFor(() => pickersInBody() == before);
 
-      expect(pickersInBody(), equals(before));
+      expect(prevJsPicker['container'], isNull);
+      expect((prevJsPicker['isShowing'] as JSBoolean).toDart, isFalse);
       expect(JQuery.isLoaded, isFalse);
+    });
+
+    test(
+      'a render from `onChange` while applying completes the apply',
+      () async {
+        var picker = pickerA();
+        var drp = picker.jsPicker!;
+        var element = drp['element'] as HTMLElement;
+
+        var applyEvents = 0;
+        void onApply(Event _) => ++applyEvents;
+        var onApplyJS = onApply.toJS;
+        element.addEventListener('apply.daterangepicker', onApplyJS);
+
+        // A synchronous listener re-rendering the picker (the JS picker is
+        // still inside `hide()`, called by `clickApply`):
+        var sub = picker.onChange.listen((_) => picker.refresh());
+
+        try {
+          drp.callMethod('show'.toJS);
+          drp.callMethod(
+            'setStartDate'.toJS,
+            Moment.moment(DateTime(2023, 1, 2)),
+          );
+          drp.callMethod(
+            'setEndDate'.toJS,
+            Moment.moment(DateTime(2023, 1, 3)),
+          );
+          drp.callMethod('clickApply'.toJS);
+
+          expect(applyEvents, equals(1));
+          expect(picker.startTime, equals(DateTime(2023, 1, 2)));
+
+          await _waitFor(() => !identical(picker.jsPicker, drp));
+          await _waitFor(() => drp['container'] == null);
+        } finally {
+          await sub.cancel();
+          element.removeEventListener('apply.daterangepicker', onApplyJS);
+        }
+      },
+    );
+
+    test('clear removes the JS picker', () async {
+      var before = pickersInBody();
+
+      pickerB().clear();
+
+      expect(pickerB().jsPicker, isNull);
+      await _waitFor(() => pickersInBody() == before - 1);
     });
   });
 }
@@ -103,9 +193,25 @@ Future<void> _waitFor(
 class _Root extends UIRoot {
   _Root(super.rootContainer);
 
-  late final BSDateRangePicker picker;
+  late final _Home home;
 
   @override
-  UIComponent? renderContent() =>
-      picker = BSDateRangePicker(content!, rangesTypes: [DateRangeType.today]);
+  UIComponent? renderContent() => home = _Home(content!);
+}
+
+class _Home extends UIComponent {
+  _Home(super.parent);
+
+  late final BSDateRangePicker pickerA = BSDateRangePicker(
+    content!,
+    rangesTypes: [DateRangeType.today],
+  );
+
+  late final BSDateRangePicker pickerB = BSDateRangePicker(
+    content!,
+    rangesTypes: [DateRangeType.today],
+  );
+
+  @override
+  render() => [pickerA, pickerB];
 }

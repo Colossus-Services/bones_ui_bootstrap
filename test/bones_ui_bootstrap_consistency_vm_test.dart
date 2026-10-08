@@ -180,11 +180,22 @@ void main() {
         js.indexOf('        updateRanges: function'),
       );
       expect(remove, contains('this.container.remove();'));
+      expect(remove, contains('this.isShowing = false;'));
       expect(
         remove,
         contains("window.removeEventListener('resize', this.moveProxy);"),
       );
       expect(remove, isNot(contains('window.addEventListener')));
+    });
+
+    test('outsideClick: inside the picker by element identity', () {
+      var outsideClick = js.substring(
+        js.indexOf('        outsideClick: function'),
+        js.indexOf('        showCalendars: function'),
+      );
+      expect(outsideClick, contains('this.element.contains(target)'));
+      expect(outsideClick, contains('this.container.contains(target)'));
+      expect(outsideClick, isNot(contains('getSelectorFromElement')));
     });
 
     test('no JQuery (vanilla-datetimerange-picker)', () {

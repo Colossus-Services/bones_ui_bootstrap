@@ -8,19 +8,27 @@
   - `load`: doesn't load JQuery.
   - The picker is created with `new DateRangePicker(element, config, callback)`.
   - New `jsPicker`: the JS `DateRangePicker` instance.
-  - A new render removes the previous JS picker (its container was left in `document.body`).
+  - The JS picker is removed (its container in `document.body`, and its listeners) on a new render, `clear` and
+    `dispose` (it used to be left there). Deferred, so a render triggered by the picker callback (e.g. `onChange`
+    → `refresh`) doesn't break the picker while it's applying.
+  - If `daterangepicker.js` failed to load, renders only the date text (no error).
   - `daterangepicker.js` local patches: the 2 previous ones, plus:
     - `clickApply`/`clickCancel`: the `apply`/`cancel` events dispatched on the picker element, as in the original
       (the port failed when called without an event).
-    - `remove`: removes the picker container from the document and the window `resize` listener, as in the original.
+    - `remove`: removes the picker container from the document and the window `resize` listener, and sets
+      `isShowing = false`, as in the original.
+    - `outsideClick`: "inside the picker" by element identity, as in the original (the port matched any element with
+      the same tag and classes, e.g. another picker field, keeping two pickers open).
 
-- JQuery is no longer loaded by this package (only with `JQuery.load()`).
+- JQuery is no longer loaded by this package (only with `JQuery.load()`): call `JQuery.load()` if the app uses it.
 
 - README: JQuery and Date Range Picker in the bundled libraries; new "See also" section with the related projects.
 
 - Tests:
-  - New `bones_ui_bootstrap_daterangepicker_test.dart`: `BSDateRangePicker` without JQuery (loading, JS selection
-    calling back into Dart, opening on click, a new render removing the previous JS picker).
+  - New `bones_ui_bootstrap_daterangepicker_test.dart`: `BSDateRangePicker` without JQuery, two pickers in the page
+    (loading, JS selection calling back into Dart, opening on click, a click on the other picker field closing the
+    open one, a click inside keeping it open, a new render or `clear` removing the JS picker, a render from
+    `onChange` while applying).
   - Integration tests use `BSDateRangePicker.jsPicker` (not JQuery `data`).
   - Consistency: the new `daterangepicker.js` local patches, and no JQuery in it.
 
