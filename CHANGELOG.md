@@ -1,3 +1,28 @@
+## 5.1.0
+
+- Bundled the Bootstrap 5.3.7 SCSS sources (`lib/bootstrap-5/scss`, unmodified from the official `bootstrap`
+  5.3.7 npm package), for apps that compile their own Bootstrap theme:
+  `@import "package:bones_ui_bootstrap/bootstrap-5/scss/bootstrap";`
+  - Only the major version in the path: Bootstrap 5.x updates don't change the import.
+    (The CSS and JS stay in `lib/bootstrap-<version>`, which busts the browser cache on updates.)
+
+- `Bootstrap`:
+  - `load`: new parameter `loadCss` (default `true`). With `false` only the Bootstrap JS is loaded, for apps that
+    compile their own Bootstrap CSS.
+  - New `PATH_SCSS` and `isCssLoaded`.
+
+- `pubspec.yaml`:
+  - New dev_dependencies:
+    - `sass`: ^1.105.1
+    - `package_config`: ^3.0.0
+
+- Tests:
+  - New `bones_ui_bootstrap_scss_vm_test.dart`: compiles the bundled SCSS through its `package:` URL, with the
+    default variables and with a custom theme; the variables/mixins imports don't output CSS.
+  - New `bones_ui_bootstrap_no_css_test.dart`: `Bootstrap.load(loadCss: false)` loads only the JS, no Bootstrap
+    CSS applied, later calls keep the first options.
+  - `Bootstrap.isCssLoaded` after the default `load`.
+
 ## 5.0.1
 
 - `Moment.locale`: returns `false` instead of throwing when Moment is not loaded yet.

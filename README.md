@@ -109,6 +109,32 @@ BSAccordion(parent, [
 BSAccordion(parent, items, flush: true);
 ```
 
+## Custom Bootstrap theme (SCSS)
+
+The Bootstrap SCSS sources are bundled (`lib/bootstrap-5/scss`, the same version as the bundled CSS and JS),
+so an app can compile its own themed Bootstrap CSS (e.g. with [sass_builder][sass_builder]):
+
+```scss
+// Theme variables, before the import:
+$primary: #a2a2a2;
+$body-bg: #1b1a16;
+
+@import "package:bones_ui_bootstrap/bootstrap-5/scss/bootstrap";
+```
+
+The path has only the major version, so Bootstrap 5.x updates of this package don't change the import.
+
+Then load only the Bootstrap JS, so the bundled (non-themed) CSS isn't loaded too:
+
+```dart
+Bootstrap.load(loadCss: false);
+```
+
+To keep the bundled CSS and only add theme overrides, import just `functions`, `variables`, `variables-dark`,
+`maps`, `mixins` and `utilities` (they don't output any CSS) and write the overrides with them.
+
+Note: Bootstrap 5.3 SCSS uses `@import` and global built-in functions, so Dart Sass prints deprecation warnings.
+
 ## Tooltips
 
 Use the Bootstrap 5 attributes (`data-bs-*`) and enable them with `Bootstrap.enableTooltip()`
@@ -158,4 +184,5 @@ Graciliano M. Passos: [gmpassos@GitHub][gmpassos_github].
 [bootstrap_migration]: https://getbootstrap.com/docs/5.3/migration/
 [branch_4x]: https://github.com/Colossus-Services/bones_ui_bootstrap/tree/4.x
 [bootstrap_icons]: https://icons.getbootstrap.com/
+[sass_builder]: https://pub.dev/packages/sass_builder
 [apache_license]: https://www.apache.org/licenses/LICENSE-2.0.txt
