@@ -1,3 +1,20 @@
+## 5.3.1
+
+- Bootstrap 4 compatibility SCSS (`bootstrap-5/bs4-compat`) fixes:
+  - `.accordion-flush`: no doubled separators (the item top border is only for the non flush accordions).
+  - Accordion header (`.card-header`): the first header has the item top radius (its background no longer shows
+    square corners), and uses `$card-cap-padding-y`/`$card-cap-padding-x`/`$card-cap-bg`.
+  - `.navbar-toggler`: no focus ring only after a tap or click (`:focus:not(:focus-visible)`); the keyboard focus keeps
+    the Bootstrap 5 ring (was `$navbar-toggler-focus-width: 0`, no focus indicator at all).
+  - Accordion button colors follow the app `$prefix` (was `--bs-link-color`).
+  - Lists indent: `padding-left: revert` (the browser default, 40px whatever the root font size; was `2.5rem`).
+  - Class aliases: `sr-only sr-only-focusable` (Bootstrap 4 skip links) visible when focused (`.sr-only` only extends
+    `.visually-hidden` without `.sr-only-focusable`).
+- README: the accordion header line color and the color modes with the compatibility SCSS.
+
+- Tests: compatibility VM tests for the fixes above (`.accordion-flush`, header radius and `$card-cap-*`, toggler focus,
+  app `$prefix`, lists `revert`, skip link aliases).
+
 ## 5.3.0
 
 - `BSDateRangePicker`: no JQuery anymore.

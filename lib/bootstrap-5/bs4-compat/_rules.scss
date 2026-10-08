@@ -26,10 +26,10 @@ input[type="radio"] {
   padding: revert;
 }
 
-// Lists indent: 40px, the browser default (Bootstrap 5: `2rem`).
+// Lists indent: the browser default, 40px (Bootstrap 5: `2rem`).
 ol,
 ul {
-  padding-left: 2.5rem;
+  padding-left: revert;
 }
 
 // `.badge` and `.card` text in the inherited color (Bootstrap 5: white and the
@@ -73,6 +73,12 @@ ul {
   display: inline-block;
 }
 
+// `.navbar-toggler`: no focus ring after a tap or click, as in Bootstrap 4; the
+// keyboard focus (`:focus-visible`) keeps the Bootstrap 5 ring.
+.navbar-toggler:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Accordion (`BSAccordion`) with the look of the Bootstrap 4 (`4.x`)
 // `BSAccordion`: each item a `.card`, the header a `.card-header`, the button a
@@ -107,20 +113,40 @@ ul {
     var(--#{$prefix}accordion-border-color);
 }
 
+// ... except in `.accordion-flush` (Bootstrap 5), whose items keep only their
+// bottom border (no doubled separators).
+.accordion-flush > .accordion-item {
+  border-top: 0;
+}
+
 .accordion-collapse {
   flex: 1 1 auto;
 }
 
 // The header: a `.card-header` (a `div`, with the inherited font, not the `h2`
-// one).
+// one), with the `.card` cap padding and background, and the top radius of the
+// first `.card-header`. Its bottom line keeps the `.card-header` color (as in
+// Bootstrap 4, not the item border color).
 .accordion-header {
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
-  padding: 0.75rem 1.25rem;
-  background-color: rgba(0, 0, 0, 0.03);
+  padding: $card-cap-padding-y $card-cap-padding-x;
+  background-color: $card-cap-bg;
   border-bottom: var(--#{$prefix}accordion-border-width) solid
     $accordion-border-color;
+}
+
+.accordion-item > .accordion-header:first-child {
+  border-radius: calc(
+      var(--#{$prefix}accordion-border-radius) -
+        var(--#{$prefix}accordion-border-width)
+    )
+    calc(
+      var(--#{$prefix}accordion-border-radius) -
+        var(--#{$prefix}accordion-border-width)
+    )
+    0 0;
 }
 
 // The button: a `.btn.btn-link` (static, not selectable, with its transparent

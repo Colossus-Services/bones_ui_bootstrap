@@ -173,6 +173,14 @@ sets `--bs-accordion-border-radius`/`--bs-accordion-border-color`, and a header 
 }
 ```
 
+As in Bootstrap 4, the line under an accordion header keeps the `.card-header` border color (`$accordion-border-color`),
+even when the item has its own border color.
+
+Color modes: the compatibility targets the Bootstrap 4 (light) look, which had no color modes. `.card`, `.form-control`,
+`.table` and the accordion have fixed light colors, so they don't follow `data-bs-theme="dark"`. To use color modes,
+set those variables (e.g. `$card-bg`, `$input-bg`, `$accordion-bg`) back to the Bootstrap 5 CSS variables before the
+import.
+
 Optionally, the Bootstrap 4 class names (`float-right`, `text-left`, `ml-2`, `font-weight-bold`, `sr-only`,
 `badge-pill`, ...), for markup that can't be easily renamed:
 

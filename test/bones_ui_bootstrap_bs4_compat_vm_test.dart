@@ -51,7 +51,8 @@ void main() {
       expect(css, contains('--bs-border-radius: 0.25rem;'));
       expect(css, contains('--bs-link-decoration: none;'));
       expect(css, contains('--bs-navbar-padding-x: 1rem;'));
-      expect(css, contains('--bs-navbar-toggler-focus-width: 0;'));
+      // The keyboard focus keeps the Bootstrap 5 toggler ring:
+      expect(css, contains('--bs-navbar-toggler-focus-width: 0.25rem;'));
       expect(css, contains('--bs-card-bg: #fff;'));
       expect(css, contains('--bs-accordion-btn-padding-x: 0.75rem;'));
       expect(css, contains('--bs-accordion-body-padding-y: 1.25rem;'));
@@ -69,9 +70,13 @@ void main() {
         rule(css, 'input[type=checkbox],\ninput[type=radio]'),
         contains('padding: 0;'),
       );
-      expect(rule(css, 'ol,\nul'), contains('padding-left: 2.5rem;'));
+      expect(rule(css, 'ol,\nul'), contains('padding-left: revert;'));
       expect(rule(css, '.form-control'), contains('appearance: auto;'));
       expect(rule(css, '.navbar-brand'), contains('display: inline-block;'));
+      expect(
+        rule(css, '.navbar-toggler:focus:not(:focus-visible)'),
+        contains('box-shadow: none;'),
+      );
     });
 
     test('`.table` borders, except `.table-bordered`/`.table-borderless`', () {
@@ -102,9 +107,24 @@ void main() {
         contains('border-radius: var(--bs-accordion-border-radius);'),
       );
 
+      // `.accordion-flush` items: no doubled separators:
+      expect(
+        rule(css, '.accordion-flush > .accordion-item'),
+        contains('border-top: 0;'),
+      );
+
+      // The `.card-header` (`$card-cap-*`), with the first header top radius:
       var header = rule(css, '.accordion-header');
       expect(header, contains('padding: 0.75rem 1.25rem;'));
+      expect(header, contains('background-color: rgba(0, 0, 0, 0.03);'));
       expect(header, contains('font-size: inherit;'));
+      expect(
+        rule(css, '.accordion-item > .accordion-header:first-child'),
+        contains(
+          'calc(var(--bs-accordion-border-radius) - '
+          'var(--bs-accordion-border-width))',
+        ),
+      );
 
       var button = rule(
         css,
@@ -113,6 +133,7 @@ void main() {
       expect(button, contains('position: static;'));
       expect(button, contains('justify-content: space-between;'));
       expect(button, contains('box-shadow: none;'));
+      expect(button, contains('border: 1px solid transparent;'));
 
       expect(rule(css, '.accordion-button::after'), contains('display: none;'));
 
@@ -138,7 +159,7 @@ void main() {
       expect(compatButton, greaterThan(bootstrapButton));
 
       var bootstrapReboot = css.indexOf('\nol,\nul {\n  padding-left: 2rem;');
-      var compatList = css.indexOf('\nol,\nul {\n  padding-left: 2.5rem;');
+      var compatList = css.indexOf('\nol,\nul {\n  padding-left: revert;');
       expect(bootstrapReboot, greaterThan(0));
       expect(compatList, greaterThan(bootstrapReboot));
     });
@@ -160,6 +181,17 @@ void main() {
     expect(css, contains('--bs-table-color: #343434;'));
   });
 
+  test('app `\$prefix`', () {
+    var css = compile('''
+      \$prefix: "x-";
+      @import "$compatPath/bootstrap";
+    ''');
+
+    expect(css, contains('--x-accordion-btn-color: var(--x-link-color);'));
+    expect(css, contains('--x-accordion-active-color: var(--x-link-color);'));
+    expect(css, isNot(contains('var(--bs-')));
+  });
+
   test('variables only: no CSS output', () {
     var css = compile('@import "$compatPath/variables";');
     expect(css.trim(), isEmpty);
@@ -173,8 +205,10 @@ void main() {
 
     // `.bs5` and then `.bs4` in the same selector list (indented inside
     // `@media`, possibly over several lines):
-    bool aliased(String bs5, String bs4) =>
-        RegExp('(^|[\\s,])\\.$bs5,([^{]*,)?\\s*\\.$bs4[\\s,{]').hasMatch(css);
+    bool aliased(String bs5, String bs4) => RegExp(
+      '(^|[\\s,])\\.${RegExp.escape(bs5)},([^{]*,)?\\s*'
+      '\\.${RegExp.escape(bs4)}[\\s,{]',
+    ).hasMatch(css);
 
     expect(aliased('float-end', 'float-right'), isTrue);
     expect(aliased('float-md-start', 'float-md-left'), isTrue);
@@ -184,7 +218,18 @@ void main() {
     expect(aliased('pe-lg-3', 'pr-lg-3'), isTrue);
     expect(aliased('fw-bold', 'font-weight-bold'), isTrue);
     expect(aliased('fst-italic', 'font-italic'), isTrue);
-    expect(aliased('visually-hidden', 'sr-only'), isTrue);
+    // A skip link (`sr-only sr-only-focusable`) only hidden while not focused:
+    expect(
+      aliased('visually-hidden', 'sr-only:not(.sr-only-focusable)'),
+      isTrue,
+    );
+    expect(
+      aliased(
+        'visually-hidden-focusable:not(:focus):not(:focus-within)',
+        'sr-only-focusable:not(:focus):not(:focus-within)',
+      ),
+      isTrue,
+    );
     expect(aliased('rounded-pill', 'badge-pill'), isTrue);
     expect(aliased('text-bg-primary', 'badge-primary'), isTrue);
     expect(rule(css, '.form-group'), contains('margin-bottom: 1rem;'));

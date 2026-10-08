@@ -53,8 +53,10 @@ $-bs4-infixes: ();
 .rounded-left { @extend .rounded-start; }
 .rounded-right { @extend .rounded-end; }
 
-// Screen readers.
-.sr-only { @extend .visually-hidden; }
+// Screen readers. Bootstrap 4 skip links are `sr-only sr-only-focusable`: only
+// `.visually-hidden-focusable` (hidden unless focused) for them, as
+// `.visually-hidden` (`!important`) would keep them hidden when focused.
+.sr-only:not(.sr-only-focusable) { @extend .visually-hidden; }
 .sr-only-focusable { @extend .visually-hidden-focusable; }
 
 // Badges: `badge-pill` and the color variants (`badge-primary`, ...).
