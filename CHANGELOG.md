@@ -1,8 +1,10 @@
 ## 5.1.0
 
-- Bundled the Bootstrap 5.3.7 SCSS sources (`lib/bootstrap-5.3.7/scss`, unmodified from the official `bootstrap`
+- Bundled the Bootstrap 5.3.7 SCSS sources (`lib/bootstrap-5/scss`, unmodified from the official `bootstrap`
   5.3.7 npm package), for apps that compile their own Bootstrap theme:
-  `@import "package:bones_ui_bootstrap/bootstrap-5.3.7/scss/bootstrap";`
+  `@import "package:bones_ui_bootstrap/bootstrap-5/scss/bootstrap";`
+  - Only the major version in the path: Bootstrap 5.x updates don't change the import.
+    (The CSS and JS stay in `lib/bootstrap-<version>`, which busts the browser cache on updates.)
 
 - `Bootstrap`:
   - `load`: new parameter `loadCss` (default `true`). With `false` only the Bootstrap JS is loaded, for apps that

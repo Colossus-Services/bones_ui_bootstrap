@@ -17,8 +17,10 @@ void main() {
           )!
           .group(1)!;
 
-  final scssPackagePath =
-      'package:bones_ui_bootstrap/bootstrap-$bootstrapVersion/scss';
+  // Only the major version in the SCSS path (`Bootstrap.PATH_SCSS`):
+  final scssDir = 'bootstrap-${bootstrapVersion.split('.').first}/scss';
+
+  final scssPackagePath = 'package:bones_ui_bootstrap/$scssDir';
 
   late PackageConfig packageConfig;
 
@@ -37,8 +39,8 @@ void main() {
       .css;
 
   group('Bootstrap SCSS', () {
-    test('bundled sources', () {
-      var dir = 'lib/bootstrap-$bootstrapVersion/scss';
+    test('bundled sources match Bootstrap.VERSION', () {
+      var dir = 'lib/$scssDir';
       expect(
         File('$dir/bootstrap.scss').readAsStringSync(),
         contains('@import "variables";'),
@@ -46,6 +48,18 @@ void main() {
       expect(
         File('$dir/mixins/_banner.scss').readAsStringSync(),
         contains('Bootstrap #{\$file} v$bootstrapVersion '),
+      );
+      expect(
+        Directory('lib/bootstrap-$bootstrapVersion/scss').existsSync(),
+        isFalse,
+        reason: 'SCSS only in `$scssDir` (major version)',
+      );
+    });
+
+    test('README import path', () {
+      expect(
+        File('README.md').readAsStringSync(),
+        contains('@import "$scssPackagePath/bootstrap";'),
       );
     });
 

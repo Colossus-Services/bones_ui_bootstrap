@@ -26,11 +26,15 @@ class Bootstrap {
   // ignore: non_constant_identifier_names
   static final String PATH_JS = '$PATH/js';
 
-  /// Path of the bundled Bootstrap SCSS sources, for apps that compile their
-  /// own Bootstrap theme:
-  /// `@import "package:bones_ui_bootstrap/bootstrap-<VERSION>/scss/bootstrap";`
+  /// Path of the bundled Bootstrap SCSS sources (same [VERSION] as the bundled
+  /// CSS and JS), for apps that compile their own Bootstrap theme:
+  /// `@import "package:bones_ui_bootstrap/bootstrap-5/scss/bootstrap";`
+  ///
+  /// Only the major version is in the path, so a Bootstrap 5.x update doesn't
+  /// change the app imports. (The CSS and JS paths keep the full version, as
+  /// they are loaded by the browser and the version busts its cache.)
   // ignore: non_constant_identifier_names
-  static final String PATH_SCSS = '$PATH/scss';
+  static final String PATH_SCSS = 'bootstrap-${VERSION.split('.').first}/scss';
 
   static final LoadController _load = LoadController('JSBootstrap');
 

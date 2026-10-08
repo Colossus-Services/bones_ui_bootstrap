@@ -110,7 +110,14 @@ void main() {
           .where((n) => n.startsWith(prefix))
           .toList();
 
-      expect(dirs('bootstrap-'), equals(['bootstrap-$bootstrapVersion']));
+      // `bootstrap-<major>`: the SCSS (`Bootstrap.PATH_SCSS`).
+      expect(
+        dirs('bootstrap-'),
+        unorderedEquals([
+          'bootstrap-$bootstrapVersion',
+          'bootstrap-${bootstrapVersion.split('.').first}',
+        ]),
+      );
       expect(dirs('jquery-'), equals(['jquery-$jqueryVersion']));
       expect(dirs('moment-'), equals(['moment-$momentVersion']));
     });

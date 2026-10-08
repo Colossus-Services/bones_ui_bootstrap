@@ -111,7 +111,7 @@ BSAccordion(parent, items, flush: true);
 
 ## Custom Bootstrap theme (SCSS)
 
-The Bootstrap SCSS sources are bundled (`lib/bootstrap-5.3.7/scss`, the same version as the bundled CSS and JS),
+The Bootstrap SCSS sources are bundled (`lib/bootstrap-5/scss`, the same version as the bundled CSS and JS),
 so an app can compile its own themed Bootstrap CSS (e.g. with [sass_builder][sass_builder]):
 
 ```scss
@@ -119,8 +119,10 @@ so an app can compile its own themed Bootstrap CSS (e.g. with [sass_builder][sas
 $primary: #a2a2a2;
 $body-bg: #1b1a16;
 
-@import "package:bones_ui_bootstrap/bootstrap-5.3.7/scss/bootstrap";
+@import "package:bones_ui_bootstrap/bootstrap-5/scss/bootstrap";
 ```
+
+The path has only the major version, so Bootstrap 5.x updates of this package don't change the import.
 
 Then load only the Bootstrap JS, so the bundled (non-themed) CSS isn't loaded too:
 
