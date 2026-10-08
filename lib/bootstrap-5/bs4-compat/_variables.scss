@@ -57,11 +57,11 @@ $table-bg: transparent !default;
 $table-border-color: #dee2e6 !default;
 
 // `.navbar`: horizontal padding (Bootstrap 5 leaves it to an inner
-// `.container`), links color, and no ring around the toggler after a tap.
+// `.container`) and links color. (No ring around the toggler after a tap: see
+// `_rules.scss`.)
 $navbar-padding-x: 1rem !default;
 $navbar-dark-color: rgba(255, 255, 255, 0.5) !default;
 $navbar-light-color: rgba(0, 0, 0, 0.5) !default;
-$navbar-toggler-focus-width: 0 !default;
 
 // Accordion (`BSAccordion`) with the look of the Bootstrap 4 (`4.x`)
 // `BSAccordion`, based on `.card` (see `_rules.scss`):
@@ -72,8 +72,11 @@ $accordion-border-color: rgba(0, 0, 0, 0.125) !default;
 //   `.card-header` padding is on the header).
 $accordion-button-bg: transparent !default;
 $accordion-button-active-bg: transparent !default;
-$accordion-button-color: var(--bs-link-color) !default;
-$accordion-button-active-color: var(--bs-link-color) !default;
+// (`$prefix` is defined by the Bootstrap variables, after this file, unless the
+// app sets it before the import.)
+$bs4-compat-prefix: if(variable-exists(prefix), $prefix, "bs-");
+$accordion-button-color: var(--#{$bs4-compat-prefix}link-color) !default;
+$accordion-button-active-color: var(--#{$bs4-compat-prefix}link-color) !default;
 $accordion-button-padding-y: 0.375rem !default;
 $accordion-button-padding-x: 0.75rem !default;
 // - The body is a `.card-body`.
