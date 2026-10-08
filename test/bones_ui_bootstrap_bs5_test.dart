@@ -18,7 +18,7 @@ void main() {
 
   group('Bootstrap 5 (no JQuery)', () {
     test('Bootstrap.load does not load JQuery', () {
-      expect(Bootstrap.VERSION, equals('5.3.7'));
+      expect(Bootstrap.VERSION, equals('5.3.8'));
       expect(Bootstrap.isSuccessfullyLoaded, isTrue);
       expect(Bootstrap.isCssLoaded, isTrue);
       expect(JQuery.isLoaded, isFalse);

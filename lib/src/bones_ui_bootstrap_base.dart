@@ -15,7 +15,7 @@ final bool ENABLE_MINIFIED = true;
 /// Bootstrap wrapper and loader.
 class Bootstrap {
   // ignore: non_constant_identifier_names
-  static final String VERSION = '5.3.7';
+  static final String VERSION = '5.3.8';
 
   // ignore: non_constant_identifier_names
   static final String PATH = 'bootstrap-$VERSION';
