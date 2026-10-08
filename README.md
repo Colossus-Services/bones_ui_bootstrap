@@ -124,16 +124,61 @@ $body-bg: #1b1a16;
 
 The path has only the major version, so Bootstrap 5.x updates of this package don't change the import.
 
-Then load only the Bootstrap JS, so the bundled (non-themed) CSS isn't loaded too:
+Then load only the Bootstrap JS, so the bundled (non-themed) CSS isn't loaded too. Set it at the app start, before
+any `Bootstrap.load` (including the ones made by this package, e.g. `Bootstrap.enableTooltip`):
 
 ```dart
-Bootstrap.load(loadCss: false);
+Bootstrap.defaultLoadCss = false;
 ```
+
+(Or `Bootstrap.load(loadCss: false)`, when it's surely the first `load` call: only the first call loads.)
 
 To keep the bundled CSS and only add theme overrides, import just `functions`, `variables`, `variables-dark`,
 `maps`, `mixins` and `utilities` (they don't output any CSS) and write the overrides with them.
 
 Note: Bootstrap 5.3 SCSS uses `@import` and global built-in functions, so Dart Sass prints deprecation warnings.
+
+### Bootstrap 4 compatibility
+
+For apps moving from version `4.x` (Bootstrap 4), `bootstrap-5/bs4-compat` normalizes Bootstrap 5 to look like
+Bootstrap 4: import it instead of `bootstrap-5/scss/bootstrap`.
+
+```scss
+// Theme variables, before the import:
+$primary: #a2a2a2;
+
+@import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/bootstrap";
+```
+
+It's the Bootstrap 5 SCSS between:
+
+- `bs4-compat/_variables.scss`: Bootstrap 4 values for the variables whose defaults changed (border radius, no
+  responsive font sizes, links without underline, `<small>`, `<hr>`, `.badge`, `.card`, `.form-control`, `.table`,
+  `.navbar`, ...). All `!default`: the app variables set before the import win.
+- `bs4-compat/_rules.scss`: Bootstrap 4 styles without a Bootstrap 5 variable: checkboxes and radios without padding,
+  date inputs height, lists indent, inherited `.badge`/`.card` colors, `.table` borders, `.navbar-brand`, and the
+  accordion (`BSAccordion`) with the look of the Bootstrap 4 `BSAccordion` (each item a `.card`, the header a
+  `.card-header`, the button a `.btn-link`).
+
+Accordion items or headers styled by app classes: Bootstrap 5 sets the item radius and border color, and the expanded
+button color, with rules more specific than a single class. An item class with its own radius or border color also
+sets `--bs-accordion-border-radius`/`--bs-accordion-border-color`, and a header class that colors its contents
+(`.x-head * { color: ... }`) also sets `--bs-accordion-btn-color`/`--bs-accordion-active-color`:
+
+```scss
+.my-item {
+  --bs-accordion-border-radius: 14px;
+  border-radius: var(--bs-accordion-border-radius);
+}
+```
+
+Optionally, the Bootstrap 4 class names (`float-right`, `text-left`, `ml-2`, `font-weight-bold`, `sr-only`,
+`badge-pill`, ...), for markup that can't be easily renamed:
+
+```scss
+@import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/bootstrap";
+@import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/class-aliases";
+```
 
 ## Tooltips
 

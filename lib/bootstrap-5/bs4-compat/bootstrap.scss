@@ -1,0 +1,18 @@
+// Bootstrap 5 with Bootstrap 4 compatibility.
+//
+// The Bootstrap 5 SCSS bundled by `bones_ui_bootstrap` (`../scss`) between the
+// Bootstrap 4 compatibility variables and rules: Bootstrap 5 normalized to look
+// like Bootstrap 4, for apps moving from `bones_ui_bootstrap` 4.x.
+//
+//   // App theme variables, before the import:
+//   $primary: #a2a2a2;
+//
+//   @import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/bootstrap";
+//
+// Optional, the Bootstrap 4 class names (`float-right`, `ml-2`, ...):
+//
+//   @import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/class-aliases";
+
+@import "variables";
+@import "../scss/bootstrap";
+@import "rules";
