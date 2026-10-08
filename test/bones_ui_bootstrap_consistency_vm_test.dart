@@ -157,6 +157,41 @@ void main() {
         ),
       );
     });
+
+    test('apply/cancel events dispatched on the picker element', () {
+      expect(
+        js,
+        contains(
+          "this.element.dispatchEvent(new CustomEvent('apply.daterangepicker'",
+        ),
+      );
+      expect(
+        js,
+        contains(
+          "this.element.dispatchEvent(new CustomEvent('cancel.daterangepicker'",
+        ),
+      );
+      expect(js, isNot(contains('e.target.dispatchEvent')));
+    });
+
+    test('remove: container removed and resize listener removed', () {
+      var remove = js.substring(
+        js.indexOf('        remove: function()'),
+        js.indexOf('        updateRanges: function'),
+      );
+      expect(remove, contains('this.container.remove();'));
+      expect(
+        remove,
+        contains("window.removeEventListener('resize', this.moveProxy);"),
+      );
+      expect(remove, isNot(contains('window.addEventListener')));
+    });
+
+    test('no JQuery (vanilla-datetimerange-picker)', () {
+      expect(js, contains('alumuko/vanilla-datetimerange-picker'));
+      expect(js, isNot(contains('jQuery')));
+      expect(js, isNot(contains(r'$(')));
+    });
   });
 
   group('Bootstrap 5 markup', () {

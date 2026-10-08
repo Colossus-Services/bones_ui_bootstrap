@@ -19,9 +19,10 @@ This package automatically loads (and bundles) the necessaries JavaScript librar
 
 - Bootstrap: 5.3.8
 - Bootstrap Icons: 1.13.1
-- JQuery: 3.7.1 (only loaded when needed, e.g. by `BSDateRangePicker`)
+- JQuery: 3.7.1 (not loaded by this package: only with `JQuery.load()`)
 - Moment: 2.30.1
-- Date Range Picker: 3.1
+- Date Range Picker: [vanilla-datetimerange-picker][vanilla_datetimerange_picker] (Dan Grossman's
+  [daterangepicker][daterangepicker] 3.1 without JQuery), used by `BSDateRangePicker`
 
 NOTE: You don't need to add any HTML or JavaScript code to your project to have full integration of
 [Bootstrap][bootstrap] with [Bones_UI][bones_ui].
@@ -217,6 +218,25 @@ the gateway for smooth solutions.
 
 Graciliano M. Passos: [gmpassos@GitHub][gmpassos_github].
 
+## See also
+
+Related projects:
+
+- [Bones_UI][bones_ui]: the UI framework this package extends.
+- [Bones_API][bones_api]: the server side counterpart of Bones_UI.
+- [DOM_Builder][dom_builder] and [DOM_Tools][dom_tools]: DOM construction and utilities used by Bones_UI.
+- [Swiss_Knife][swiss_knife]: general utilities (date ranges, events, loaders, ...).
+- [Intl_Messages][intl_messages]: internationalization messages.
+- [AMDJS][amdjs]: loads the bundled JavaScript libraries.
+- [Web_Utils][web_utils]: web (`package:web`) utilities.
+
+Bundled libraries:
+
+- [Bootstrap][bootstrap] and [Bootstrap Icons][bootstrap_icons].
+- [vanilla-datetimerange-picker][vanilla_datetimerange_picker], based on Dan Grossman's
+  [daterangepicker][daterangepicker].
+- [Moment.js][moment] and [jQuery][jquery].
+
 ## License
 
 [Apache License - Version 2.0][apache_license]
@@ -230,4 +250,15 @@ Graciliano M. Passos: [gmpassos@GitHub][gmpassos_github].
 [branch_4x]: https://github.com/Colossus-Services/bones_ui_bootstrap/tree/4.x
 [bootstrap_icons]: https://icons.getbootstrap.com/
 [sass_builder]: https://pub.dev/packages/sass_builder
+[bones_api]: https://pub.dev/packages/bones_api
+[dom_builder]: https://pub.dev/packages/dom_builder
+[dom_tools]: https://pub.dev/packages/dom_tools
+[swiss_knife]: https://pub.dev/packages/swiss_knife
+[intl_messages]: https://pub.dev/packages/intl_messages
+[amdjs]: https://pub.dev/packages/amdjs
+[web_utils]: https://pub.dev/packages/web_utils
+[vanilla_datetimerange_picker]: https://github.com/alumuko/vanilla-datetimerange-picker
+[daterangepicker]: https://www.daterangepicker.com/
+[moment]: https://momentjs.com/
+[jquery]: https://jquery.com/
 [apache_license]: https://www.apache.org/licenses/LICENSE-2.0.txt

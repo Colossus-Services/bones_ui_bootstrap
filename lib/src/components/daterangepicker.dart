@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:js_interop_unsafe';
 
 import 'package:bones_ui/bones_ui.dart';
 import 'package:dom_tools/dom_tools.dart';
@@ -20,24 +21,29 @@ enum TimePicker {
 }
 
 /// Bootstrap Date Range Picker component.
+///
+/// Uses the date range picker `DateRangePicker` of
+/// [vanilla-datetimerange-picker](https://github.com/alumuko/vanilla-datetimerange-picker)
+/// (Dan Grossman's `daterangepicker` 3.1 without JQuery), with [Moment].
 class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
   static final LoadController _load = LoadController('BSDateRangePicker');
 
   /// Loads [BSDateRangePicker] component and related JS libraries and CSS.
+  ///
+  /// It doesn't need (nor load) JQuery.
   static void load() {
     _load.load(() async {
-      var ok1 = await JQuery.load();
-      var ok2 = await Moment.load();
-      var ok3 = await Bootstrap.load();
+      var ok1 = await Moment.load();
+      var ok2 = await Bootstrap.load();
 
-      var ok5 = await addCssSource(
+      var ok3 = await addCssSource(
         'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.css',
       );
       var ok4 = await addJavaScriptSource(
         'packages/bones_ui_bootstrap/components/daterangepicker/daterangepicker.js',
       );
 
-      var allOk = ok1 && ok2 && ok3 && ok4 && ok5;
+      var allOk = ok1 && ok2 && ok3 && ok4;
       return allOk;
     });
   }
@@ -131,9 +137,21 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
 
   HTMLElement? _textElement;
 
+  JSObject? _jsPicker;
+
+  /// The JS `DateRangePicker` instance (`null` before the first render).
+  JSObject? get jsPicker => _jsPicker;
+
   @override
   dynamic render() {
     if (_load.isNotLoaded) return '...';
+
+    // The previous JS picker (its popup is in `document.body`):
+    var prevJsPicker = _jsPicker;
+    if (prevJsPicker != null) {
+      prevJsPicker.callMethod<JSAny?>('remove'.toJS);
+      _jsPicker = null;
+    }
 
     var prevIcon = _icon;
     if (prevIcon != null) {
@@ -249,14 +267,20 @@ class BSDateRangePicker extends UIComponent implements UIField<Pair<DateTime>> {
       if (configLocale.isNotEmpty) 'locale': configLocale,
     };
 
-    JQuery.$(
+    var dateRangePicker = globalContext['DateRangePicker'] as JSFunction;
+
+    _jsPicker = dateRangePicker.callAsConstructor<JSObject>(
       _textElement,
-    ).call('daterangepicker', [config.toJSDeep, _jsQueryCallback.toJS]);
+      config.toJSDeep,
+      _jsCallback.toJS,
+    );
 
     _updateTextElement();
   }
 
-  void _jsQueryCallback(JSArray args) {
+  /// The JS picker callback: a single array `[startDate, endDate, label]`
+  /// (local patch of `daterangepicker.js`).
+  void _jsCallback(JSArray args) {
     var a = args[0].asJSObject;
     var b = args[1].asJSObject;
     _setDateRange(a, b);

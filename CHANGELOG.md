@@ -1,3 +1,29 @@
+## 5.3.0
+
+- `BSDateRangePicker`: no JQuery anymore.
+  - The bundled date range picker (`lib/components/daterangepicker`) is now
+    [vanilla-datetimerange-picker](https://github.com/alumuko/vanilla-datetimerange-picker) (commit `32608b3`): Dan
+    Grossman's `daterangepicker` 3.1 (the previous one) without JQuery. Same options, behavior and CSS (the open
+    picker renders identically). It still uses Moment.
+  - `load`: doesn't load JQuery.
+  - The picker is created with `new DateRangePicker(element, config, callback)`.
+  - New `jsPicker`: the JS `DateRangePicker` instance.
+  - A new render removes the previous JS picker (its container was left in `document.body`).
+  - `daterangepicker.js` local patches: the 2 previous ones, plus:
+    - `clickApply`/`clickCancel`: the `apply`/`cancel` events dispatched on the picker element, as in the original
+      (the port failed when called without an event).
+    - `remove`: removes the picker container from the document and the window `resize` listener, as in the original.
+
+- JQuery is no longer loaded by this package (only with `JQuery.load()`).
+
+- README: JQuery and Date Range Picker in the bundled libraries; new "See also" section with the related projects.
+
+- Tests:
+  - New `bones_ui_bootstrap_daterangepicker_test.dart`: `BSDateRangePicker` without JQuery (loading, JS selection
+    calling back into Dart, opening on click, a new render removing the previous JS picker).
+  - Integration tests use `BSDateRangePicker.jsPicker` (not JQuery `data`).
+  - Consistency: the new `daterangepicker.js` local patches, and no JQuery in it.
+
 ## 5.2.1
 
 - Bundled libraries:
