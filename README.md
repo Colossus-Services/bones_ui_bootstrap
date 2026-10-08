@@ -17,7 +17,7 @@ Adds [Bootstrap 5][bootstrap] to Dart package [Bones_UI][bones_ui], allowing use
 
 This package automatically loads (and bundles) the necessaries JavaScript libraries for [Bootstrap][bootstrap].
 
-- Bootstrap: 5.3.7
+- Bootstrap: 5.3.8
 - Bootstrap Icons: 1.13.1
 - JQuery: 3.7.1 (only loaded when needed, e.g. by `BSDateRangePicker`)
 - Moment: 2.30.1

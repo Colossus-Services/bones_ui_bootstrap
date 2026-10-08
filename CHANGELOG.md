@@ -1,3 +1,12 @@
+## 5.2.1
+
+- Bundled libraries:
+  - Bootstrap: 5.3.8 (was 5.3.7): CSS, JS (`lib/bootstrap-5.3.8`) and SCSS (`lib/bootstrap-5/scss`, the import path
+    doesn't change), unmodified from the official `bootstrap` 5.3.8 npm package.
+    - Upstream changes: `color-contrast()` accepts a contrast ratio equal to `$min-contrast-ratio`, `.spinner-*`
+      `flex-shrink: 0`, search inputs cancel button style.
+  - Bootstrap Icons: 1.13.1 (already the latest).
+
 ## 5.2.0
 
 - New Bootstrap 4 compatibility SCSS (`lib/bootstrap-5/bs4-compat`), for apps moving from `4.x`: Bootstrap 5
