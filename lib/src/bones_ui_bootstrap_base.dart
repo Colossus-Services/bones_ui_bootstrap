@@ -26,7 +26,20 @@ class Bootstrap {
   // ignore: non_constant_identifier_names
   static final String PATH_JS = '$PATH/js';
 
+  /// Path of the bundled Bootstrap SCSS sources, for apps that compile their
+  /// own Bootstrap theme:
+  /// `@import "package:bones_ui_bootstrap/bootstrap-<VERSION>/scss/bootstrap";`
+  // ignore: non_constant_identifier_names
+  static final String PATH_SCSS = '$PATH/scss';
+
   static final LoadController _load = LoadController('JSBootstrap');
+
+  static bool? _cssLoaded;
+
+  /// Returns `true` if the bundled Bootstrap CSS was loaded by [load],
+  /// `false` if it wasn't (`loadCss: false` or a loading error), or `null` if
+  /// [load] didn't finish loading the CSS yet.
+  static bool? get isCssLoaded => _cssLoaded;
 
   /// [EventStream] for loading event.
   static EventStream<LoadController> get onLoad => _load.onLoad;
@@ -42,14 +55,24 @@ class Bootstrap {
   ///
   /// Bootstrap 5 doesn't depend on JQuery, so JQuery is not loaded.
   /// Call [JQuery.load] if you need it.
-  static Future<bool> load() {
+  ///
+  /// - [loadCss]: if `false`, the bundled Bootstrap CSS is not loaded (only
+  ///   the JS). Use it when the app compiles its own Bootstrap CSS from the
+  ///   bundled SCSS (see [PATH_SCSS]), to avoid loading Bootstrap twice.
+  ///
+  /// Only the first call loads: the options of later calls are ignored.
+  static Future<bool> load({bool loadCss = true}) {
     return _load.load(() async {
       AMDJS.verbose = true;
 
-      var cssFile = ENABLE_MINIFIED ? 'bootstrap.min.css' : 'bootstrap.css';
-      var cssFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/$cssFile';
+      var okCss = true;
+      if (loadCss) {
+        var cssFile = ENABLE_MINIFIED ? 'bootstrap.min.css' : 'bootstrap.css';
+        var cssFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/$cssFile';
 
-      var okCss = await addCssSource(cssFullPath, insertIndex: 0);
+        okCss = await addCssSource(cssFullPath, insertIndex: 0);
+      }
+      _cssLoaded = loadCss && okCss;
 
       var jsFile = ENABLE_MINIFIED
           ? 'bootstrap.bundle.min.js'
@@ -62,7 +85,10 @@ class Bootstrap {
         addScriptTagInsideBody: true,
       );
 
-      print('LOADED[BS css: $okCss ; BS js: $okJS]> Bootstrap $VERSION');
+      print(
+        'LOADED[BS css: ${loadCss ? okCss : 'skipped'} ; BS js: $okJS]> '
+        'Bootstrap $VERSION',
+      );
 
       return okCss && okJS;
     });
