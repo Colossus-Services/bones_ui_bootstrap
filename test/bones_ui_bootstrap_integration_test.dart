@@ -224,9 +224,9 @@ void main() {
         isNotNull,
       );
 
-      // The JQuery plugin is attached to the element:
-      var data = JQuery.$(formControl()).call('data', ['daterangepicker']);
-      expect(data, isNotNull);
+      // The JS `DateRangePicker` is bound to the element:
+      var drp = picker().jsPicker!;
+      expect(drp['element'], equals(formControl()));
     });
 
     test('initial range (DateRangeType.today) has a title', () {
@@ -243,7 +243,7 @@ void main() {
         var start = DateTime(2024, 2, 10);
         var end = DateTime(2024, 2, 20, 23, 59, 59, 999);
 
-        var drp = _jsPicker(formControl());
+        var drp = picker().jsPicker!;
         drp.callMethod('show'.toJS);
         drp.callMethod('setStartDate'.toJS, Moment.moment(start));
         drp.callMethod('setEndDate'.toJS, Moment.moment(end));
@@ -269,7 +269,7 @@ void main() {
         var prevStart = picker().startTime;
         var prevEnd = picker().endTime;
 
-        var drp = _jsPicker(formControl());
+        var drp = picker().jsPicker!;
         drp.callMethod('show'.toJS);
         drp.callMethod('setStartDate'.toJS, Moment.moment(DateTime(2020)));
         drp.callMethod('setEndDate'.toJS, Moment.moment(DateTime(2020, 2)));
@@ -286,15 +286,10 @@ void main() {
     });
 
     test('ranges are shown in the picker', () {
-      var drp = _jsPicker(formControl());
+      var drp = picker().jsPicker!;
       drp.callMethod('show'.toJS);
       try {
-        var container =
-            (drp['container'] as JSObject).callMethod<JSAny?>(
-                  'get'.toJS,
-                  0.toJS,
-                )
-                as HTMLElement;
+        var container = drp['container'] as HTMLElement;
         var labels = <String>[];
         var items = container.querySelectorAll('.ranges li');
         for (var i = 0; i < items.length; ++i) {
@@ -318,6 +313,7 @@ void main() {
 
   group('Integration: BSDateRangePicker (time picker)', () {
     late HTMLDivElement rootContainer;
+    late BSDateRangePicker picker;
 
     setUpAll(() async {
       rootContainer = HTMLDivElement();
@@ -325,7 +321,7 @@ void main() {
 
       var root = _BuilderRoot(
         rootContainer,
-        (parent) => BSDateRangePicker(
+        (parent) => picker = BSDateRangePicker(
           parent,
           timePicker: TimePicker.hoursMinutesBy15,
           startTime: DateTime(2024, 4, 10, 10, 37),
@@ -347,20 +343,11 @@ void main() {
     tearDownAll(() => rootContainer.remove());
 
     test('selected minute is rounded to the time picker increment', () {
-      var formControl =
-          rootContainer.querySelector('.ui-bs-date-range-picker .form-control')
-              as HTMLElement;
-
-      var drp = _jsPicker(formControl);
+      var drp = picker.jsPicker!;
       drp.callMethod('show'.toJS);
 
       try {
-        var container =
-            (drp['container'] as JSObject).callMethod<JSAny?>(
-                  'get'.toJS,
-                  0.toJS,
-                )
-                as HTMLElement;
+        var container = drp['container'] as HTMLElement;
 
         // Local patch in `daterangepicker.js`: 37 -> 30 and 52 -> 45:
         String? selectedMinute(String side) =>
@@ -378,12 +365,6 @@ void main() {
     });
   });
 }
-
-JSObject _jsPicker(HTMLElement element) =>
-    (globalContext['jQuery'] as JSFunction)
-        .callAsFunction(null, element)
-        .asJSObject!
-        .callMethod<JSObject>('data'.toJS, 'daterangepicker'.toJS);
 
 Future<void> _waitFor(
   bool Function() condition, {

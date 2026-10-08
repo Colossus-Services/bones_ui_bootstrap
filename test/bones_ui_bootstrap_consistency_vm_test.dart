@@ -157,6 +157,52 @@ void main() {
         ),
       );
     });
+
+    test('apply/cancel events dispatched on the picker element', () {
+      expect(
+        js,
+        contains(
+          "this.element.dispatchEvent(new CustomEvent('apply.daterangepicker'",
+        ),
+      );
+      expect(
+        js,
+        contains(
+          "this.element.dispatchEvent(new CustomEvent('cancel.daterangepicker'",
+        ),
+      );
+      expect(js, isNot(contains('e.target.dispatchEvent')));
+    });
+
+    test('remove: container removed and resize listener removed', () {
+      var remove = js.substring(
+        js.indexOf('        remove: function()'),
+        js.indexOf('        updateRanges: function'),
+      );
+      expect(remove, contains('this.container.remove();'));
+      expect(remove, contains('this.isShowing = false;'));
+      expect(
+        remove,
+        contains("window.removeEventListener('resize', this.moveProxy);"),
+      );
+      expect(remove, isNot(contains('window.addEventListener')));
+    });
+
+    test('outsideClick: inside the picker by element identity', () {
+      var outsideClick = js.substring(
+        js.indexOf('        outsideClick: function'),
+        js.indexOf('        showCalendars: function'),
+      );
+      expect(outsideClick, contains('this.element.contains(target)'));
+      expect(outsideClick, contains('this.container.contains(target)'));
+      expect(outsideClick, isNot(contains('getSelectorFromElement')));
+    });
+
+    test('no JQuery (vanilla-datetimerange-picker)', () {
+      expect(js, contains('alumuko/vanilla-datetimerange-picker'));
+      expect(js, isNot(contains('jQuery')));
+      expect(js, isNot(contains(r'$(')));
+    });
   });
 
   group('Bootstrap 5 markup', () {
