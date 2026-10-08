@@ -1,0 +1,85 @@
+// Bootstrap 4 compatibility: class aliases (optional).
+//
+// The Bootstrap 4 class names renamed in Bootstrap 5, extending their Bootstrap 5
+// classes, for markup that can't be easily renamed (e.g. HTML from a server or
+// from translations). Import after `bootstrap.scss` of this directory:
+//
+//   @import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/bootstrap";
+//   @import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/class-aliases";
+//
+// Prefer renaming the classes in the markup: these selectors are added to the
+// Bootstrap 5 rules, making the CSS bigger.
+
+// Responsive infixes (``, `-sm`, `-md`, ...):
+$-bs4-infixes: ();
+@each $-breakpoint in map-keys($grid-breakpoints) {
+  $-bs4-infixes: append($-bs4-infixes, breakpoint-infix($-breakpoint, $grid-breakpoints));
+}
+
+// Floats and text alignment: `left`/`right` -> `start`/`end`.
+@each $-infix in $-bs4-infixes {
+  .float#{$-infix}-left { @extend .float#{$-infix}-start; }
+  .float#{$-infix}-right { @extend .float#{$-infix}-end; }
+  .text#{$-infix}-left { @extend .text#{$-infix}-start; }
+  .text#{$-infix}-right { @extend .text#{$-infix}-end; }
+}
+
+// Spacing: `ml`/`mr`/`pl`/`pr` -> `ms`/`me`/`ps`/`pe`.
+@each $-infix in $-bs4-infixes {
+  @each $-size in map-keys($spacers) {
+    .ml#{$-infix}-#{$-size} { @extend .ms#{$-infix}-#{$-size}; }
+    .mr#{$-infix}-#{$-size} { @extend .me#{$-infix}-#{$-size}; }
+    .pl#{$-infix}-#{$-size} { @extend .ps#{$-infix}-#{$-size}; }
+    .pr#{$-infix}-#{$-size} { @extend .pe#{$-infix}-#{$-size}; }
+  }
+  .ml#{$-infix}-auto { @extend .ms#{$-infix}-auto; }
+  .mr#{$-infix}-auto { @extend .me#{$-infix}-auto; }
+}
+
+// Font weight and style.
+.font-weight-light { @extend .fw-light; }
+.font-weight-lighter { @extend .fw-lighter; }
+.font-weight-normal { @extend .fw-normal; }
+.font-weight-bold { @extend .fw-bold; }
+.font-weight-bolder { @extend .fw-bolder; }
+.font-italic { @extend .fst-italic; }
+.text-monospace { @extend .font-monospace; }
+
+// Borders and radius: `left`/`right` -> `start`/`end`.
+.border-left { @extend .border-start; }
+.border-right { @extend .border-end; }
+.border-left-0 { @extend .border-start-0; }
+.border-right-0 { @extend .border-end-0; }
+.rounded-left { @extend .rounded-start; }
+.rounded-right { @extend .rounded-end; }
+
+// Screen readers.
+.sr-only { @extend .visually-hidden; }
+.sr-only-focusable { @extend .visually-hidden-focusable; }
+
+// Badges: `badge-pill` and the color variants (`badge-primary`, ...).
+.badge-pill { @extend .rounded-pill; }
+@each $-color, $-value in $theme-colors {
+  .badge-#{$-color} { @extend .text-bg-#{$-color}; }
+}
+
+// Dropdowns alignment.
+.dropdown-menu-left { @extend .dropdown-menu-start; }
+.dropdown-menu-right { @extend .dropdown-menu-end; }
+
+// Grid and forms.
+.no-gutters { @extend .g-0; }
+.custom-select { @extend .form-select; }
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-block + .btn-block {
+  margin-top: 0.5rem;
+}

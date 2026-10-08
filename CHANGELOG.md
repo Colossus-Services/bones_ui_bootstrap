@@ -1,3 +1,29 @@
+## 5.2.0
+
+- New Bootstrap 4 compatibility SCSS (`lib/bootstrap-5/bs4-compat`), for apps moving from `4.x`: Bootstrap 5
+  normalized to look like Bootstrap 4.
+  `@import "package:bones_ui_bootstrap/bootstrap-5/bs4-compat/bootstrap";`
+  - `_variables.scss`: Bootstrap 4 values for the variables whose defaults changed (border radius, no responsive font
+    sizes, links without underline, `<small>`/`<code>`, `<hr>`, `.badge`, `.card`, `.form-control`, `.table`,
+    `.navbar`, accordion), all `!default`.
+  - `_rules.scss`: checkboxes and radios without padding, date inputs height, lists indent, inherited
+    `.badge`/`.card` colors, `.form-control` appearance, `.table` borders (keeping `.table-bordered` and
+    `.table-borderless`), `.navbar-brand`, and the accordion (`BSAccordion`) with the look of the Bootstrap 4
+    `BSAccordion` (`.card`, `.card-header`, `.btn-link` with its hover, `.card-body`).
+  - `_class-aliases.scss` (optional): the Bootstrap 4 class names (`float-right`, `text-left`, `ml-2`,
+    `font-weight-bold`, `sr-only`, `badge-pill`, `badge-primary`, `no-gutters`, `form-group`, `btn-block`, ...).
+
+- `Bootstrap`:
+  - New `defaultLoadCss`: the `load` `loadCss` when not passed, including the calls made by this package (e.g.
+    `enableTooltip`), so no `load` call, whoever makes it first, loads the bundled CSS.
+  - `load`: `loadCss` is now nullable (defaults to `defaultLoadCss`).
+
+- Tests:
+  - New `bones_ui_bootstrap_bs4_compat_vm_test.dart`: compiles the compatibility SCSS through its `package:` URL:
+    variables, rules (after the Bootstrap rules they override), app variables override, class aliases.
+  - New `bones_ui_bootstrap_default_no_css_test.dart`: `Bootstrap.defaultLoadCss = false` with `enableTooltip`
+    making the first `load`.
+
 ## 5.1.0
 
 - Bundled the Bootstrap 5.3.7 SCSS sources (`lib/bootstrap-5/scss`, unmodified from the official `bootstrap`

@@ -1,0 +1,157 @@
+// Bootstrap 4 compatibility: rules.
+//
+// Bootstrap 4 styles without a Bootstrap 5 variable. Import after the Bootstrap
+// SCSS (`bootstrap.scss` of this directory does it): they override Bootstrap 5
+// rules of the same specificity, and the app CSS after them still overrides
+// them as it did Bootstrap 4.
+
+// Checkboxes and radios without padding (Bootstrap 4 reboot, dropped in
+// Bootstrap 5): otherwise a generic `input { padding: ... }` applies to them,
+// moving custom switches drawn with `::before`/`::after`.
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+// Date/time inputs height: the browser padding of their fields (Bootstrap 5
+// sets it to 0).
+::-webkit-datetime-edit-fields-wrapper,
+::-webkit-datetime-edit-text,
+::-webkit-datetime-edit-minute,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-year-field {
+  padding: revert;
+}
+
+// Lists indent: 40px, the browser default (Bootstrap 5: `2rem`).
+ol,
+ul {
+  padding-left: 2.5rem;
+}
+
+// `.badge` and `.card` text in the inherited color (Bootstrap 5: white and the
+// body color).
+.badge,
+.card {
+  color: inherit;
+}
+
+// `.form-control` with the browser appearance (Bootstrap 5: `none`).
+.form-control {
+  appearance: auto;
+}
+
+// `.table`: a top border on the cells and a 2px bottom border on the header
+// cells (Bootstrap 5: a bottom border on every cell).
+.table > :not(caption) > * > * {
+  border-top-width: var(--#{$prefix}border-width);
+  border-bottom-width: 0;
+}
+
+.table > thead > * > * {
+  vertical-align: bottom;
+  border-bottom-width: 2px;
+}
+
+// ... except for `.table-bordered` and `.table-borderless` (their Bootstrap 5
+// cell borders, overridden by the rules above of the same specificity).
+.table-bordered > :not(caption) > * > *,
+.table-bordered > thead > * > * {
+  border-width: 0 var(--#{$prefix}border-width);
+}
+
+.table-borderless > :not(caption) > * > *,
+.table-borderless > thead > * > * {
+  border-width: 0;
+}
+
+// `.navbar-brand` as `inline-block` (Bootstrap 5: `inline`, a shorter navbar).
+.navbar-brand {
+  display: inline-block;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Accordion (`BSAccordion`) with the look of the Bootstrap 4 (`4.x`)
+// `BSAccordion`: each item a `.card`, the header a `.card-header`, the button a
+// `.btn.btn-link` (centered, its parts spread, no chevron) and the body a
+// `.card-body`.
+//
+// Bootstrap 5 sets the item radius and border color with `:first-of-type` and
+// `:last-of-type` rules, more specific than a single class: an item class with
+// its own radius or border color also sets `--bs-accordion-border-radius` or
+// `--bs-accordion-border-color`. Likewise a header class that colors its
+// contents (`.x-head * { color: ... }`) also sets `--bs-accordion-btn-color`
+// and `--bs-accordion-active-color` (the expanded button rule is more
+// specific).
+////////////////////////////////////////////////////////////////////////////////
+
+// The item: a `.card`, a relative positioned flex column (the reference of the
+// absolute positioned contents of its header), with its own borders and
+// radius (Bootstrap 5 joins the items: no top border and radius on the inner
+// items).
+.accordion-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  color: inherit;
+  border-radius: var(--#{$prefix}accordion-border-radius);
+}
+
+.accordion-item:not(:first-of-type) {
+  border-top: var(--#{$prefix}accordion-border-width) solid
+    var(--#{$prefix}accordion-border-color);
+}
+
+.accordion-collapse {
+  flex: 1 1 auto;
+}
+
+// The header: a `.card-header` (a `div`, with the inherited font, not the `h2`
+// one).
+.accordion-header {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: var(--#{$prefix}accordion-border-width) solid
+    $accordion-border-color;
+}
+
+// The button: a `.btn.btn-link` (static, not selectable, with its transparent
+// border and line height), without the Bootstrap 5 line under an expanded
+// button (the header border is the line).
+.accordion-button,
+.accordion-button:not(.collapsed) {
+  position: static;
+  justify-content: space-between;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+
+.accordion-button:focus {
+  box-shadow: var(--#{$prefix}accordion-btn-focus-box-shadow);
+}
+
+// `.btn-link` hover and focus: the link hover color, underlined.
+.accordion-button:hover {
+  color: var(--#{$prefix}link-hover-color);
+}
+
+.accordion-button:hover,
+.accordion-button:focus {
+  text-decoration: $link-hover-decoration;
+}
+
+.accordion-button::after {
+  display: none;
+}

@@ -1,0 +1,81 @@
+// Bootstrap 4 compatibility: variables.
+//
+// Bootstrap 4 values for the Bootstrap 5 variables whose defaults changed. Import
+// before the Bootstrap SCSS (`bootstrap.scss` of this directory does it). All are
+// `!default`: an app variable set before the import wins.
+
+// Border radius (Bootstrap 5: `.375rem`, `.25rem` and `.5rem`).
+$border-radius: 0.25rem !default;
+$border-radius-sm: 0.2rem !default;
+$border-radius-lg: 0.3rem !default;
+
+// No responsive font sizes (Bootstrap 5 shrinks `h1`-`h4`, `legend`, ... on
+// narrow screens).
+$enable-rfs: false !default;
+
+// Links without underline, underlined on hover.
+$link-decoration: none !default;
+$link-hover-decoration: underline !default;
+
+// `<small>` 80% (Bootstrap 5: `.875em`), and `<code>`/`<pre>` 87.5% (in
+// Bootstrap 5 they follow `$small-font-size`).
+$small-font-size: 80% !default;
+$code-font-size: 87.5% !default;
+
+// `<hr>`: a faint dark line (Bootstrap 5: the text color at 25% opacity).
+$hr-border-color: rgba(0, 0, 0, 0.1) !default;
+$hr-opacity: 1 !default;
+
+// Dark text over light colors (e.g. `.btn-warning`): `$gray-900`, not `$black`.
+$color-contrast-dark: #212529 !default;
+
+// `.badge` padding (its color is inherited, see `_rules.scss`).
+$badge-padding-y: 0.25em !default;
+$badge-padding-x: 0.4em !default;
+
+// `.card`: white, with the Bootstrap 4 paddings and borders (its color is
+// inherited, see `_rules.scss`).
+$card-bg: #fff !default;
+$card-border-color: rgba(0, 0, 0, 0.125) !default;
+$card-cap-bg: rgba(0, 0, 0, 0.03) !default;
+$card-spacer-y: 1.25rem !default;
+$card-spacer-x: 1.25rem !default;
+$card-cap-padding-y: 0.75rem !default;
+$card-cap-padding-x: 1.25rem !default;
+
+// `.form-control`: white with the Bootstrap 4 text and border colors
+// (Bootstrap 5: the body colors).
+$input-bg: #fff !default;
+$input-color: #495057 !default;
+$input-border-color: #ced4da !default;
+
+// `.table`: transparent cells in the body color (Bootstrap 5: the body
+// background and the emphasis color), Bootstrap 4 border color (the borders
+// are in `_rules.scss`).
+$table-color: if(variable-exists(body-color), $body-color, #212529) !default;
+$table-bg: transparent !default;
+$table-border-color: #dee2e6 !default;
+
+// `.navbar`: horizontal padding (Bootstrap 5 leaves it to an inner
+// `.container`), links color, and no ring around the toggler after a tap.
+$navbar-padding-x: 1rem !default;
+$navbar-dark-color: rgba(255, 255, 255, 0.5) !default;
+$navbar-light-color: rgba(0, 0, 0, 0.5) !default;
+$navbar-toggler-focus-width: 0 !default;
+
+// Accordion (`BSAccordion`) with the look of the Bootstrap 4 (`4.x`)
+// `BSAccordion`, based on `.card` (see `_rules.scss`):
+// - The item is a white `.card` with its border.
+$accordion-bg: #fff !default;
+$accordion-border-color: rgba(0, 0, 0, 0.125) !default;
+// - The button is a transparent `.btn-link`, with the `.btn` padding (the
+//   `.card-header` padding is on the header).
+$accordion-button-bg: transparent !default;
+$accordion-button-active-bg: transparent !default;
+$accordion-button-color: var(--bs-link-color) !default;
+$accordion-button-active-color: var(--bs-link-color) !default;
+$accordion-button-padding-y: 0.375rem !default;
+$accordion-button-padding-x: 0.75rem !default;
+// - The body is a `.card-body`.
+$accordion-body-padding-y: 1.25rem !default;
+$accordion-body-padding-x: 1.25rem !default;

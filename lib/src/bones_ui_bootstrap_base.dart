@@ -45,6 +45,12 @@ class Bootstrap {
   /// [load] didn't finish loading the CSS yet.
   static bool? get isCssLoaded => _cssLoaded;
 
+  /// The [load] `loadCss` when not passed, including the calls made by this
+  /// package (e.g. [enableTooltip]). Set it to `false` at the app start (before
+  /// any [load]) when the app compiles its own Bootstrap CSS: then no [load]
+  /// call, whoever makes it first, loads the bundled CSS.
+  static bool defaultLoadCss = true;
+
   /// [EventStream] for loading event.
   static EventStream<LoadController> get onLoad => _load.onLoad;
 
@@ -63,20 +69,24 @@ class Bootstrap {
   /// - [loadCss]: if `false`, the bundled Bootstrap CSS is not loaded (only
   ///   the JS). Use it when the app compiles its own Bootstrap CSS from the
   ///   bundled SCSS (see [PATH_SCSS]), to avoid loading Bootstrap twice.
+  ///   Defaults to [defaultLoadCss].
   ///
-  /// Only the first call loads: the options of later calls are ignored.
-  static Future<bool> load({bool loadCss = true}) {
+  /// Only the first call loads: the options of later calls are ignored. As
+  /// other calls (e.g. [enableTooltip]) may come first, prefer setting
+  /// [defaultLoadCss].
+  static Future<bool> load({bool? loadCss}) {
+    final css = loadCss ?? defaultLoadCss;
     return _load.load(() async {
       AMDJS.verbose = true;
 
       var okCss = true;
-      if (loadCss) {
+      if (css) {
         var cssFile = ENABLE_MINIFIED ? 'bootstrap.min.css' : 'bootstrap.css';
         var cssFullPath = '$BONES_UI_BOOTSTRAP_PACKAGE_PATH/$PATH_CSS/$cssFile';
 
         okCss = await addCssSource(cssFullPath, insertIndex: 0);
       }
-      _cssLoaded = loadCss && okCss;
+      _cssLoaded = css && okCss;
 
       var jsFile = ENABLE_MINIFIED
           ? 'bootstrap.bundle.min.js'
@@ -90,7 +100,7 @@ class Bootstrap {
       );
 
       print(
-        'LOADED[BS css: ${loadCss ? okCss : 'skipped'} ; BS js: $okJS]> '
+        'LOADED[BS css: ${css ? okCss : 'skipped'} ; BS js: $okJS]> '
         'Bootstrap $VERSION',
       );
 
