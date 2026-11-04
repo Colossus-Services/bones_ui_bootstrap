@@ -10,9 +10,8 @@ import 'package:test/test.dart';
 /// It reads the source file (the library itself can't be imported in the VM).
 void main() {
   test('BootstrapIcons.iconsList matches lib/icons/*.svg', () {
-    var source = File(
-      'lib/src/bones_ui_bootstrap_icons.dart',
-    ).readAsStringSync();
+    var source = File('lib/src/bones_ui_bootstrap_icons.dart')
+        .readAsStringSync();
 
     var match = RegExp(
       r"iconsList = '''(.*?)'''",
@@ -53,9 +52,8 @@ void main() {
   });
 
   test('BootstrapIcons.VERSION matches the bundled icons', () {
-    var source = File(
-      'lib/src/bones_ui_bootstrap_icons.dart',
-    ).readAsStringSync();
+    var source = File('lib/src/bones_ui_bootstrap_icons.dart')
+        .readAsStringSync();
     var css = File('lib/icons/bootstrap-icons.css').readAsStringSync();
 
     var version = RegExp(r"VERSION = '([^']+)'").firstMatch(source)!.group(1);

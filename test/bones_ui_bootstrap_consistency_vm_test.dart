@@ -102,13 +102,14 @@ void main() {
           .whereType<File>()
           .any((f) => !f.uri.pathSegments.last.startsWith('.'));
 
-      List<String> dirs(String prefix) => Directory('lib')
-          .listSync()
-          .whereType<Directory>()
-          .where(hasFiles)
-          .map((d) => d.uri.pathSegments.where((s) => s.isNotEmpty).last)
-          .where((n) => n.startsWith(prefix))
-          .toList();
+      List<String> dirs(String prefix) =>
+          Directory('lib')
+              .listSync()
+              .whereType<Directory>()
+              .where(hasFiles)
+              .map((d) => d.uri.pathSegments.where((s) => s.isNotEmpty).last)
+              .where((n) => n.startsWith(prefix))
+              .toList();
 
       // `bootstrap-<major>`: the SCSS (`Bootstrap.PATH_SCSS`).
       expect(
@@ -132,9 +133,8 @@ void main() {
   });
 
   group('daterangepicker.js local patches', () {
-    final js = File(
-      'lib/components/daterangepicker/daterangepicker.js',
-    ).readAsStringSync();
+    final js = File('lib/components/daterangepicker/daterangepicker.js')
+        .readAsStringSync();
 
     test('documented in the header', () {
       expect(js, contains('Local patches (bones_ui_bootstrap)'));
@@ -228,9 +228,8 @@ void main() {
   });
 
   test('no debug prints in BSDateRangePicker', () {
-    var source = File(
-      'lib/src/components/daterangepicker.dart',
-    ).readAsStringSync();
+    var source = File('lib/src/components/daterangepicker.dart')
+        .readAsStringSync();
     expect(source, isNot(contains('print(')));
   });
 }

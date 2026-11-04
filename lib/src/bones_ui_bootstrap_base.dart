@@ -241,12 +241,10 @@ class JQuery {
       openParams.add(name);
     }
 
-    var w =
-        globalContext.callMethodVarArgs<JSObject?>(
-              'open'.toJS,
-              openParams.map((e) => (e as Object?).toJSDeep).toList(),
-            )
-            as JSObject;
+    var w = globalContext.callMethodVarArgs<JSObject?>(
+      'open'.toJS,
+      openParams.map((e) => (e as Object?).toJSDeep).toList(),
+    ) as JSObject;
 
     if (html != null && html.isNotEmpty) {
       var doc = w['document'] as JSObject;
@@ -337,9 +335,9 @@ class Moment {
 
   /// Formats [dateTime] to [format].
   static String? format(DateTime dateTime, Object format) {
-    return moment(
-      dateTime,
-    ).callMethod<JSString?>('format'.toJS, format.toJSDeep)?.toDart;
+    return moment(dateTime)
+        .callMethod<JSString?>('format'.toJS, format.toJSDeep)
+        ?.toDart;
   }
 
   static String? jsObjectFormat(JSObject moment, Object format) {
