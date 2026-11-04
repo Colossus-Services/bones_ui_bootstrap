@@ -350,12 +350,9 @@ void main() {
         var container = drp['container'] as HTMLElement;
 
         // Local patch in `daterangepicker.js`: 37 -> 30 and 52 -> 45:
-        String? selectedMinute(String side) =>
-            (container.querySelector(
-                      '.drp-calendar.$side .minuteselect option[selected]',
-                    )
-                    as HTMLOptionElement?)
-                ?.value;
+        String? selectedMinute(String side) => (container.querySelector(
+          '.drp-calendar.$side .minuteselect option[selected]',
+        ) as HTMLOptionElement?)?.value;
 
         expect(selectedMinute('left'), equals('30'));
         expect(selectedMinute('right'), equals('45'));

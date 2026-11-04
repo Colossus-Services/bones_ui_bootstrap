@@ -1,3 +1,20 @@
+## 5.3.2
+
+- sdk: ^3.13.0
+
+- bones_ui: ^3.1.11
+- swiss_knife: ^3.4.2
+- dom_tools: ^3.1.1
+- dom_builder: ^3.3.3
+- intl_messages: ^3.0.3
+- web: ^1.1.2
+
+- build_web_compilers: ^4.8.12
+- test: ^1.33.0
+- sass: ^1.107.1
+
+- CI: `actions/checkout@v7`.
+
 ## 5.3.1
 
 - Bootstrap 4 compatibility SCSS (`bootstrap-5/bs4-compat`) fixes:

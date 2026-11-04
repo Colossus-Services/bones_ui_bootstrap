@@ -32,9 +32,8 @@ void main() {
   /// compatibility rules come after the Bootstrap rules with the same
   /// selector).
   String rule(String css, String selector) {
-    var matches = RegExp(
-      '(^|\\n)${RegExp.escape(selector)} \\{([^}]*)\\}',
-    ).allMatches(css);
+    var matches = RegExp('(^|\\n)${RegExp.escape(selector)} \\{([^}]*)\\}')
+        .allMatches(css);
     if (matches.isEmpty) throw StateError('Rule not found: $selector');
     return matches.last.group(2)!;
   }
